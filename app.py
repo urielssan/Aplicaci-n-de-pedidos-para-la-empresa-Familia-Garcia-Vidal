@@ -5,7 +5,7 @@ from modules.pdf_generator import generar_pdf
 from modules.precios_productos import precios_productos
 from modules.sheets import conectar_sheets, guardar_en_sheets, obtener_o_crear_hoja
 from functools import wraps
-
+from datetime import datetime
 
 import os
 
@@ -87,14 +87,15 @@ def enviar_pedido():
     except ValueError:
         df_productos = pd.DataFrame(columns=["ID Venta", "Producto", "Cantidad"])
 
-
     pedido_id = len(df_pedidos) + 1
 
     vendedor = request.form["vendedor"]
     cliente = request.form["cliente"]
     direccion = request.form["direccion"]
     telefono = request.form["telefono"]
-    fecha_entrega = request.form["fecha_entrega"]
+    
+    fecha_entrega = request.form["fecha_entrega"]  # mantenelo como str directamente
+    
     horario_entrega = request.form["horario_entrega"]
     metodo_pago = request.form["metodo_pago"]
     monto = float(request.form["monto"])
@@ -106,7 +107,6 @@ def enviar_pedido():
 
     precios = [precios_productos.get(p, 0) for p in productos]
 
-    # Guardar el pedido en la hoja "Pedidos"
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
         "Vendedor": vendedor,
@@ -125,7 +125,6 @@ def enviar_pedido():
 
     df_pedidos = pd.concat([df_pedidos, nuevo_pedido], ignore_index=True)
 
-    # Guardar los productos individualmente en la hoja "Productos Vendidos"
     productos_vendidos = pd.DataFrame([
         {"ID Venta": pedido_id, "Producto": p, "Cantidad": c}
         for p, c in zip(productos, cantidades)
@@ -133,19 +132,17 @@ def enviar_pedido():
 
     df_productos = pd.concat([df_productos, productos_vendidos], ignore_index=True)
 
-    # Guardar en Excel
     with pd.ExcelWriter(FILE_PATH, engine="openpyxl") as writer:
         df_pedidos.to_excel(writer, sheet_name="Pedidos", index=False)
         df_productos.to_excel(writer, sheet_name="Productos Vendidos", index=False)
 
-    # **Guardar en Google Sheets**
     datos_pedido = {
         "ID": pedido_id,
         "Vendedor": vendedor,
         "Cliente": cliente,
         "Dirección": direccion,
         "Teléfono": telefono,
-        "Fecha de Entrega": fecha_entrega,
+        "Fecha de Entrega": fecha_entrega,  # Se mantiene el formato YYYY-MM-DD
         "Horario de Entrega": horario_entrega,
         "Método de Pago": metodo_pago,
         "Monto": monto,
@@ -153,10 +150,10 @@ def enviar_pedido():
         "Observaciones": observaciones,
         "Estado": estado
     }
+
     guardar_en_sheets(datos_pedido, productos, cantidades)
 
     return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, monto, 0, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones)
-
 
 
 if __name__ == '__main__':
