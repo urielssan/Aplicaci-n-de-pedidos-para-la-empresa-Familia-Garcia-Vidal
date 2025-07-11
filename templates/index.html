@@ -7,123 +7,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
 <!-- Agregar jQuery y Select2 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+
 <script>
-const preciosProductos = {
-    "Agua Sabor Naranja 1500cc": 3000,
-    "Agua Sabor Naranja 500cc": 1600,
-    "Agua Sin Gas 1500cc": 2500,
-    "Agua Sin Gas 500cc": 1600,
-    "Baguette (1u)": 500,
-    "BBQ Casera (100cc)": 1500,
-    "Champagne Brut (750ml)": 10000,
-    "Cerveza Blond Ale (473ml)": 2400,
-    "Cerveza Porter (473ml)": 2400,
-    "Cerveza Scottish (473ml)": 2400,
-    "Coca Cola (1500cc)": 4000,
-    "Coca Cola (500cc)": 1800,
-    "Coca Cola Zero (500cc)": 1800,
-    "Cordero Desmechado (400g)": 7500,
-    "Criolla Casera (100cc)": 1500,
-    "Empanada Cordero (1u)": 1900,
-    "Empanada Espinaca (1u)": 1900,
-    "Empanada JyQ (1u)": 1900,
-    "Empanada Mozzarella Cebolla (1u)": 1900,
-    "Empanada Pollo (1u)": 1900,
-    "Empanada Ternera (1u)": 1900,
-    "Empanadas Carne (12u)": 22800,
-    "Empanadas Congeladas Carne (6u)": 11400,
-    "Empanadas Congeladas Cordero (6u)": 11400,
-    "Empanadas Congeladas Espinaca (6u)": 11400,
-    "Empanadas Congeladas Jamon y Queso (6u)": 11400,
-    "Empanadas Congeladas Mozzarella y Cebolla (6u)": 11400,
-    "Empanadas Congeladas Pollo (6u)": 11400,
-    "Empanadas Cordero (12u)": 22800,
-    "Empanadas Espinaca (12u)": 22800,
-    "Empanadas JyQ (12u)": 22800,
-    "Empanadas Mozzarella Cebolla (12u)": 22800,
-    "Empanadas Pollo (12u)": 22800,
-    "Filet Pechuga (3u)": 9500,
-    "Hamburguesa Novillo (1u)": 7200,
-    "Hamburguesas Cordero (4u)": 7500,
-    "Hamburguesas Novillo (4u)": 7500,
-    "Helado Choco Almendras (250g)": 5800,
-    "Helado Dulce de Leche (250g)": 5800,
-    "Helado Lemon Pie (250g)": 5800,
-    "Helado Mascarpone (250g)": 5800,
-    "Huevos Campo (12u)": 4400,
-    "Huevos Campo (30u)": 8700,
-    "Huevos Campo (6u)": 2300,
-    "Mayo Morron (100cc)": 1500,
-    "Mignon (1u)": 300,
-    "Milanesas Novillo (1kg)": 10000,
-    "Novillo Desmechado (400g)": 8000,
-    "Pata Muslo (2u)": 4500,
-    "Picada Premium (1u)": 23000,
-    "Picada Quesos (1u)": 20000,
-    "Pollo Desmechado (400g)": 6000,
-    "Pollo Entero chico (1u)": 10000,
-    "Pollo Entero grande (1u)": 13000,
-    "Pollo Entero mediano (1u)": 11500,
-    "Queso Ciboulette (100cc)": 1500,
-    "Sandwich Milanesa (1u)": 7200,
-    "Sidra Red Delicious (473cc)": 2400,
-    "Sprite (1500cc)": 4000,
-    "Sprite (500cc)": 1800,
-    "Supremas muslo (1kg)": 8500,
-    "Supremas pechuga (1kg)": 9000,
-    "Tira Asado (1kg)": 8000,
-    "Triple Jamon Crudo (3u)": 3000,
-    "Triple Jamon Crudo (6u)": 6000,
-    "Triple JyQ (3u)": 3000,
-    "Triple JyQ (6u)": 6000,
-    "Triple Peceto (3u)": 3000,
-    "Triple Peceto (6u)": 6000,
-    "Triple Veggie (3u)": 3000,
-    "Triple Veggie (6u)": 6000,
-    "Vegetales Salteados (1u)": 5000,
-    "Vino Blanco Chardonnay (750ml)": 8000,
-    "Vino Malbec (750ml)": 8000,
-    "Vino Rosado (750ml)": 8000,
-};
-    
-  function actualizarSubtotal() {
-        let total = 0;
-        let productos = document.querySelectorAll(".producto-item");
 
-        productos.forEach(div => {
-            let producto = div.querySelector("select").value;
-            let cantidad = div.querySelector("input").value;
-            let precioUnitario = preciosProductos[producto] || 0;
-            total += (precioUnitario * cantidad);
-        });
 
-        // Aplicar descuentos según el método de pago
-        let metodoPago = document.getElementById("metodo_pago").value;
-        let descuento = 0;
+const preciosProductos = {{ precios_productos|tojson }};
 
-        if (metodoPago === "Efectivo") {
-            descuento = 0.05; // 5% de descuento
-        } else if (metodoPago === "Transferencia") {
-            descuento = 0.05; // 5% de descuento
-        }
+function actualizarSubtotal() {
+    let total = 0;
+    let productos = document.querySelectorAll(".producto-item");
 
-        let totalConDescuento = total - (total * descuento);
-
-        // Actualizar la pantalla
-        document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
-        document.getElementById("descuento").innerText = `Descuento: -$${(total * descuento).toFixed(2)}`;
-        document.getElementById("monto").value = totalConDescuento.toFixed(2);
-    }
-
-    $(document).ready(function() {
-        // Aplicar Select2 a todos los selects de productos cuando se carga la página
-        $('.producto-select').select2();
+    productos.forEach(div => {
+        let producto = div.querySelector("select").value;
+        let cantidad = div.querySelector("input").value;
+        let precioUnitario = preciosProductos[producto] || 0;
+        total += (precioUnitario * cantidad);
     });
+
+    let descuentoOn = document.getElementById("descuentoOn").value;
+    let descuento = descuentoOn === "1" ? 0.05 : 0;
+
+    let totalConDescuento = total - (total * descuento);
+
+    document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
+    document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento*total).toFixed(2)}` : `Descuento: $0.00`;
+    document.getElementById("monto").value = totalConDescuento.toFixed(2);
+}
+
 
     function agregarProducto() {
         let container = document.getElementById("productos-container");
@@ -131,14 +47,21 @@ const preciosProductos = {
         div.classList.add("producto-item");
         let idProducto = "producto-" + Math.random().toString(36).substr(2, 9); // Genera un ID único
 
-        div.innerHTML = `
-            <select name="productos[]" class="producto-select" id="${idProducto}" onchange="actualizarSubtotal()">
-                <option value="">Seleccionar producto</option>
-                ${Object.keys(preciosProductos).map(p => `<option value="${p}">${p} - $${preciosProductos[p]}</option>`).join("")}
-            </select>
-            Cantidad: <input type="number" name="cantidades[]" min="1" value="1" required oninput="actualizarSubtotal()">
-            <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>`;
-        container.appendChild(div);
+div.innerHTML = `
+    <div class="producto-linea">
+        <label>Producto:</label><br>
+        <select name="productos[]" class="producto-select" id="${idProducto}" onchange="actualizarSubtotal()">
+            <option value="">Seleccionar producto</option>
+            ${Object.keys(preciosProductos).map(p => `<option value="${p}">${p} - $${preciosProductos[p]}</option>`).join("")}
+        </select>
+    </div>
+    <div class="producto-linea">
+        <label>Cantidad:</label><br>
+        <input id="cantidad_producto" type="number" name="cantidades[]" min="0.001" step="0.001" value="1" required oninput="actualizarSubtotal()">
+    </div>
+    <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
+`;
+     container.appendChild(div);
 
         // Aplicar Select2 al nuevo producto agregado
         $(`#${idProducto}`).select2();
@@ -147,65 +70,303 @@ const preciosProductos = {
     
 </head>
 <body>
-    <nav class="navbar">
-        <ul>
-            <li><a href="{{ url_for('ver_pedidos') }}">📜 Ver Lista de Pedidos</a></li>
-            <li><a href="{{ url_for('logout') }}">🚪 Cerrar Sesión</a></li>
-        </ul>
-    </nav>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
 
-    <div class="header">
-        <h1>Familia Garcia Vidal</h1>
-        <h3>Aplicación de Registro de Pedidos</h3>
-    </div>
-    
+
+
+
     <form class="form" action="/enviar_pedido" method="post">
-        <h2>Ingresar Pedido</h2>
+        <h2 style="color: #5C0029;">Ingrese su pedido:</h2>
+        
+<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+        <br>
         <div class="productos">
-            <p>Vendedor:</p>
-            <select name="vendedor" required>
+        <div class="seccion-formulario">
+            <h3>1. Datos del Pedido</h3>
+            <h4>Vendedor:</h4>
+            <select id="vendedor" name="vendedor" required>
                 <option value="Veronica">Veronica</option>
                 <option value="Silvina">Silvina</option>
                 <option value="Lautaro">Lautaro</option>
+                <option value="Laura">Laura</option>
+                <option value="Lucia">Lucia</option>
             </select>
-            <p>Cliente:</p>
-            <input type="text" name="cliente" required>
-            <p>Dirección del cliente o Local de retiro:</p>
-            <input type="text" name="direccion" required>
-            <p>Teléfono:</p>
-            <input type="text" name="telefono" required>
-            <p>Fecha de Entrega:</p>
-            <input type="date" name="fecha_entrega" required>
-            <p>Horario de Entrega:</p><select name="horario_entrega">
-                <option value="10:00 a 13:00">10 a 13 hrs / LUNES a SÁBADOS</option>
-                <option value="13:00 a 16:00">13 a 16 hrs / LUNES a SÁBADOS</option>
-                <option value="16:00 a 19:00">16 a 19 hrs / LUNES a VIERNES</option>
+            <h4>¿Tipo de Pedido?</h4>
+            <select id="estado" name="estado" onchange="cambiarTipoPedido()"><option value="Inmediato">Inmediato</option><option value="Entrega a domicilio">Entrega a domicilio</option><option value="Retiro en local">Retiro en local</option></select>
+
+            <h4>Local:</h4><select id="local" name="local">
+                <option value="3 de Febrero">3 de Febrero</option>
             </select>
-            <p>Método de Pago:</p>
+        </div>
+<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+  <br>
+
+<div class="seccion-formulario">    
+<h4>Seleccioná un cliente:</h4>
+<select id="selector_cliente" class="cliente-select">
+  <option value="">-- Elegir cliente registrado --</option>
+</select>
+
+
+        <h4>Cliente:</h4>
+        <input type="text" id="cliente" name="cliente" required>
+
+        <h4>DNI:</h4>
+        <input type="text" id="dni" name="dni">
+
+        <h4>Dirección:</h4>
+        <input type="text" id="direccion" name="direccion">
+
+        <h4>Teléfono:</h4>
+        <input type="text" id="telefono" name="telefono">
+
+        <h4>Email:</h4>
+        <input type="email" id="email_cliente" name="email">
+
+        <h4>Fecha de Nacimiento:</h4>
+        <input type="date" id="fecha_nacimiento_cliente" name="fecha_nacimiento">
+
+        <h4>Sexo:</h4>
+        <select id="sexo_cliente" name="sexo">
+        <option value="">-- Seleccionar --</option>
+        <option value="F">Femenino</option>
+        <option value="M">Masculino</option>
+        <option value="X">Otro</option>
+        </select>
+
+
+         <h4>¿Por donde pidio?</h4>
+            <select name="pidio" id="pidio" required>
+                <option value="Manychat">Manychat</option>
+                <option value="Local">Local</option>
+                <option value="Tienda Nube">Tienda Nube</option>
+                <option value="Local Virtual">Local Virtual</option>
+            </select>
+</div>    
+<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+  <br>
+  <div class="seccion-formulario">    
+            <h4>Fecha de Entrega:</h4>
+            <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+            <h4>Horario de Entrega:</h4><select id="horario_entrega" name="horario_entrega">
+                <option value="09:00 a 12:00">09 a 12 hrs</option>
+                <option value="12:00 a 15:00">12 a 15 hrs</option>
+                <option value="15:00 a 18:00">15 a 18 hrs</option>
+                <option value="18:00 a 21:00">18 a 21 hrs</option>
+            </select>
+
+<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+  <br>
+
+            <h4>Método de Pago:</h4>
             <select name="metodo_pago" id="metodo_pago" required onchange="actualizarSubtotal()">
                 <option value="Efectivo">Efectivo</option>
                 <option value="Transferencia">Transferencia</option>
-                <option value="Débito">Débito</option>
-                <option value="Crédito">Crédito</option>
+                <option value="QR">QR</option>
+                <option value="Débito">Debito</option>
+                <option value="Crédito">Credito</option>
+                <option value="Modo">Modo</option>
+
+
             </select>
-            <h3 id="subtotal">Subtotal: $0.00</h3>
-            <h3 id="descuento">Descuento: $0.00</h3>
-            <p>Monto:</p>
-            <input type="number" name="monto" id="monto" required readonly>
-            <p>¿Pagado?</p>
-            <select name="pagado"><option value="Sí">Sí</option><option value="No">No</option></select>
+            <h4>Banco:</h4>
+            <select name="banco" id="banco">
+                <option value="Payway">Payway</option>
+                <option value="Mercado-Pago">Mercado Pago</option>
+                <option value="viumi">viumi</option>
+                <option value="-">-</option>
+            </select>
+
+
+            <h4>¿Con Descuento?</h4>
+            <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()"><option value="0">No</option><option value="1">5%</option><option value="2">10%</option><option value="3">15%</option></select>
+            <h4>¿Incluye envío?</h4>
+            <select name="envio" id="envio" onchange="toggleZonaEnvio()">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
+            
+</div>
+<hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">                  
+            <h2 id="subtotal" style="color:var(--color-texto)">Subtotal: $0.00</h2>
+            <h2 id="descuento"  style="color:var(--color-fondo)">Descuento: $0.00</h2>
+
+            <hr style="background-color: black; height: 1px; border: none;">
+            <h2 id="monto-visual" style="color: #77966D; text-decoration: underline;">Monto Final: $0.00</h2>
+<hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">   
+            <input type="number" name="monto" id="monto" style="display: none;" required readonly>
+            <h4>¿Pagado?</h4>
+            <select id="pagado" name="pagado"><option value="No">No</option><option value="Sí">Sí</option></select>
+
         </div>
-        <div class="submit">
-            <h2>Productos</h2>
+        <div id="zona-envio-container"  style="display: none;">
+            <label for="zona_envio">Zona de Envío:</label>
+            <select name="zona_envio" id="zona_envio" class="input-text">
+                <option value="0">🚚 $0 - Monto mínimo alcanzado</option>
+                <option value="2500">📍 $2.500 - Macrocentro Rosario</option>
+                <option value="3500">📍 $3.500 - Rosario (fuera del macrocentro)</option>
+                <option value="4500">📍 $4.500 - Fisherton</option>
+                <option value="5500">📍 $5.500 - Funes</option>
+                <option value="6500">📍 $6.500 - Roldán o Baigorria</option>
+            </select>
+        </div> 
+
+        <div class="submit">  
+            <h4 style="margin-top: 1em;">Productos</h4>
             <div id="productos-container"></div> <!-- Contenedor donde se agregan los productos dinámicamente -->
             <button type="button" onclick="agregarProducto()"> + Agregar Producto</button>
-            <p>Observaciones:</p>
+            <h4 style="margin-top: 1em;">Observaciones:</h4>
             <input type="text" name="observaciones">
 
-            <input type="submit" value="Enviar Pedido">
+            <input style="margin-top: 1em;" type="submit" value="Enviar Pedido">
         </div>
-        
-        
     </form>
+    
+    <script>
+
+function cambiarTipoPedido() {
+    const tipo = document.getElementById("estado").value;
+    const contenedor = document.getElementById("direccion-dinamica");
+    contenedor.innerHTML = ""; // limpiar
+
+    const envioSelect = document.getElementById("envio");
+    const zonaEnvioContainer = document.getElementById("zona-envio-container");
+
+    if (tipo === "Entrega a domicilio") {
+    contenedor.innerHTML = `
+        <h4>Dirección del cliente:</h4>
+        <input type="text" name="direccion" id="direccion" required">
+    `;
+
+        envioSelect.value = "Sí";
+        envioSelect.disabled = false;
+        zonaEnvioContainer.style.display = "block";
+    } 
+    else {
+        contenedor.innerHTML = `
+            <h4>Seleccioná el local:</h4>
+            <select name="direccion" required>
+                <option value="3 de Febrero 380">3 de Febrero 380</option>
+                <option value="Rueda 193">Rueda 193</option>
+            </select>
+        `;
+        envioSelect.value = "No";
+        envioSelect.disabled = true;
+        zonaEnvioContainer.style.display = "none";
+    }
+
+    actualizarSubtotal();
+}
+
+// Ejecutar al cargar (en caso de que ya haya un valor seleccionado)
+document.addEventListener("DOMContentLoaded", cambiarTipoPedido);
+
+
+
+function toggleZonaEnvio() {
+    const envio = document.getElementById("envio").value;
+    const zonaContainer = document.getElementById("zona-envio-container");
+    zonaContainer.style.display = (envio === "Sí") ? "block" : "none";
+    actualizarSubtotal(); // Volver a calcular el total con o sin envío
+}
+
+document.getElementById("zona_envio").addEventListener("change", actualizarSubtotal);
+document.getElementById("envio").addEventListener("change", actualizarSubtotal);
+
+function actualizarSubtotal() {
+    let total = 0;
+    let productos = document.querySelectorAll(".producto-item");
+
+    productos.forEach(div => {
+        let producto = div.querySelector("select").value;
+        let cantidad = parseFloat(div.querySelector("input").value) || 0;
+        let precioUnitario = preciosProductos[producto] || 0;
+        total += precioUnitario * cantidad;
+    });
+
+    let descuentoOn = document.getElementById("descuentoOn").value;
+    let descuento = descuentoOn === "1" ? 0.05 :
+                descuentoOn === "2" ? 0.10 :
+                descuentoOn === "3" ? 0.15 :
+                0; // Default value if descuentoOn is not "1", "2", or "3"
+    let totalConDescuento = total - (total * descuento);
+
+    // Sumar costo de envío si corresponde
+    const envio = document.getElementById("envio").value;
+    if (envio === "Sí") {
+        let zona = document.getElementById("zona_envio").value;
+        let costoEnvio = parseInt(zona.replace(/\D/g, "")) || 0; // Extraer números del string
+        totalConDescuento += costoEnvio;
+    }
+
+    document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
+    document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento*total).toFixed(2)}` : `Descuento: $0.00`;
+    document.getElementById("monto").value = totalConDescuento.toFixed(2);
+    document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
+}
+
+// Volver a aplicar el cálculo al cargar la página
+document.addEventListener("DOMContentLoaded", actualizarSubtotal);
+
+
+document.querySelector('.form').addEventListener('submit', function(e) {
+        const submitBtn = document.querySelector('input[type="submit"]');
+        submitBtn.disabled = true;              // Deshabilitar botón
+        submitBtn.value = "¡Enviado!";        // Cambiar texto para indicar envío
+    });
+    </script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const res = await fetch("/clientes")
+  const clientes = await res.json()
+
+  const selector = document.getElementById("selector_cliente")
+  clientes.forEach(c => {
+    const option = document.createElement("option")
+    option.value = c.dni
+    option.textContent = `${c.nombre} ${c.apellido} (${c.dni})`
+    selector.appendChild(option)
+  })
+
+$('#selector_cliente').on('select2:select', function (e) {
+  const selectedDni = e.params.data.id
+  const c = clientes.find(c => c.dni === selectedDni)
+
+  if (c) {
+    document.getElementById("dni").value = c.dni || ""
+    document.getElementById("cliente").value = `${c.nombre} ${c.apellido}`
+    document.getElementById("direccion").value = c.direccion || ""
+    document.getElementById("telefono").value = c.telefono || ""
+    document.getElementById("email_cliente").value = c.email || ""
+    document.getElementById("fecha_nacimiento_cliente").value = c.fecha_nacimiento || ""
+    document.getElementById("sexo_cliente").value = c.sexo || ""
+  }
+  $('#selector_cliente').on('select2:clear', function () {
+  document.getElementById("cliente").value = ""
+  document.getElementById("direccion").value = ""
+  document.getElementById("telefono").value = ""
+  document.getElementById("email_cliente").value = ""
+  document.getElementById("fecha_nacimiento_cliente").value = ""
+  document.getElementById("sexo_cliente").value = ""
+})
+})
+})
+</script>
+<script>
+  $(document).ready(function () {
+    $('.cliente-select').select2({
+      placeholder: "Buscar cliente...",
+      width: "100%",
+      allowClear: true,
+      language: {
+        noResults: function () {
+          return "Cliente no encontrado";
+        }
+      }
+    });
+  });
+</script>
+
 </body>
 </html>

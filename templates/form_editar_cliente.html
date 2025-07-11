@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+</head>
+<body>
+{% include 'partials/navbar.html' %}
+<h2>Editar Cliente</h2>
+<form method="post">
+    <table class="pedidos_table">
+        <tbody>
+            <tr>
+                <strong><td>DNI</td></strong>
+                <td><input type="text" name="dni" value="{{ cliente.dni }}"></td>
+            </tr>
+            <tr>
+               <strong><td>Nombre</td></strong> 
+                <td><input type="text" name="nombre" value="{{ cliente.nombre }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Apellido</td></strong>
+                <td><input type="text" name="apellido" value="{{ cliente.apellido }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Dirección</td></strong>
+                <td><input type="text" name="direccion" value="{{ cliente.direccion }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Teléfono</td></strong>
+                <td><input type="text" name="telefono" value="{{ cliente.telefono }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Email</td></strong>
+                <td><input type="email" name="email" value="{{ cliente.email }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Fecha de nacimiento</td></strong>
+                <td><input style="width: 12em;" type="date" name="fecha_nacimiento" value="{{ cliente.fecha_nacimiento }}"></td>
+            </tr>
+            <tr>
+                <strong><td>Sexo</td></strong>
+                <td><input type="text" name="sexo" value="{{ cliente.sexo }}"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;">
+                    <button type="submit">Guardar cambios</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

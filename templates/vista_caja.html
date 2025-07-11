@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Delivery - Hoy</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+
+</head>
+</head>
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+
+    <h2>Caja - Hoy </h2>
+
+    
+
+    <table border="1" class="vista_table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Caja Inicial </th>
+                <th>Ventas en Efectivo (HOY)</th>
+                <th>Salida Hoy</th>
+                <th>Caja Actual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido["Dias"] }}</td>
+                <td>{{ pedido["Caja Inicial"] }}</td>
+                <td>{{ pedido["Ventas en Efectivo"] }}</td>
+                <td>{{ pedido["Salida Hoy"] }}</td>
+                <td>{{ pedido["Caja Actual"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {
+    "ID_receta": 1,
+    "ID_materia_prima": 1,
+    "Cantidad": 0.5
+  },
+  {
+    "ID_receta": 1,
+    "ID_materia_prima": 5,
+    "Cantidad": 0.2
+  },
+  {
+    "ID_receta": 2,
+    "ID_materia_prima": 3,
+    "Cantidad": 3
+  },
+  {
+    "ID_receta": 2,
+    "ID_materia_prima": 4,
+    "Cantidad": 0.3
+  }
+]

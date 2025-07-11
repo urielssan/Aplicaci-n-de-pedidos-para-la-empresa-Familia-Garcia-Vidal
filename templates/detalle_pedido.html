@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Pedido {{ pedido["ID"] }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <h2>Detalle del Pedido {{ pedido["ID"] }}</h2>
+
+    <table class="vista_detalle_table ">
+        <tr><td><strong>ID:</strong> </td><td>{{ pedido["ID"] }}</td></tr>
+        <tr><td><strong>Vendedor:</strong></td><td> {{ pedido["Vendedor"] }}</td></tr>
+        <tr><td><strong>Cliente:</strong></td><td>{{ pedido["Cliente"] }}</td></tr>
+        <tr><td><strong>Dirección:</strong></td><td> {{ pedido["Dirección"] }}</td></tr>
+        <tr><td><strong>Teléfono:</strong></td><td> {{ pedido["Teléfono"] }}</td></tr>
+        <tr><td><strong>Fecha de Entrega:</strong></td><td> {{ pedido["Fecha de Entrega"] }}</tr></td>
+        <tr><td><strong>Hora de Entrega:</strong></td><td> {{ pedido["Horario de Entrega"] }}</td></tr>
+        <tr><td><strong>Monto:</strong></td><td>{{ pedido["Monto"] }}</td></tr>
+        <tr><td><strong>Método de Pago:</strong></td><td>{{ pedido["Método de Pago"] }}</td></tr>
+        <tr><td><strong>Pagado:</strong></td><td>{{ pedido["Pagado"] }}</td></tr>
+        <tr><td><strong>Tipo de Pedido:</strong></td><td>{{ pedido["Tipo de Pedido"] }}</td></tr>
+        <tr><td><strong>Productos:</strong></td><td><strong>Cantidades</strong></td></tr>
+        
+        {% for producto in productos %}
+        <tr><td><i>{{ producto[0] }}</i> </td><td><i>{{ producto[1] }}</i></td></tr>
+        {% endfor %}
+    </table>
+
+    <button style="margin-bottom: 1rem;" onclick="window.open('{{ url_for('generar_pdf_pedido', pedido_id=pedido['ID']) }}', '_blank')">
+        🖨️ Imprimir Pedido
+      </button> 
+
+
+  
+    <script>
+        // Puedes agregar scripts adicionales si es necesario
+    </script>
+</body>
+</html>

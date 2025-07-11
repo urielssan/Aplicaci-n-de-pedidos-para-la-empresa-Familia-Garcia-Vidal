@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+</head>
+<body>
+    
+    {% include 'partials/navbar.html' %}
+
+
+    <h2>Lista de Productos</h2>
+    <table class="productos-table" border="1">
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Precio</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ productos["ID"] }}</td>
+            <td>{{ productos["Producto"] }}</td>
+            <td>{{ productos["Precio"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

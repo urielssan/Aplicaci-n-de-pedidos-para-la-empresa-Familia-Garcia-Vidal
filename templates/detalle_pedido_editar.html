@@ -1,0 +1,110 @@
+<!-- editar_pedidos.html adaptado para mostrar el formulario SIEMPRE visible, sin modal -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+  {% include 'partials/navbar.html' %}
+  <h2>Editar Pedido</h2>
+  <form id="editForm" action="{{ url_for('actualizar_pedido') }}" method="POST">
+    <input type="hidden" id="id" name="id">
+    <label>Vendedor:</label>
+    <select name="vendedor" id="vendedor" required>
+      <option value="Veronica">Veronica</option>
+      <option value="Silvina">Silvina</option>
+      <option value="Lautaro">Lautaro</option>
+      <option value="Laura">Laura</option>
+      <option value="Lucia">Lucia</option>
+    </select>
+    <label>Cliente:</label>
+    <input type="text" name="cliente" id="cliente">
+    <label>Dirección:</label>
+    <div id="direccion-container"></div>
+    <label>Teléfono:</label>
+    <input type="text" name="telefono" id="telefono">
+    <label>Email:</label>
+    <input type="email" name="email" id="email_cliente">
+    <label>Fecha de nacimiento:</label>
+    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento_cliente">
+    <label>Sexo:</label>
+    <select name="sexo" id="sexo_cliente">
+      <option value="">--</option>
+      <option value="F">Femenino</option>
+      <option value="M">Masculino</option>
+      <option value="X">Otro</option>
+    </select>
+    <label>Medio (Pidió por):</label>
+    <select name="pidio" id="pidio">
+      <option value="Manychat">Manychat</option>
+      <option value="Local">Local</option>
+      <option value="Tienda Nube">Tienda Nube</option>
+      <option value="Local Virtual">Local Virtual</option>
+    </select>
+    <label>Local:</label>
+    <select name="local" id="local">
+      <option value="3 de Febrero">3 de Febrero</option>
+    </select>
+    <label>Fecha de Entrega:</label>
+    <input type="date" name="fecha_entrega" id="fecha_entrega">
+    <label>Horario de Entrega:</label>
+    <select name="horario_entrega" id="horario_entrega">
+      <option value="09:00 a 12:00">09 a 12</option>
+      <option value="12:00 a 15:00">12 a 15</option>
+      <option value="15:00 a 18:00">15 a 18</option>
+      <option value="18:00 a 21:00">18 a 21</option>
+    </select>
+    <label>Tipo de Pedido:</label>
+    <select name="estado" id="estado">
+      <option value="Inmediato">Inmediato</option>
+      <option value="Entrega a domicilio">Entrega a domicilio</option>
+      <option value="Retiro en local">Retiro en local</option>
+    </select>
+    <label>Zona de Envío:</label>
+    <select name="zona_envio" id="zona_envio">
+      <option value="0">$0 - Sin costo</option>
+      <option value="2500">$2.500 - Macrocentro</option>
+      <option value="3500">$3.500 - Rosario fuera del centro</option>
+      <option value="4500">$4.500 - Fisherton</option>
+      <option value="5500">$5.500 - Funes</option>
+      <option value="6500">$6.500 - Roldán/Baigorria</option>
+    </select>
+    <label>Productos:</label>
+    <div id="productos-container"></div>
+    <button type="button" onclick="agregarProducto()">Agregar Producto</button>
+    <label>Descuento:</label>
+    <select name="descuentoOn" id="descuentoOn" onchange="actualizarSubtotal()">
+      <option value="0">No</option>
+      <option value="1">5%</option>
+    </select>
+    <label>Monto:</label>
+    <input type="number" name="monto" id="monto" readonly>
+    <label>Pagado:</label>
+    <select name="pagado" id="pagado">
+      <option value="No">No</option>
+      <option value="Sí">Sí</option>
+    </select>
+    <label>Banco:</label>
+    <select name="banco" id="banco">
+      <option value="Payway">Payway</option>
+      <option value="Mercado-Pago">Mercado Pago</option>
+      <option value="viumi">viumi</option>
+      <option value="-">-</option>
+    </select>
+    <label>Observaciones:</label>
+    <input type="text" name="observaciones">
+    <br><br>
+    <button type="submit">Guardar Cambios</button>
+  </form>
+  <script>
+    const preciosProductos = {{ precios_productos|tojson|safe }}
+  </script>
+  <script src="{{ url_for('static', filename='js/editar_pedido.js') }}"></script>
+</body>
+</html>

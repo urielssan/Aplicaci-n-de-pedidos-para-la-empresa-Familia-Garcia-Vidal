@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Materia Prima</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+    <style>
+        .contenedor-tabla {
+            background-color: #520025;
+            padding: 2em;
+            max-width: 2100px;
+            margin: auto;
+            border-radius: 20px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        table.pedidos_table input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-agregar {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <h2 style="text-align: center; color: white;">Materia Prima</h2>
+    <div class="contenedor-tabla">
+        <form method="POST">
+            <table class="pedidos_table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Unidad</th>
+                        <th>Categoría</th>
+                        <th>Eliminar ❌</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for nombre, datos in materia.items() %}
+                    <tr>
+                        <td><input type="number" name="id_existente_{{ loop.index }}" value="{{ datos.ID }}"
+                                style="font-size: 1em; width: 40px;"></td>
+                        <td><input type="text" name="nombre_existente_{{ loop.index }}" value="{{ nombre }}"></td>
+                        <td><input type="text" name="unidad_existente_{{ loop.index }}" value="{{ datos.Unidad }}"></td>
+                        <td><input type="text" name="categoria_existente_{{ loop.index }}"
+                                value="{{ datos.Categoria }}"></td>
+                        <td><input type="checkbox" name="eliminar_{{ loop.index }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+            <div class="form-agregar">
+                <h3>➕ Agregar nueva materia prima</h3>
+                <input type="number" name="nuevo_id" value="{{ siguiente_id }}" disabled>
+                <input type="hidden" name="nuevo_id" value="{{ siguiente_id }}" readonly>
+                <input type="text" name="nuevo_nombre" placeholder="Nombre">
+                <input type="text" name="nuevo_unidad" placeholder="Unidad">
+                <input type="text" name="nuevo_categoria" placeholder="Categoría">
+            </div>
+
+            <br><br>
+            <input type="hidden" name="total_productos" value="{{ materia|length }}">
+            <input type="submit" value="Guardar cambios">
+        </form>
+    </div>
+</body>
+
+</html>

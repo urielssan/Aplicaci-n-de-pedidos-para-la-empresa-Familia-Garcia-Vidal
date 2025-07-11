@@ -1,0 +1,27 @@
+{
+    "Pan de masa madre": {
+        "ID": 1,
+        "Unidad": "kg",
+        "Categoria": "Insumos secos"
+    },
+    "Huevos de campo": {
+        "ID": 2,
+        "Unidad": "cantidad",
+        "Categoria": "Frescos"
+    },
+    "Cerveza Blond Ale": {
+        "ID": 3,
+        "Unidad": "cantidad",
+        "Categoria": "Bebidas"
+    },
+    "Salsas": {
+        "ID": 4,
+        "Unidad": "cantidad",
+        "Categoria": "Nose"
+    },
+    "Carne de vaca": {
+        "ID": 5,
+        "Unidad": "kg",
+        "Categoria": "Carnes"
+    }
+}

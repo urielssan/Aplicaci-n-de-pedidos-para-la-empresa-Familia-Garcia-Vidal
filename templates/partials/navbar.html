@@ -1,0 +1,70 @@
+<!-- templates/partials/navbar.html -->
+ <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+ </head>
+<nav class="navbar">
+    <ul>
+        <li><a href="{{ url_for('index') }}">Formulario</a></li>
+       <li>
+         <a href="{{ url_for('ingresar_stock') }}">Ingresar Stock</a>
+        </li>
+
+        <li class="dropdown">
+            <a href="#">Pedidos</a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('ver_pedidos') }}">Todos Los Pedidos</a>
+                <a href="{{ url_for('editar_pedidos') }}">Editar</a>
+                <a href="{{ url_for('ver_retiro_en_local_hoy') }}">Retiro Local Hoy</a>
+                <a href="{{ url_for('ver_delivery_hoy') }}">Delivery Hoy</a>
+                <a href="{{ url_for('ver_delivery') }}">Delivery Futuro</a>
+                <a href="{{ url_for('ver_retiro_en_local') }}">Retiro Local Futuro</a>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="#">Entradas Stock</a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('ver_stock_entrada') }}">Ultimas Entradas Stock</a>
+                <a href="{{ url_for('ver_stock_entrada_total') }}">Total Entradas Stock</a>
+            </div>
+        </li>
+        <li class="dropdown">
+             <a href="#">Stock</a>
+             <div class="dropdown-content">
+            <a href="{{ url_for('ver_stock_nuevo') }}">Stock</a>
+            <a href="{{ url_for('ver_stock_milanesas')}}">Milanesas</a>
+            <a href="{{ url_for('ver_stock_frescos')}}">Frescos</a>
+            <a href="{{ url_for('ver_stock_carnes')}}">Hamburguesas</a>
+            <a href="{{ url_for('ver_stock_desmechados')}}">Desmechados</a>
+            <a href="{{ url_for('ver_stock_empanadas')}}">Empanadas</a>
+            <a href="{{ url_for('ver_stock_pizzas')}}">Pizzas y Panificados</a>
+            <a href="{{ url_for('ver_stock_promos')}}">Platos elaborados</a>
+            <a href="{{ url_for('ver_stock_bebidas')}}">Bebidas</a>
+            <a href="{{ url_for('ver_stock_etiquetas')}}">Etiquetas y Bolsas</a>
+            </div>
+        </li>
+        <li>
+        <a href="{{ url_for('ver_precios') }}">Editar Precios</a>
+        </li>
+        <li class="dropdown">
+             <a href="#">Clientes</a>
+             <div class="dropdown-content">
+            <a href="{{ url_for('registrar_cliente_form') }}">Registrar Cliente</a>
+            <a href="{{ url_for('editar_clientes') }}">Editar Clientes</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#">Ruleta</a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('sorteo_ruleta_todos') }}">Todos Participan</a>
+                <a href="{{ url_for('sorteo_ruleta') }}">Solo Clientes</a>
+            </div>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+        </li>
+    </ul>
+    <img src="{{ url_for('static', filename='images/LOGO.png') }}" alt="Logo" class="logo" style="width: 50px; height: 35px;padding: 5px; filter: brightness(0) saturate(100%) invert(14%) sepia(32%) saturate(5635%) hue-rotate(348deg) brightness(92%) contrast(89%);">
+</nav>

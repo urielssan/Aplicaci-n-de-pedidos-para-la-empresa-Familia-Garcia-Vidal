@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Retiro en Local Hoy</title>
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+
+    <!-- jQuery & Select2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+  
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+
+
+<h2>Vista Retiros Por Local - Hoy </h2>
+<input type="text" id="buscador" placeholder="🔎 Buscar..." style="margin-bottom: 10px; padding: 5px; width: 200px;">
+
+    <table border="1" class="vista_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vendedor</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Monto</th>
+                <th>Pagado</th>
+                <th>Tipo Pedido</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Horario</th>
+                <th>Método de Pago</th>
+                <th>Productos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido["ID"] }}</td>
+                <td>{{ pedido["Vendedor"] }}</td>
+                <td>{{ pedido["Fecha de Entrega"] }}</td>
+                <td>{{ pedido["Cliente"] }}</td>
+                <td>{{ pedido["Monto"] }}</td>
+                <td>{{ pedido["Pagado"] }}</td>
+                <td>{{ pedido["Tipo de Pedido"] }}</td>
+                <td>{{ pedido["Dirección"] }}</td>
+                <td>{{ pedido["Teléfono"] }}</td>
+                <td>{{ pedido["Horario de Entrega"] }}</td>
+                <td>{{ pedido["Método de Pago"] }}</td>
+                <td>
+                    <a style="color: black;" href="{{ url_for('detalle_pedido', pedido_id=pedido['ID']) }}">Ver Productos</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('buscador').addEventListener('input', function() {
+            let filtro = this.value.toLowerCase();
+            document.querySelectorAll('.vista_table tbody tr').forEach(fila => {
+                let idPedido = fila.cells[0].textContent.toLowerCase(); // primera columna (ID)
+                let clientePedido = fila.cells[1].textContent.toLowerCase();
+                let vendedorPedido = fila.cells[2].textContent.toLowerCase();
+                let direccionPedido = fila.cells[3].textContent.toLowerCase();
+                let telefonoPedido = fila.cells[4].textContent.toLowerCase();
+                let fechaPedido = fila.cells[5].textContent.toLowerCase();
+                let montoPedido = fila.cells[6].textContent.toLowerCase();
+                let metodoPagoPedido = fila.cells[7].textContent.toLowerCase();
+                let pagadoPedido = fila.cells[8].textContent.toLowerCase();
+                let tipoPedido = fila.cells[9].textContent.toLowerCase();
+                let productosPedido = fila.cells[10].textContent.toLowerCase();
+                let cantidadesPedido = fila.cells[11].textContent.toLowerCase();
+                // Verifica si el filtro está en alguna de las columnas
+                if (idPedido.includes(filtro) || clientePedido.includes(filtro) || vendedorPedido.includes(filtro) || direccionPedido.includes(filtro) || telefonoPedido.includes(filtro) || fechaPedido.includes(filtro) || montoPedido.includes(filtro) || metodoPagoPedido.includes(filtro) || pagadoPedido.includes(filtro) || tipoPedido.includes(filtro) || productosPedido.includes(filtro) || cantidadesPedido.includes(filtro)) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                }
+            }); 
+        });
+
+        function resaltarFilasHoy() {
+    const hoy = new Date();
+    const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+
+    document.querySelectorAll('.vista_table tbody tr').forEach(fila => {
+        const fechaTexto = fila.cells[2].textContent.trim(); // dd/mm/yyyy
+        const partes = fechaTexto.split('/');
+        if (partes.length === 3) {
+            const fechaFila = new Date(partes[2], partes[1] - 1, partes[0]);
+            if (fechaFila.getTime() === hoySinHora.getTime()) {
+                fila.style.setProperty('background-color', '#ecec53', 'important');
+                fila.style.fontWeight = "bold";
+            }
+        }
+    });
+}
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        resaltarFilasHoy();
+    });
+
+    </script>
+</body>
+</html>

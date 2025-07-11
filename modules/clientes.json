@@ -1,0 +1,3882 @@
+[
+  {
+    "dni": "Pisellini Marchegiani",
+    "nombre": "Silvia",
+    "apellido": "Pisellini Marchegiani",
+    "direccion": "Alem 2845",
+    "telefono": 3413426731,
+    "fecha_nacimiento": "2/5/1966",
+    "sexo": "Femenino",
+    "email": "simapisellini@gmail.com"
+  },
+  {
+    "dni": "37263719",
+    "nombre": "Barbara",
+    "apellido": "Barbara",
+    "direccion": "24 de septiembre 2224",
+    "telefono": 3416486075,
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "barbicabrera9@gmail.com"
+  },
+  {
+    "dni": "13188305",
+    "nombre": "Susana",
+    "apellido": "Lemmo",
+    "direccion": "Rioja 1957",
+    "telefono": 3415694295,
+    "fecha_nacimiento": "4/9/1959",
+    "sexo": "Femenino",
+    "email": "susl123@hotmail.com"
+  },
+  {
+    "dni": "20408998",
+    "nombre": "Daniel",
+    "apellido": "Tamburello",
+    "direccion": "Cochabamba 1662-1",
+    "telefono": 156526227,
+    "fecha_nacimiento": "12/9/1968",
+    "sexo": "Masculino",
+    "email": "dancen10@hotmail.com"
+  },
+  {
+    "dni": "27862839",
+    "nombre": "Carolina",
+    "apellido": "Ciciliani",
+    "direccion": "9 dé julio 3525",
+    "telefono": 3465431542,
+    "fecha_nacimiento": "11/12/1980",
+    "sexo": "Femenino",
+    "email": "cicilianicarolina@gmail.com"
+  },
+  {
+    "dni": "43798078",
+    "nombre": "Paula",
+    "apellido": "Sampaio",
+    "direccion": "Pincen",
+    "telefono": 2392457285,
+    "fecha_nacimiento": "10/30/2001",
+    "sexo": "Femenino",
+    "email": "Sampaiopaula16@gmail.com"
+  },
+  {
+    "dni": "18030917",
+    "nombre": "laura",
+    "apellido": "lucca",
+    "direccion": "Montevideo 764",
+    "telefono": 3427520538,
+    "fecha_nacimiento": "2/28/2003",
+    "sexo": "Femenino",
+    "email": "lauralucca66@hotmail.com"
+  },
+  {
+    "dni": "5134915",
+    "nombre": "Celia del Carmen",
+    "apellido": "Dibernardi",
+    "direccion": "Pje. Palau 2558 - Rosario",
+    "telefono": 3415063154,
+    "fecha_nacimiento": "6/15/1945",
+    "sexo": "Femenino",
+    "email": "celiadibernardi@gmail.com"
+  },
+  {
+    "dni": "29804893",
+    "nombre": "Pablo hernan",
+    "apellido": "Kopawski",
+    "direccion": "Del viso",
+    "telefono": 1164328638,
+    "fecha_nacimiento": "12/21/1982",
+    "sexo": "Masculino",
+    "email": "pablo.kop@gmail.com"
+  },
+  {
+    "dni": "22095638",
+    "nombre": "Gisela",
+    "apellido": "Gallardo",
+    "direccion": "Dorrego 2658 dto2",
+    "telefono": 3416870787,
+    "fecha_nacimiento": "6/12/1971",
+    "sexo": "Femenino",
+    "email": "Gise_gallardo@yahoo.com.ar"
+  },
+  {
+    "dni": "24675905",
+    "nombre": "Celina Angelica",
+    "apellido": "Fernandez",
+    "direccion": "Montevideo 942",
+    "telefono": 3412587157,
+    "fecha_nacimiento": "11/14/1975",
+    "sexo": "Femenino",
+    "email": "celinafernandezpuy@gmail.com"
+  },
+  {
+    "dni": "46370371",
+    "nombre": "Ayelen",
+    "apellido": "Fernández",
+    "direccion": "Pasaje amazonas 3171",
+    "telefono": 3413196187,
+    "fecha_nacimiento": "2/5/2005",
+    "sexo": "Femenino",
+    "email": "ayelenfernandez110@gmail.com"
+  },
+  {
+    "dni": "36005374",
+    "nombre": "Santiago",
+    "apellido": "Menna",
+    "direccion": "Mendoza 956",
+    "telefono": 3415777114,
+    "fecha_nacimiento": "3/21/1992",
+    "sexo": "Masculino",
+    "email": "Santiagomenna92@gmail.com"
+  },
+  {
+    "dni": "33114542",
+    "nombre": "Paola",
+    "apellido": "Centurión",
+    "direccion": "Reconquista 894",
+    "telefono": 3413288394,
+    "fecha_nacimiento": "7/13/1987",
+    "sexo": "Femenino",
+    "email": "paocent@hotmail.com"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "28771808",
+    "nombre": "Luciano",
+    "apellido": "Bonina",
+    "direccion": "Zeballos  278",
+    "telefono": 3413050457,
+    "fecha_nacimiento": "7/3/1981",
+    "sexo": "Masculino",
+    "email": "luciano.tecnuarsrl@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "juliaspampinato@gmail.com"
+  },
+  {
+    "dni": "21893020",
+    "nombre": "Susana",
+    "apellido": "Fernandez",
+    "direccion": "3 de febrero 1409-5°A",
+    "telefono": 2966626416,
+    "fecha_nacimiento": "9/28/1970",
+    "sexo": "Femenino",
+    "email": "suju1444@hotmail.com"
+  },
+  {
+    "dni": "35243853",
+    "nombre": "Renzo",
+    "apellido": "Benvino",
+    "direccion": "Salta 1990 - 3D",
+    "telefono": 2477344363,
+    "fecha_nacimiento": "11/15/1991",
+    "sexo": "Masculino",
+    "email": "renzo_benvino@hotmail.com"
+  },
+  {
+    "dni": "36576231",
+    "nombre": "Magali",
+    "apellido": "Rivas",
+    "direccion": "Presidente Roca 364 departamento 5C Rosario",
+    "telefono": 3462336522,
+    "fecha_nacimiento": "11/10/1991",
+    "sexo": "Femenino",
+    "email": "rivasmagap@gmail.com"
+  },
+  {
+    "dni": "25125048",
+    "nombre": "Julián",
+    "apellido": "Colussi",
+    "direccion": "Cochabamba 1626",
+    "telefono": 3416488127,
+    "fecha_nacimiento": "7/9/1976",
+    "sexo": "Masculino",
+    "email": "juliancolussi1976@gmail.com"
+  },
+  {
+    "dni": "31975471",
+    "nombre": "Marcia",
+    "apellido": "Santa cruz",
+    "direccion": "Juan Manuel de rosas 2290 3ro D",
+    "telefono": 3416867200,
+    "fecha_nacimiento": "12/31/1985",
+    "sexo": "Femenino",
+    "email": "marcia0085@hotmail.com"
+  },
+  {
+    "dni": "40312898",
+    "nombre": "Celina",
+    "apellido": "Balestreri",
+    "direccion": "Alem 1281",
+    "telefono": 3464548967,
+    "fecha_nacimiento": "11/20/1999",
+    "sexo": "Femenino",
+    "email": "Balestrericelina9@gmail.com"
+  },
+  {
+    "dni": "28770537",
+    "nombre": "Evelina",
+    "apellido": "Puccio",
+    "direccion": "Tucumán 1035",
+    "telefono": 3412703600,
+    "fecha_nacimiento": "5/2/1981",
+    "sexo": "Femenino",
+    "email": "puccioevelina@gmail.com"
+  },
+  {
+    "dni": "27213680",
+    "nombre": "Melisa",
+    "apellido": "Darnaud",
+    "direccion": "Santa Fe 1758 1A",
+    "telefono": 3416163030,
+    "fecha_nacimiento": "4/21/1979",
+    "sexo": "Femenino",
+    "email": "melisa.darnaud@outlook.com"
+  },
+  {
+    "dni": "32287445",
+    "nombre": "Stella maris",
+    "apellido": "Casarini",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416024262,
+    "fecha_nacimiento": "5/2/1986",
+    "sexo": "Femenino",
+    "email": "stellamaris2911@hotmail.com"
+  },
+  {
+    "dni": "32651541",
+    "nombre": "Juan manuel",
+    "apellido": "Fernandez",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416864666,
+    "fecha_nacimiento": "12/13/1985",
+    "sexo": "Masculino",
+    "email": "Chk.fernandez@hotmail.com"
+  },
+  {
+    "dni": "37334323",
+    "nombre": "Yasmin",
+    "apellido": "Padilla",
+    "direccion": "Mitre 2734",
+    "telefono": 3412618727,
+    "fecha_nacimiento": "4/10/1993",
+    "sexo": "Femenino",
+    "email": "yaslinpadilla.z@hotmail.com"
+  },
+  {
+    "dni": "33136577",
+    "nombre": "Samira",
+    "apellido": "Berrueta",
+    "direccion": "Cochabamba 1793",
+    "telefono": 3413417965,
+    "fecha_nacimiento": "12/5/1987",
+    "sexo": "Femenino",
+    "email": "Samiraberrueta5@gmail.com"
+  },
+  {
+    "dni": "34134094",
+    "nombre": "Giovana",
+    "apellido": "Panucci",
+    "direccion": "Santa Fe 2539",
+    "telefono": 3412011009,
+    "fecha_nacimiento": "3/11/1988",
+    "sexo": "Femenino",
+    "email": "Giopanucci@hotmail.com"
+  },
+  {
+    "dni": "22283546",
+    "nombre": "Julio",
+    "apellido": "Diep",
+    "direccion": "Pte Roca 1367",
+    "telefono": 3413485372,
+    "fecha_nacimiento": "4/4/1972",
+    "sexo": "Masculino",
+    "email": "julitocd@yahoo.com.ar"
+  },
+  {
+    "dni": "10196450",
+    "nombre": "ANA MARIA",
+    "apellido": "Ruta",
+    "direccion": "Jujuy 1323",
+    "telefono": 3436615050,
+    "fecha_nacimiento": "11/21/1951",
+    "sexo": "Femenino",
+    "email": "avemaria.anamaria@gmail.com"
+  },
+  {
+    "dni": "33541498",
+    "nombre": "Mayra alicia",
+    "apellido": "Vera",
+    "direccion": "Balcarce 38",
+    "telefono": 1124798193,
+    "fecha_nacimiento": "8/3/1988",
+    "sexo": "Femenino",
+    "email": "mayraaevera@gmail.com"
+  },
+  {
+    "dni": "26550785",
+    "nombre": "Valeria",
+    "apellido": "Besazza",
+    "direccion": "Riccheri 1210",
+    "telefono": 3416207612,
+    "fecha_nacimiento": "4/26/1978",
+    "sexo": "Femenino",
+    "email": "valeriabes@hotmail.com"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Oroño y Salta",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "32695895",
+    "nombre": "Jesi",
+    "apellido": "Peña",
+    "direccion": "San Martin 507 piso 10 dpto 1",
+    "telefono": 3413601928,
+    "fecha_nacimiento": "7/5/1987",
+    "sexo": "Femenino",
+    "email": "jesirp87@gmail.com"
+  },
+  {
+    "dni": "26664759",
+    "nombre": "Ivan",
+    "apellido": "Coltrinari",
+    "direccion": "San Lorenzo 3924",
+    "telefono": 3412030439,
+    "fecha_nacimiento": "6/15/1978",
+    "sexo": "Masculino",
+    "email": "icoltrinari@hotmail.com"
+  },
+  {
+    "dni": "37578520",
+    "nombre": "Lucas",
+    "apellido": "Saldaña",
+    "direccion": "Lavalle 3735",
+    "telefono": 3412795838,
+    "fecha_nacimiento": "4/7/1993",
+    "sexo": "Masculino",
+    "email": "lukassaldania@gmail.com"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Avellaneda Bis 525",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "24569525",
+    "nombre": "Leonardo",
+    "apellido": "Vallejos",
+    "direccion": "Avenida leandro N. Allem",
+    "telefono": 3416835112,
+    "fecha_nacimiento": "1/27/2017",
+    "sexo": "Masculino",
+    "email": "leonardovallejos_858@hotmail.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650. Portero 20134",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "Hmsessa@gmail.com"
+  },
+  {
+    "dni": "38133046",
+    "nombre": "Mara antonela",
+    "apellido": "Vidal",
+    "direccion": "Av del Huerto 1105",
+    "telefono": 3417568958,
+    "fecha_nacimiento": "4/24/1989",
+    "sexo": "Femenino",
+    "email": "mara.anto24@gmail.com"
+  },
+  {
+    "dni": "21953680",
+    "nombre": "Paula",
+    "apellido": "Dameno Almirón",
+    "direccion": "Anchoris 2537",
+    "telefono": 3413568901,
+    "fecha_nacimiento": "11/24/1970",
+    "sexo": "Femenino",
+    "email": "pauladamenoa@gmail.com"
+  },
+  {
+    "dni": "22874773",
+    "nombre": "Carina",
+    "apellido": "Angel",
+    "direccion": "Plaza Argentina 3196",
+    "telefono": 3412805495,
+    "fecha_nacimiento": "8/26/1972",
+    "sexo": "Femenino",
+    "email": "carinaandreaangel@hotmail.com"
+  },
+  {
+    "dni": "14228287",
+    "nombre": "FLORENCIA",
+    "apellido": "MARCHESE",
+    "direccion": "BIEDMA 679",
+    "telefono": 3415111648,
+    "fecha_nacimiento": "2/12/1961",
+    "sexo": "Femenino",
+    "email": "florenciamarchese@yahoo.com.ar"
+  },
+  {
+    "dni": "20214489",
+    "nombre": "Gabriela",
+    "apellido": "Trujillo",
+    "direccion": "Bonifacini 4266 santos lugares",
+    "telefono": 1161510770,
+    "fecha_nacimiento": "9/2/1968",
+    "sexo": "Femenino",
+    "email": "gtrujillo68@hotmail.com"
+  },
+  {
+    "dni": "16880608",
+    "nombre": "Pablo",
+    "apellido": "Llane",
+    "direccion": "Alem 1924",
+    "telefono": 3413729777,
+    "fecha_nacimiento": "4/14/1964",
+    "sexo": "Masculino",
+    "email": "pablollane@gmail.com"
+  },
+  {
+    "dni": "30792996",
+    "nombre": "Marianela",
+    "apellido": "Chehem",
+    "direccion": "Uriburu 925",
+    "telefono": 3416197907,
+    "fecha_nacimiento": "3/18/1985",
+    "sexo": "Femenino",
+    "email": "marianela.chehem@gmail.com"
+  },
+  {
+    "dni": "11871872",
+    "nombre": "Liliana",
+    "apellido": "Molina",
+    "direccion": "Centeno 1806",
+    "telefono": 3416361518,
+    "fecha_nacimiento": "9/28/1955",
+    "sexo": "Femenino",
+    "email": "lilianammolina@hotmail.com"
+  },
+  {
+    "dni": "23317120",
+    "nombre": "Andrea",
+    "apellido": "Ramos",
+    "direccion": "Talacasto 290",
+    "telefono": 341153473073,
+    "fecha_nacimiento": "4/3/1973",
+    "sexo": "Femenino",
+    "email": "andreiavr@msn.com"
+  },
+  {
+    "dni": "23928364",
+    "nombre": "Mariana",
+    "apellido": "SABBAG",
+    "direccion": "Virasoro 1350 piso 2 edificio Bonilla",
+    "telefono": 3415866973,
+    "fecha_nacimiento": "6/22/1974",
+    "sexo": "Femenino",
+    "email": "maru_sabbag@yahoo.com.ar"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Bailen 188",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "16218900",
+    "nombre": "Mariel",
+    "apellido": "Fernández",
+    "direccion": "Constitución 1385",
+    "telefono": 3415993508,
+    "fecha_nacimiento": "10/9/1963",
+    "sexo": "Femenino",
+    "email": "marielnoris@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "julinata86@hotmail.com"
+  },
+  {
+    "dni": "17899610",
+    "nombre": "Miriam",
+    "apellido": "Moreno",
+    "direccion": "Paraguay 357",
+    "telefono": 3413478343,
+    "fecha_nacimiento": "7/19/1966",
+    "sexo": "Femenino",
+    "email": "miriammoreno1966@gmail.com"
+  },
+  {
+    "dni": "23061440",
+    "nombre": "Viviana",
+    "apellido": "Rojas",
+    "direccion": "Agrelo 745",
+    "telefono": 3415414573,
+    "fecha_nacimiento": "2/25/1973",
+    "sexo": "Femenino",
+    "email": "v-rojas08@hotmail.com"
+  },
+  {
+    "dni": "47",
+    "nombre": "Claudia Marcela",
+    "apellido": "Basualdo",
+    "direccion": "Entre Ríos 5565",
+    "telefono": 3416829529,
+    "fecha_nacimiento": "5/1/1966",
+    "sexo": "Femenino",
+    "email": "cmbasualdo@hotmail.com"
+  },
+  {
+    "dni": "37219746",
+    "nombre": "Laura",
+    "apellido": "Cremonini",
+    "direccion": "Mitre 2524",
+    "telefono": 3751561027,
+    "fecha_nacimiento": "2/11/1994",
+    "sexo": "Femenino",
+    "email": "Lauracremonini99@gmail.com"
+  },
+  {
+    "dni": "16218350",
+    "nombre": "Viviana",
+    "apellido": "Parmigiani",
+    "direccion": "Ocampo 3280",
+    "telefono": 3412529922,
+    "fecha_nacimiento": "1/9/1963",
+    "sexo": "Femenino",
+    "email": "vivianaparmigiani@hotmail.com"
+  },
+  {
+    "dni": "22955990",
+    "nombre": "Leticia",
+    "apellido": "Ainsa",
+    "direccion": "Bv Avellaneda (bis) 564 6B",
+    "telefono": 3413241653,
+    "fecha_nacimiento": "3/28/1973",
+    "sexo": "Femenino",
+    "email": "letiainsa@hotmail.com"
+  },
+  {
+    "dni": "35586756",
+    "nombre": "Lara",
+    "apellido": "Garcia",
+    "direccion": "Necochea 1741",
+    "telefono": 3416694634,
+    "fecha_nacimiento": "11/4/1991",
+    "sexo": "Femenino",
+    "email": "laramagaligarcia4@gmail.com"
+  },
+  {
+    "dni": "44042746",
+    "nombre": "Facundo",
+    "apellido": "Aguilera",
+    "direccion": "Tirana 2329",
+    "telefono": 1133345310,
+    "fecha_nacimiento": "11/29/1998",
+    "sexo": "Masculino",
+    "email": "Facundoaguilera627@gmail.com"
+  },
+  {
+    "dni": "12282504",
+    "nombre": "Liliana",
+    "apellido": "Bennice",
+    "direccion": "3 de febrero 3026. PB 2",
+    "telefono": 3415151165,
+    "fecha_nacimiento": "1/19/1956",
+    "sexo": "Femenino",
+    "email": "LILITABENN@HOTMAIL.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650 portero 201",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "hmsessa@gmail.com"
+  },
+  {
+    "dni": "23242383",
+    "nombre": "Andrea",
+    "apellido": "Berrocal",
+    "direccion": "Rioja 2843",
+    "telefono": 3415883444,
+    "fecha_nacimiento": "4/15/1973",
+    "sexo": "Femenino",
+    "email": "Andreaberrocal@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3413800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3423800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "12110026",
+    "nombre": "Myriam",
+    "apellido": "Marrone",
+    "direccion": "Virasoro 244 casa11",
+    "telefono": 3416409125,
+    "fecha_nacimiento": "8/29/1955",
+    "sexo": "Femenino",
+    "email": "myr55@hotmail.com.ar"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "17152482",
+    "nombre": "maria alejandra",
+    "apellido": "manson",
+    "direccion": "Riobamba 1972",
+    "telefono": 3416193578,
+    "fecha_nacimiento": "9/11/1964",
+    "sexo": "Femenino",
+    "email": "alemanson64@hotmail.com"
+  },
+  {
+    "dni": "11449785",
+    "nombre": "Marcela",
+    "apellido": "Gianni",
+    "direccion": "Santiago 1631 - 2A",
+    "telefono": 3416398907,
+    "fecha_nacimiento": "12/31/1954",
+    "sexo": "Femenino",
+    "email": "marcelagianni1@gmail.com"
+  },
+  {
+    "dni": "28536094",
+    "nombre": "Debora",
+    "apellido": "Navarro",
+    "direccion": "San Luis 505",
+    "telefono": 3416706077,
+    "fecha_nacimiento": "1/6/1981",
+    "sexo": "Masculino",
+    "email": "debora_navarro22@hotmail.com"
+  },
+  {
+    "dni": "28489089",
+    "nombre": "Cecilia",
+    "apellido": "Locatelli",
+    "direccion": "Laprida 1200",
+    "telefono": 3416966622,
+    "fecha_nacimiento": "9/19/1980",
+    "sexo": "Femenino",
+    "email": "ceci_locatelli@yahoo.com.ar"
+  },
+  {
+    "dni": "22955982",
+    "nombre": "Andrea Carolina",
+    "apellido": "Muga",
+    "direccion": "Italia 2471",
+    "telefono": 3413487585,
+    "fecha_nacimiento": "3/23/1973",
+    "sexo": "Femenino",
+    "email": "andreamuga94@gmail.com"
+  },
+  {
+    "dni": "16778352",
+    "nombre": "Ada",
+    "apellido": "Capra",
+    "direccion": "Rioja 2908",
+    "telefono": 3416241458,
+    "fecha_nacimiento": "11/30/1964",
+    "sexo": "Femenino",
+    "email": "Psicoadacapra@gmail.com"
+  },
+  {
+    "dni": "31028375",
+    "nombre": "Mariana",
+    "apellido": "Amado",
+    "direccion": "Sarmiento 1083",
+    "telefono": 3417550300,
+    "fecha_nacimiento": "10/13/1984",
+    "sexo": "Femenino",
+    "email": "auroramarianaamado@gmail.com"
+  },
+  {
+    "dni": "21548875",
+    "nombre": "Karina",
+    "apellido": "Gayós",
+    "direccion": "Alvear 1128. 7 a",
+    "telefono": 3415911255,
+    "fecha_nacimiento": "10/20/1970",
+    "sexo": "Femenino",
+    "email": "karmgayos@gmail.com"
+  },
+  {
+    "dni": "17228901",
+    "nombre": "Maria Teresa",
+    "apellido": "Onega",
+    "direccion": "Alem 1362",
+    "telefono": 3415552598,
+    "fecha_nacimiento": "7/30/2025",
+    "sexo": "Femenino",
+    "email": "mtonega@yahoo.com"
+  },
+  {
+    "dni": "27121093",
+    "nombre": "Andres",
+    "apellido": "Sola",
+    "direccion": "Colon 1948 dto 2",
+    "telefono": 3413973714,
+    "fecha_nacimiento": "3/24/1979",
+    "sexo": "Masculino",
+    "email": "Andressola@hotmail.com"
+  },
+  {
+    "dni": "41655697",
+    "nombre": "Agustina",
+    "apellido": "Zanotti",
+    "direccion": "Saavedra 594",
+    "telefono": 3413548510,
+    "fecha_nacimiento": "4/21/1999",
+    "sexo": "Femenino",
+    "email": "zanottiagus@gmail.com"
+  },
+  {
+    "dni": "5910467",
+    "nombre": "Marta",
+    "apellido": "Mignacco",
+    "direccion": "9 de julio 2130",
+    "telefono": 3416802914,
+    "fecha_nacimiento": "5/25/1948",
+    "sexo": "Femenino",
+    "email": "Emmignacco@hotmail.come"
+  },
+  {
+    "dni": "24784974",
+    "nombre": "Marta",
+    "apellido": "Raimondi",
+    "direccion": "Rosario",
+    "telefono": 3412627782,
+    "fecha_nacimiento": "3/30/1976",
+    "sexo": "Femenino",
+    "email": "marta_raimondi@hotmail.com"
+  },
+  {
+    "dni": "14299760",
+    "nombre": "Norma",
+    "apellido": "Miskevish",
+    "direccion": "3 de febrero 3233",
+    "telefono": 3416866634,
+    "fecha_nacimiento": "2/10/1961",
+    "sexo": "Femenino",
+    "email": "Mis_normita@hotmail.com"
+  },
+  {
+    "dni": "24327492",
+    "nombre": "Nilda fabiana",
+    "apellido": "Stefani",
+    "direccion": "27 de febrero  1460 dpt 2",
+    "telefono": 3415962250,
+    "fecha_nacimiento": "1/21/1975",
+    "sexo": "Femenino",
+    "email": "fabianasteffi@hotmail.com"
+  },
+  {
+    "dni": "29139174",
+    "nombre": "Melina",
+    "apellido": "Bianchi",
+    "direccion": "24 de setiembre 1663",
+    "telefono": 3416297739,
+    "fecha_nacimiento": "3/12/1982",
+    "sexo": "Femenino",
+    "email": "bianchimeli@gmail.com"
+  },
+  {
+    "dni": "45655999",
+    "nombre": "Lucila Rocío",
+    "apellido": "Sosa",
+    "direccion": "Lamadrid y Gral Paz",
+    "telefono": 3415908735,
+    "fecha_nacimiento": "7/14/2004",
+    "sexo": "Femenino",
+    "email": "lucilaabrahamer@gmail.com"
+  },
+  {
+    "dni": "17460663",
+    "nombre": "Maria del Carmen",
+    "apellido": "Campo",
+    "direccion": "Lima 440",
+    "telefono": 3416363161,
+    "fecha_nacimiento": "10/12/1965",
+    "sexo": "Femenino",
+    "email": "farmaciacampo@yahoo.com.ar"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Bv Oroño 252",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "Mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "21510224",
+    "nombre": "Gabriela Ester",
+    "apellido": "Facchiano",
+    "direccion": "Rodríguez 4533 E",
+    "telefono": 3416048689,
+    "fecha_nacimiento": "3/24/1970",
+    "sexo": "Femenino",
+    "email": "gabitafacchiano@hotmail.com"
+  },
+  {
+    "dni": "38901417",
+    "nombre": "Matias",
+    "apellido": "Sanguinetti",
+    "direccion": "Mitre 2524",
+    "telefono": 3471604503,
+    "fecha_nacimiento": "7/27/1995",
+    "sexo": "Masculino",
+    "email": "matiassanguinetti95@gmail.com"
+  },
+  {
+    "dni": "16745311",
+    "nombre": "Cristina",
+    "apellido": "Lorente",
+    "direccion": "Urquiza 853 3A",
+    "telefono": 3415014921,
+    "fecha_nacimiento": "1/12/1964",
+    "sexo": "Femenino",
+    "email": "lorentecris@gmail.com"
+  },
+  {
+    "dni": "20167489",
+    "nombre": "Adrian",
+    "apellido": "Altan",
+    "direccion": "Rodriguez 4533 E",
+    "telefono": 3415852959,
+    "fecha_nacimiento": "2/1/1968",
+    "sexo": "Masculino",
+    "email": "adrianaltan@hotmail.com"
+  },
+  {
+    "dni": "12397651",
+    "nombre": "Maria teresa",
+    "apellido": "Peri",
+    "direccion": "Necochea 1273",
+    "telefono": 3416641502,
+    "fecha_nacimiento": "3/14/1958",
+    "sexo": "Femenino",
+    "email": "mariateresaperi@gmail.com"
+  },
+  {
+    "dni": "17555872",
+    "nombre": "Marisa",
+    "apellido": "Ciacia",
+    "direccion": "Tarragona 216",
+    "telefono": 3415049275,
+    "fecha_nacimiento": "11/19/1965",
+    "sexo": "Femenino",
+    "email": "ciaciamarisa@gmail.com"
+  },
+  {
+    "dni": "39249800",
+    "nombre": "Maximiliano",
+    "apellido": "Troncoso",
+    "direccion": "San Martin 545",
+    "telefono": 3462594928,
+    "fecha_nacimiento": "11/13/1995",
+    "sexo": "Masculino",
+    "email": "maxitroncoso13@gmail.com"
+  },
+  {
+    "dni": "31542456",
+    "nombre": "Alejandro",
+    "apellido": "Aguilar",
+    "direccion": "Catamarca 1981",
+    "telefono": 2477675977,
+    "fecha_nacimiento": "6/22/1985",
+    "sexo": "Masculino",
+    "email": "ale_comu@hotmail.com"
+  },
+  {
+    "dni": "11271765",
+    "nombre": "Maria del Carmen",
+    "apellido": "Cianciardo",
+    "direccion": "3 de febrero 370  6 B",
+    "telefono": 3416859833,
+    "fecha_nacimiento": "5/13/2025",
+    "sexo": "Femenino",
+    "email": "jardinmisbichitos@hotmail.com"
+  },
+  {
+    "dni": "Pisellini Marchegiani",
+    "nombre": "Silvia",
+    "apellido": "Pisellini Marchegiani",
+    "direccion": "Alem 2845",
+    "telefono": 3413426731,
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "simapisellini@gmail.com"
+  },
+  {
+    "dni": "37263719",
+    "nombre": "Barbara",
+    "apellido": "Barbara",
+    "direccion": "24 de septiembre 2224",
+    "telefono": 3416486075,
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "barbicabrera9@gmail.com"
+  },
+  {
+    "dni": "13188305",
+    "nombre": "Susana",
+    "apellido": "Lemmo",
+    "direccion": "Rioja 1957",
+    "telefono": 3415694295,
+    "fecha_nacimiento": "4/9/1959",
+    "sexo": "Femenino",
+    "email": "susl123@hotmail.com"
+  },
+  {
+    "dni": "20408998",
+    "nombre": "Daniel",
+    "apellido": "Tamburello",
+    "direccion": "Cochabamba 1662-1",
+    "telefono": 156526227,
+    "fecha_nacimiento": "12/9/1968",
+    "sexo": "Masculino",
+    "email": "dancen10@hotmail.com"
+  },
+  {
+    "dni": "27862839",
+    "nombre": "Carolina",
+    "apellido": "Ciciliani",
+    "direccion": "9 dé julio 3525",
+    "telefono": 3465431542,
+    "fecha_nacimiento": "11/12/1980",
+    "sexo": "Femenino",
+    "email": "cicilianicarolina@gmail.com"
+  },
+  {
+    "dni": "43798078",
+    "nombre": "Paula",
+    "apellido": "Sampaio",
+    "direccion": "Pincen",
+    "telefono": 2392457285,
+    "fecha_nacimiento": "10/30/2001",
+    "sexo": "Femenino",
+    "email": "Sampaiopaula16@gmail.com"
+  },
+  {
+    "dni": "18030917",
+    "nombre": "laura",
+    "apellido": "lucca",
+    "direccion": "Montevideo 764",
+    "telefono": 3427520538,
+    "fecha_nacimiento": "2/28/2003",
+    "sexo": "Femenino",
+    "email": "lauralucca66@hotmail.com"
+  },
+  {
+    "dni": "5134915",
+    "nombre": "Celia del Carmen",
+    "apellido": "Dibernardi",
+    "direccion": "Pje. Palau 2558 - Rosario",
+    "telefono": 3415063154,
+    "fecha_nacimiento": "6/15/1945",
+    "sexo": "Femenino",
+    "email": "celiadibernardi@gmail.com"
+  },
+  {
+    "dni": "29804893",
+    "nombre": "Pablo hernan",
+    "apellido": "Kopawski",
+    "direccion": "Del viso",
+    "telefono": 1164328638,
+    "fecha_nacimiento": "12/21/1982",
+    "sexo": "Masculino",
+    "email": "pablo.kop@gmail.com"
+  },
+  {
+    "dni": "22095638",
+    "nombre": "Gisela",
+    "apellido": "Gallardo",
+    "direccion": "Dorrego 2658 dto2",
+    "telefono": 3416870787,
+    "fecha_nacimiento": "6/12/1971",
+    "sexo": "Femenino",
+    "email": "Gise_gallardo@yahoo.com.ar"
+  },
+  {
+    "dni": "24675905",
+    "nombre": "Celina Angelica",
+    "apellido": "Fernandez",
+    "direccion": "Montevideo 942",
+    "telefono": 3412587157,
+    "fecha_nacimiento": "11/14/1975",
+    "sexo": "Femenino",
+    "email": "celinafernandezpuy@gmail.com"
+  },
+  {
+    "dni": "46370371",
+    "nombre": "Ayelen",
+    "apellido": "Fernández",
+    "direccion": "Pasaje amazonas 3171",
+    "telefono": 3413196187,
+    "fecha_nacimiento": "2/5/2005",
+    "sexo": "Femenino",
+    "email": "ayelenfernandez110@gmail.com"
+  },
+  {
+    "dni": "36005374",
+    "nombre": "Santiago",
+    "apellido": "Menna",
+    "direccion": "Mendoza 956",
+    "telefono": 3415777114,
+    "fecha_nacimiento": "3/21/1992",
+    "sexo": "Masculino",
+    "email": "Santiagomenna92@gmail.com"
+  },
+  {
+    "dni": "33114542",
+    "nombre": "Paola",
+    "apellido": "Centurión",
+    "direccion": "Reconquista 894",
+    "telefono": 3413288394,
+    "fecha_nacimiento": "7/13/1987",
+    "sexo": "Femenino",
+    "email": "paocent@hotmail.com"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "28771808",
+    "nombre": "Luciano",
+    "apellido": "Bonina",
+    "direccion": "Zeballos  278",
+    "telefono": 3413050457,
+    "fecha_nacimiento": "7/3/1981",
+    "sexo": "Masculino",
+    "email": "luciano.tecnuarsrl@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "juliaspampinato@gmail.com"
+  },
+  {
+    "dni": "21893020",
+    "nombre": "Susana",
+    "apellido": "Fernandez",
+    "direccion": "3 de febrero 1409-5°A",
+    "telefono": 2966626416,
+    "fecha_nacimiento": "9/28/1970",
+    "sexo": "Femenino",
+    "email": "suju1444@hotmail.com"
+  },
+  {
+    "dni": "35243853",
+    "nombre": "Renzo",
+    "apellido": "Benvino",
+    "direccion": "Salta 1990 - 3D",
+    "telefono": 2477344363,
+    "fecha_nacimiento": "11/15/1991",
+    "sexo": "Masculino",
+    "email": "renzo_benvino@hotmail.com"
+  },
+  {
+    "dni": "36576231",
+    "nombre": "Magali",
+    "apellido": "Rivas",
+    "direccion": "Presidente Roca 364 departamento 5C Rosario",
+    "telefono": 3462336522,
+    "fecha_nacimiento": "11/10/1991",
+    "sexo": "Femenino",
+    "email": "rivasmagap@gmail.com"
+  },
+  {
+    "dni": "25125048",
+    "nombre": "Julián",
+    "apellido": "Colussi",
+    "direccion": "Cochabamba 1626",
+    "telefono": 3416488127,
+    "fecha_nacimiento": "7/9/1976",
+    "sexo": "Masculino",
+    "email": "juliancolussi1976@gmail.com"
+  },
+  {
+    "dni": "31975471",
+    "nombre": "Marcia",
+    "apellido": "Santa cruz",
+    "direccion": "Juan Manuel de rosas 2290 3ro D",
+    "telefono": 3416867200,
+    "fecha_nacimiento": "12/31/1985",
+    "sexo": "Femenino",
+    "email": "marcia0085@hotmail.com"
+  },
+  {
+    "dni": "40312898",
+    "nombre": "Celina",
+    "apellido": "Balestreri",
+    "direccion": "Alem 1281",
+    "telefono": 3464548967,
+    "fecha_nacimiento": "11/20/1999",
+    "sexo": "Femenino",
+    "email": "Balestrericelina9@gmail.com"
+  },
+  {
+    "dni": "28770537",
+    "nombre": "Evelina",
+    "apellido": "Puccio",
+    "direccion": "Tucumán 1035",
+    "telefono": 3412703600,
+    "fecha_nacimiento": "5/2/1981",
+    "sexo": "Femenino",
+    "email": "puccioevelina@gmail.com"
+  },
+  {
+    "dni": "27213680",
+    "nombre": "Melisa",
+    "apellido": "Darnaud",
+    "direccion": "Santa Fe 1758 1A",
+    "telefono": 3416163030,
+    "fecha_nacimiento": "4/21/1979",
+    "sexo": "Femenino",
+    "email": "melisa.darnaud@outlook.com"
+  },
+  {
+    "dni": "32287445",
+    "nombre": "Stella maris",
+    "apellido": "Casarini",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416024262,
+    "fecha_nacimiento": "5/2/1986",
+    "sexo": "Femenino",
+    "email": "stellamaris2911@hotmail.com"
+  },
+  {
+    "dni": "32651541",
+    "nombre": "Juan manuel",
+    "apellido": "Fernandez",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416864666,
+    "fecha_nacimiento": "12/13/1985",
+    "sexo": "Masculino",
+    "email": "Chk.fernandez@hotmail.com"
+  },
+  {
+    "dni": "37334323",
+    "nombre": "Yasmin",
+    "apellido": "Padilla",
+    "direccion": "Mitre 2734",
+    "telefono": 3412618727,
+    "fecha_nacimiento": "4/10/1993",
+    "sexo": "Femenino",
+    "email": "yaslinpadilla.z@hotmail.com"
+  },
+  {
+    "dni": "33136577",
+    "nombre": "Samira",
+    "apellido": "Berrueta",
+    "direccion": "Cochabamba 1793",
+    "telefono": 3413417965,
+    "fecha_nacimiento": "12/5/1987",
+    "sexo": "Femenino",
+    "email": "Samiraberrueta5@gmail.com"
+  },
+  {
+    "dni": "34134094",
+    "nombre": "Giovana",
+    "apellido": "Panucci",
+    "direccion": "Santa Fe 2539",
+    "telefono": 3412011009,
+    "fecha_nacimiento": "3/11/1988",
+    "sexo": "Femenino",
+    "email": "Giopanucci@hotmail.com"
+  },
+  {
+    "dni": "22283546",
+    "nombre": "Julio",
+    "apellido": "Diep",
+    "direccion": "Pte Roca 1367",
+    "telefono": 3413485372,
+    "fecha_nacimiento": "4/4/1972",
+    "sexo": "Masculino",
+    "email": "julitocd@yahoo.com.ar"
+  },
+  {
+    "dni": "10196450",
+    "nombre": "ANA MARIA",
+    "apellido": "Ruta",
+    "direccion": "Jujuy 1323",
+    "telefono": 3436615050,
+    "fecha_nacimiento": "11/21/1951",
+    "sexo": "Femenino",
+    "email": "avemaria.anamaria@gmail.com"
+  },
+  {
+    "dni": "33541498",
+    "nombre": "Mayra alicia",
+    "apellido": "Vera",
+    "direccion": "Balcarce 38",
+    "telefono": 1124798193,
+    "fecha_nacimiento": "8/3/1988",
+    "sexo": "Femenino",
+    "email": "mayraaevera@gmail.com"
+  },
+  {
+    "dni": "26550785",
+    "nombre": "Valeria",
+    "apellido": "Besazza",
+    "direccion": "Riccheri 1210",
+    "telefono": 3416207612,
+    "fecha_nacimiento": "4/26/1978",
+    "sexo": "Femenino",
+    "email": "valeriabes@hotmail.com"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Oroño y Salta",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "32695895",
+    "nombre": "Jesi",
+    "apellido": "Peña",
+    "direccion": "San Martin 507 piso 10 dpto 1",
+    "telefono": 3413601928,
+    "fecha_nacimiento": "7/5/1987",
+    "sexo": "Femenino",
+    "email": "jesirp87@gmail.com"
+  },
+  {
+    "dni": "26664759",
+    "nombre": "Ivan",
+    "apellido": "Coltrinari",
+    "direccion": "San Lorenzo 3924",
+    "telefono": 3412030439,
+    "fecha_nacimiento": "6/15/1978",
+    "sexo": "Masculino",
+    "email": "icoltrinari@hotmail.com"
+  },
+  {
+    "dni": "37578520",
+    "nombre": "Lucas",
+    "apellido": "Saldaña",
+    "direccion": "Lavalle 3735",
+    "telefono": 3412795838,
+    "fecha_nacimiento": "4/7/1993",
+    "sexo": "Masculino",
+    "email": "lukassaldania@gmail.com"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Avellaneda Bis 525",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "24569525",
+    "nombre": "Leonardo",
+    "apellido": "Vallejos",
+    "direccion": "Avenida leandro N. Allem",
+    "telefono": 3416835112,
+    "fecha_nacimiento": "1/27/2017",
+    "sexo": "Masculino",
+    "email": "leonardovallejos_858@hotmail.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650. Portero 20134",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "Hmsessa@gmail.com"
+  },
+  {
+    "dni": "38133046",
+    "nombre": "Mara antonela",
+    "apellido": "Vidal",
+    "direccion": "Av del Huerto 1105",
+    "telefono": 3417568958,
+    "fecha_nacimiento": "4/24/1989",
+    "sexo": "Femenino",
+    "email": "mara.anto24@gmail.com"
+  },
+  {
+    "dni": "21953680",
+    "nombre": "Paula",
+    "apellido": "Dameno Almirón",
+    "direccion": "Anchoris 2537",
+    "telefono": 3413568901,
+    "fecha_nacimiento": "11/24/1970",
+    "sexo": "Femenino",
+    "email": "pauladamenoa@gmail.com"
+  },
+  {
+    "dni": "22874773",
+    "nombre": "Carina",
+    "apellido": "Angel",
+    "direccion": "Plaza Argentina 3196",
+    "telefono": 3412805495,
+    "fecha_nacimiento": "8/26/1972",
+    "sexo": "Femenino",
+    "email": "carinaandreaangel@hotmail.com"
+  },
+  {
+    "dni": "14228287",
+    "nombre": "FLORENCIA",
+    "apellido": "MARCHESE",
+    "direccion": "BIEDMA 679",
+    "telefono": 3415111648,
+    "fecha_nacimiento": "2/12/1961",
+    "sexo": "Femenino",
+    "email": "florenciamarchese@yahoo.com.ar"
+  },
+  {
+    "dni": "20214489",
+    "nombre": "Gabriela",
+    "apellido": "Trujillo",
+    "direccion": "Bonifacini 4266 santos lugares",
+    "telefono": 1161510770,
+    "fecha_nacimiento": "9/2/1968",
+    "sexo": "Femenino",
+    "email": "gtrujillo68@hotmail.com"
+  },
+  {
+    "dni": "16880608",
+    "nombre": "Pablo",
+    "apellido": "Llane",
+    "direccion": "Alem 1924",
+    "telefono": 3413729777,
+    "fecha_nacimiento": "4/14/1964",
+    "sexo": "Masculino",
+    "email": "pablollane@gmail.com"
+  },
+  {
+    "dni": "30792996",
+    "nombre": "Marianela",
+    "apellido": "Chehem",
+    "direccion": "Uriburu 925",
+    "telefono": 3416197907,
+    "fecha_nacimiento": "3/18/1985",
+    "sexo": "Femenino",
+    "email": "marianela.chehem@gmail.com"
+  },
+  {
+    "dni": "11871872",
+    "nombre": "Liliana",
+    "apellido": "Molina",
+    "direccion": "Centeno 1806",
+    "telefono": 3416361518,
+    "fecha_nacimiento": "9/28/1955",
+    "sexo": "Femenino",
+    "email": "lilianammolina@hotmail.com"
+  },
+  {
+    "dni": "23317120",
+    "nombre": "Andrea",
+    "apellido": "Ramos",
+    "direccion": "Talacasto 290",
+    "telefono": 341153473073,
+    "fecha_nacimiento": "4/3/1973",
+    "sexo": "Femenino",
+    "email": "andreiavr@msn.com"
+  },
+  {
+    "dni": "23928364",
+    "nombre": "Mariana",
+    "apellido": "SABBAG",
+    "direccion": "Virasoro 1350 piso 2 edificio Bonilla",
+    "telefono": 3415866973,
+    "fecha_nacimiento": "6/22/1974",
+    "sexo": "Femenino",
+    "email": "maru_sabbag@yahoo.com.ar"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Bailen 188",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "16218900",
+    "nombre": "Mariel",
+    "apellido": "Fernández",
+    "direccion": "Constitución 1385",
+    "telefono": 3415993508,
+    "fecha_nacimiento": "10/9/1963",
+    "sexo": "Femenino",
+    "email": "marielnoris@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "julinata86@hotmail.com"
+  },
+  {
+    "dni": "17899610",
+    "nombre": "Miriam",
+    "apellido": "Moreno",
+    "direccion": "Paraguay 357",
+    "telefono": 3413478343,
+    "fecha_nacimiento": "7/19/1966",
+    "sexo": "Femenino",
+    "email": "miriammoreno1966@gmail.com"
+  },
+  {
+    "dni": "23061440",
+    "nombre": "Viviana",
+    "apellido": "Rojas",
+    "direccion": "Agrelo 745",
+    "telefono": 3415414573,
+    "fecha_nacimiento": "2/25/1973",
+    "sexo": "Femenino",
+    "email": "v-rojas08@hotmail.com"
+  },
+  {
+    "dni": "47",
+    "nombre": "Claudia Marcela",
+    "apellido": "Basualdo",
+    "direccion": "Entre Ríos 5565",
+    "telefono": 3416829529,
+    "fecha_nacimiento": "5/1/1966",
+    "sexo": "Femenino",
+    "email": "cmbasualdo@hotmail.com"
+  },
+  {
+    "dni": "37219746",
+    "nombre": "Laura",
+    "apellido": "Cremonini",
+    "direccion": "Mitre 2524",
+    "telefono": 3751561027,
+    "fecha_nacimiento": "2/11/1994",
+    "sexo": "Femenino",
+    "email": "Lauracremonini99@gmail.com"
+  },
+  {
+    "dni": "16218350",
+    "nombre": "Viviana",
+    "apellido": "Parmigiani",
+    "direccion": "Ocampo 3280",
+    "telefono": 3412529922,
+    "fecha_nacimiento": "1/9/1963",
+    "sexo": "Femenino",
+    "email": "vivianaparmigiani@hotmail.com"
+  },
+  {
+    "dni": "22955990",
+    "nombre": "Leticia",
+    "apellido": "Ainsa",
+    "direccion": "Bv Avellaneda (bis) 564 6B",
+    "telefono": 3413241653,
+    "fecha_nacimiento": "3/28/1973",
+    "sexo": "Femenino",
+    "email": "letiainsa@hotmail.com"
+  },
+  {
+    "dni": "35586756",
+    "nombre": "Lara",
+    "apellido": "Garcia",
+    "direccion": "Necochea 1741",
+    "telefono": 3416694634,
+    "fecha_nacimiento": "11/4/1991",
+    "sexo": "Femenino",
+    "email": "laramagaligarcia4@gmail.com"
+  },
+  {
+    "dni": "44042746",
+    "nombre": "Facundo",
+    "apellido": "Aguilera",
+    "direccion": "Tirana 2329",
+    "telefono": 1133345310,
+    "fecha_nacimiento": "11/29/1998",
+    "sexo": "Masculino",
+    "email": "Facundoaguilera627@gmail.com"
+  },
+  {
+    "dni": "12282504",
+    "nombre": "Liliana",
+    "apellido": "Bennice",
+    "direccion": "3 de febrero 3026. PB 2",
+    "telefono": 3415151165,
+    "fecha_nacimiento": "1/19/1956",
+    "sexo": "Femenino",
+    "email": "LILITABENN@HOTMAIL.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650 portero 201",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "hmsessa@gmail.com"
+  },
+  {
+    "dni": "23242383",
+    "nombre": "Andrea",
+    "apellido": "Berrocal",
+    "direccion": "Rioja 2843",
+    "telefono": 3415883444,
+    "fecha_nacimiento": "4/15/1973",
+    "sexo": "Femenino",
+    "email": "Andreaberrocal@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3413800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3423800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "12110026",
+    "nombre": "Myriam",
+    "apellido": "Marrone",
+    "direccion": "Virasoro 244 casa11",
+    "telefono": 3416409125,
+    "fecha_nacimiento": "8/29/1955",
+    "sexo": "Femenino",
+    "email": "myr55@hotmail.com.ar"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "17152482",
+    "nombre": "maria alejandra",
+    "apellido": "manson",
+    "direccion": "Riobamba 1972",
+    "telefono": 3416193578,
+    "fecha_nacimiento": "9/11/1964",
+    "sexo": "Femenino",
+    "email": "alemanson64@hotmail.com"
+  },
+  {
+    "dni": "11449785",
+    "nombre": "Marcela",
+    "apellido": "Gianni",
+    "direccion": "Santiago 1631 - 2A",
+    "telefono": 3416398907,
+    "fecha_nacimiento": "12/31/1954",
+    "sexo": "Femenino",
+    "email": "marcelagianni1@gmail.com"
+  },
+  {
+    "dni": "28536094",
+    "nombre": "Debora",
+    "apellido": "Navarro",
+    "direccion": "San Luis 505",
+    "telefono": 3416706077,
+    "fecha_nacimiento": "1/6/1981",
+    "sexo": "Masculino",
+    "email": "debora_navarro22@hotmail.com"
+  },
+  {
+    "dni": "28489089",
+    "nombre": "Cecilia",
+    "apellido": "Locatelli",
+    "direccion": "Laprida 1200",
+    "telefono": 3416966622,
+    "fecha_nacimiento": "9/19/1980",
+    "sexo": "Femenino",
+    "email": "ceci_locatelli@yahoo.com.ar"
+  },
+  {
+    "dni": "22955982",
+    "nombre": "Andrea Carolina",
+    "apellido": "Muga",
+    "direccion": "Italia 2471",
+    "telefono": 3413487585,
+    "fecha_nacimiento": "3/23/1973",
+    "sexo": "Femenino",
+    "email": "andreamuga94@gmail.com"
+  },
+  {
+    "dni": "16778352",
+    "nombre": "Ada",
+    "apellido": "Capra",
+    "direccion": "Rioja 2908",
+    "telefono": 3416241458,
+    "fecha_nacimiento": "11/30/1964",
+    "sexo": "Femenino",
+    "email": "Psicoadacapra@gmail.com"
+  },
+  {
+    "dni": "31028375",
+    "nombre": "Mariana",
+    "apellido": "Amado",
+    "direccion": "Sarmiento 1083",
+    "telefono": 3417550300,
+    "fecha_nacimiento": "10/13/1984",
+    "sexo": "Femenino",
+    "email": "auroramarianaamado@gmail.com"
+  },
+  {
+    "dni": "21548875",
+    "nombre": "Karina",
+    "apellido": "Gayós",
+    "direccion": "Alvear 1128. 7 a",
+    "telefono": 3415911255,
+    "fecha_nacimiento": "10/20/1970",
+    "sexo": "Femenino",
+    "email": "karmgayos@gmail.com"
+  },
+  {
+    "dni": "17228901",
+    "nombre": "Maria Teresa",
+    "apellido": "Onega",
+    "direccion": "Alem 1362",
+    "telefono": 3415552598,
+    "fecha_nacimiento": "7/30/2025",
+    "sexo": "Femenino",
+    "email": "mtonega@yahoo.com"
+  },
+  {
+    "dni": "27121093",
+    "nombre": "Andres",
+    "apellido": "Sola",
+    "direccion": "Colon 1948 dto 2",
+    "telefono": 3413973714,
+    "fecha_nacimiento": "3/24/1979",
+    "sexo": "Masculino",
+    "email": "Andressola@hotmail.com"
+  },
+  {
+    "dni": "41655697",
+    "nombre": "Agustina",
+    "apellido": "Zanotti",
+    "direccion": "Saavedra 594",
+    "telefono": 3413548510,
+    "fecha_nacimiento": "4/21/1999",
+    "sexo": "Femenino",
+    "email": "zanottiagus@gmail.com"
+  },
+  {
+    "dni": "5910467",
+    "nombre": "Marta",
+    "apellido": "Mignacco",
+    "direccion": "9 de julio 2130",
+    "telefono": 3416802914,
+    "fecha_nacimiento": "5/25/1948",
+    "sexo": "Femenino",
+    "email": "Emmignacco@hotmail.come"
+  },
+  {
+    "dni": "24784974",
+    "nombre": "Marta",
+    "apellido": "Raimondi",
+    "direccion": "Rosario",
+    "telefono": 3412627782,
+    "fecha_nacimiento": "3/30/1976",
+    "sexo": "Femenino",
+    "email": "marta_raimondi@hotmail.com"
+  },
+  {
+    "dni": "14299760",
+    "nombre": "Norma",
+    "apellido": "Miskevish",
+    "direccion": "3 de febrero 3233",
+    "telefono": 3416866634,
+    "fecha_nacimiento": "2/10/1961",
+    "sexo": "Femenino",
+    "email": "Mis_normita@hotmail.com"
+  },
+  {
+    "dni": "24327492",
+    "nombre": "Nilda fabiana",
+    "apellido": "Stefani",
+    "direccion": "27 de febrero  1460 dpt 2",
+    "telefono": 3415962250,
+    "fecha_nacimiento": "1/21/1975",
+    "sexo": "Femenino",
+    "email": "fabianasteffi@hotmail.com"
+  },
+  {
+    "dni": "29139174",
+    "nombre": "Melina",
+    "apellido": "Bianchi",
+    "direccion": "24 de setiembre 1663",
+    "telefono": 3416297739,
+    "fecha_nacimiento": "3/12/1982",
+    "sexo": "Femenino",
+    "email": "bianchimeli@gmail.com"
+  },
+  {
+    "dni": "45655999",
+    "nombre": "Lucila Rocío",
+    "apellido": "Sosa",
+    "direccion": "Lamadrid y Gral Paz",
+    "telefono": 3415908735,
+    "fecha_nacimiento": "7/14/2004",
+    "sexo": "Femenino",
+    "email": "lucilaabrahamer@gmail.com"
+  },
+  {
+    "dni": "17460663",
+    "nombre": "Maria del Carmen",
+    "apellido": "Campo",
+    "direccion": "Lima 440",
+    "telefono": 3416363161,
+    "fecha_nacimiento": "10/12/1965",
+    "sexo": "Femenino",
+    "email": "farmaciacampo@yahoo.com.ar"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Bv Oroño 252",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "Mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "21510224",
+    "nombre": "Gabriela Ester",
+    "apellido": "Facchiano",
+    "direccion": "Rodríguez 4533 E",
+    "telefono": 3416048689,
+    "fecha_nacimiento": "3/24/1970",
+    "sexo": "Femenino",
+    "email": "gabitafacchiano@hotmail.com"
+  },
+  {
+    "dni": "38901417",
+    "nombre": "Matias",
+    "apellido": "Sanguinetti",
+    "direccion": "Mitre 2524",
+    "telefono": 3471604503,
+    "fecha_nacimiento": "7/27/1995",
+    "sexo": "Masculino",
+    "email": "matiassanguinetti95@gmail.com"
+  },
+  {
+    "dni": "16745311",
+    "nombre": "Cristina",
+    "apellido": "Lorente",
+    "direccion": "Urquiza 853 3A",
+    "telefono": 3415014921,
+    "fecha_nacimiento": "1/12/1964",
+    "sexo": "Femenino",
+    "email": "lorentecris@gmail.com"
+  },
+  {
+    "dni": "20167489",
+    "nombre": "Adrian",
+    "apellido": "Altan",
+    "direccion": "Rodriguez 4533 E",
+    "telefono": 3415852959,
+    "fecha_nacimiento": "2/1/1968",
+    "sexo": "Masculino",
+    "email": "adrianaltan@hotmail.com"
+  },
+  {
+    "dni": "12397651",
+    "nombre": "Maria teresa",
+    "apellido": "Peri",
+    "direccion": "Necochea 1273",
+    "telefono": 3416641502,
+    "fecha_nacimiento": "3/14/1958",
+    "sexo": "Femenino",
+    "email": "mariateresaperi@gmail.com"
+  },
+  {
+    "dni": "17555872",
+    "nombre": "Marisa",
+    "apellido": "Ciacia",
+    "direccion": "Tarragona 216",
+    "telefono": 3415049275,
+    "fecha_nacimiento": "11/19/1965",
+    "sexo": "Femenino",
+    "email": "ciaciamarisa@gmail.com"
+  },
+  {
+    "dni": "39249800",
+    "nombre": "Maximiliano",
+    "apellido": "Troncoso",
+    "direccion": "San Martin 545",
+    "telefono": 3462594928,
+    "fecha_nacimiento": "11/13/1995",
+    "sexo": "Masculino",
+    "email": "maxitroncoso13@gmail.com"
+  },
+  {
+    "dni": "31542456",
+    "nombre": "Alejandro",
+    "apellido": "Aguilar",
+    "direccion": "Catamarca 1981",
+    "telefono": 2477675977,
+    "fecha_nacimiento": "6/22/1985",
+    "sexo": "Masculino",
+    "email": "ale_comu@hotmail.com"
+  },
+  {
+    "dni": "11271765",
+    "nombre": "Maria del Carmen",
+    "apellido": "Cianciardo",
+    "direccion": "3 de febrero 370  6 B",
+    "telefono": 3416859833,
+    "fecha_nacimiento": "5/13/2025",
+    "sexo": "Femenino",
+    "email": "jardinmisbichitos@hotmail.com"
+  },
+  {
+    "dni": "Pisellini Marchegiani",
+    "nombre": "Silvia",
+    "apellido": "Pisellini Marchegiani",
+    "direccion": "Alem 2845",
+    "telefono": 3413426731,
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "simapisellini@gmail.com"
+  },
+  {
+    "dni": "37263719",
+    "nombre": "Barbara",
+    "apellido": "Barbara",
+    "direccion": "24 de septiembre 2224",
+    "telefono": 3416486075,
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "barbicabrera9@gmail.com"
+  },
+  {
+    "dni": "13188305",
+    "nombre": "Susana",
+    "apellido": "Lemmo",
+    "direccion": "Rioja 1957",
+    "telefono": 3415694295,
+    "fecha_nacimiento": "4/9/1959",
+    "sexo": "Femenino",
+    "email": "susl123@hotmail.com"
+  },
+  {
+    "dni": "20408998",
+    "nombre": "Daniel",
+    "apellido": "Tamburello",
+    "direccion": "Cochabamba 1662-1",
+    "telefono": 156526227,
+    "fecha_nacimiento": "12/9/1968",
+    "sexo": "Masculino",
+    "email": "dancen10@hotmail.com"
+  },
+  {
+    "dni": "27862839",
+    "nombre": "Carolina",
+    "apellido": "Ciciliani",
+    "direccion": "9 dé julio 3525",
+    "telefono": 3465431542,
+    "fecha_nacimiento": "11/12/1980",
+    "sexo": "Femenino",
+    "email": "cicilianicarolina@gmail.com"
+  },
+  {
+    "dni": "43798078",
+    "nombre": "Paula",
+    "apellido": "Sampaio",
+    "direccion": "Pincen",
+    "telefono": 2392457285,
+    "fecha_nacimiento": "10/30/2001",
+    "sexo": "Femenino",
+    "email": "Sampaiopaula16@gmail.com"
+  },
+  {
+    "dni": "18030917",
+    "nombre": "laura",
+    "apellido": "lucca",
+    "direccion": "Montevideo 764",
+    "telefono": 3427520538,
+    "fecha_nacimiento": "2/28/2003",
+    "sexo": "Femenino",
+    "email": "lauralucca66@hotmail.com"
+  },
+  {
+    "dni": "5134915",
+    "nombre": "Celia del Carmen",
+    "apellido": "Dibernardi",
+    "direccion": "Pje. Palau 2558 - Rosario",
+    "telefono": 3415063154,
+    "fecha_nacimiento": "6/15/1945",
+    "sexo": "Femenino",
+    "email": "celiadibernardi@gmail.com"
+  },
+  {
+    "dni": "29804893",
+    "nombre": "Pablo hernan",
+    "apellido": "Kopawski",
+    "direccion": "Del viso",
+    "telefono": 1164328638,
+    "fecha_nacimiento": "12/21/1982",
+    "sexo": "Masculino",
+    "email": "pablo.kop@gmail.com"
+  },
+  {
+    "dni": "22095638",
+    "nombre": "Gisela",
+    "apellido": "Gallardo",
+    "direccion": "Dorrego 2658 dto2",
+    "telefono": 3416870787,
+    "fecha_nacimiento": "6/12/1971",
+    "sexo": "Femenino",
+    "email": "Gise_gallardo@yahoo.com.ar"
+  },
+  {
+    "dni": "24675905",
+    "nombre": "Celina Angelica",
+    "apellido": "Fernandez",
+    "direccion": "Montevideo 942",
+    "telefono": 3412587157,
+    "fecha_nacimiento": "11/14/1975",
+    "sexo": "Femenino",
+    "email": "celinafernandezpuy@gmail.com"
+  },
+  {
+    "dni": "46370371",
+    "nombre": "Ayelen",
+    "apellido": "Fernández",
+    "direccion": "Pasaje amazonas 3171",
+    "telefono": 3413196187,
+    "fecha_nacimiento": "2/5/2005",
+    "sexo": "Femenino",
+    "email": "ayelenfernandez110@gmail.com"
+  },
+  {
+    "dni": "36005374",
+    "nombre": "Santiago",
+    "apellido": "Menna",
+    "direccion": "Mendoza 956",
+    "telefono": 3415777114,
+    "fecha_nacimiento": "3/21/1992",
+    "sexo": "Masculino",
+    "email": "Santiagomenna92@gmail.com"
+  },
+  {
+    "dni": "33114542",
+    "nombre": "Paola",
+    "apellido": "Centurión",
+    "direccion": "Reconquista 894",
+    "telefono": 3413288394,
+    "fecha_nacimiento": "7/13/1987",
+    "sexo": "Femenino",
+    "email": "paocent@hotmail.com"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "28771808",
+    "nombre": "Luciano",
+    "apellido": "Bonina",
+    "direccion": "Zeballos  278",
+    "telefono": 3413050457,
+    "fecha_nacimiento": "7/3/1981",
+    "sexo": "Masculino",
+    "email": "luciano.tecnuarsrl@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "juliaspampinato@gmail.com"
+  },
+  {
+    "dni": "21893020",
+    "nombre": "Susana",
+    "apellido": "Fernandez",
+    "direccion": "3 de febrero 1409-5°A",
+    "telefono": 2966626416,
+    "fecha_nacimiento": "9/28/1970",
+    "sexo": "Femenino",
+    "email": "suju1444@hotmail.com"
+  },
+  {
+    "dni": "35243853",
+    "nombre": "Renzo",
+    "apellido": "Benvino",
+    "direccion": "Salta 1990 - 3D",
+    "telefono": 2477344363,
+    "fecha_nacimiento": "11/15/1991",
+    "sexo": "Masculino",
+    "email": "renzo_benvino@hotmail.com"
+  },
+  {
+    "dni": "36576231",
+    "nombre": "Magali",
+    "apellido": "Rivas",
+    "direccion": "Presidente Roca 364 departamento 5C Rosario",
+    "telefono": 3462336522,
+    "fecha_nacimiento": "11/10/1991",
+    "sexo": "Femenino",
+    "email": "rivasmagap@gmail.com"
+  },
+  {
+    "dni": "25125048",
+    "nombre": "Julián",
+    "apellido": "Colussi",
+    "direccion": "Cochabamba 1626",
+    "telefono": 3416488127,
+    "fecha_nacimiento": "7/9/1976",
+    "sexo": "Masculino",
+    "email": "juliancolussi1976@gmail.com"
+  },
+  {
+    "dni": "31975471",
+    "nombre": "Marcia",
+    "apellido": "Santa cruz",
+    "direccion": "Juan Manuel de rosas 2290 3ro D",
+    "telefono": 3416867200,
+    "fecha_nacimiento": "12/31/1985",
+    "sexo": "Femenino",
+    "email": "marcia0085@hotmail.com"
+  },
+  {
+    "dni": "40312898",
+    "nombre": "Celina",
+    "apellido": "Balestreri",
+    "direccion": "Alem 1281",
+    "telefono": 3464548967,
+    "fecha_nacimiento": "11/20/1999",
+    "sexo": "Femenino",
+    "email": "Balestrericelina9@gmail.com"
+  },
+  {
+    "dni": "28770537",
+    "nombre": "Evelina",
+    "apellido": "Puccio",
+    "direccion": "Tucumán 1035",
+    "telefono": 3412703600,
+    "fecha_nacimiento": "5/2/1981",
+    "sexo": "Femenino",
+    "email": "puccioevelina@gmail.com"
+  },
+  {
+    "dni": "27213680",
+    "nombre": "Melisa",
+    "apellido": "Darnaud",
+    "direccion": "Santa Fe 1758 1A",
+    "telefono": 3416163030,
+    "fecha_nacimiento": "4/21/1979",
+    "sexo": "Femenino",
+    "email": "melisa.darnaud@outlook.com"
+  },
+  {
+    "dni": "32287445",
+    "nombre": "Stella maris",
+    "apellido": "Casarini",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416024262,
+    "fecha_nacimiento": "5/2/1986",
+    "sexo": "Femenino",
+    "email": "stellamaris2911@hotmail.com"
+  },
+  {
+    "dni": "32651541",
+    "nombre": "Juan manuel",
+    "apellido": "Fernandez",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": 3416864666,
+    "fecha_nacimiento": "12/13/1985",
+    "sexo": "Masculino",
+    "email": "Chk.fernandez@hotmail.com"
+  },
+  {
+    "dni": "37334323",
+    "nombre": "Yasmin",
+    "apellido": "Padilla",
+    "direccion": "Mitre 2734",
+    "telefono": 3412618727,
+    "fecha_nacimiento": "4/10/1993",
+    "sexo": "Femenino",
+    "email": "yaslinpadilla.z@hotmail.com"
+  },
+  {
+    "dni": "33136577",
+    "nombre": "Samira",
+    "apellido": "Berrueta",
+    "direccion": "Cochabamba 1793",
+    "telefono": 3413417965,
+    "fecha_nacimiento": "12/5/1987",
+    "sexo": "Femenino",
+    "email": "Samiraberrueta5@gmail.com"
+  },
+  {
+    "dni": "34134094",
+    "nombre": "Giovana",
+    "apellido": "Panucci",
+    "direccion": "Santa Fe 2539",
+    "telefono": 3412011009,
+    "fecha_nacimiento": "3/11/1988",
+    "sexo": "Femenino",
+    "email": "Giopanucci@hotmail.com"
+  },
+  {
+    "dni": "22283546",
+    "nombre": "Julio",
+    "apellido": "Diep",
+    "direccion": "Pte Roca 1367",
+    "telefono": 3413485372,
+    "fecha_nacimiento": "4/4/1972",
+    "sexo": "Masculino",
+    "email": "julitocd@yahoo.com.ar"
+  },
+  {
+    "dni": "10196450",
+    "nombre": "ANA MARIA",
+    "apellido": "Ruta",
+    "direccion": "Jujuy 1323",
+    "telefono": 3436615050,
+    "fecha_nacimiento": "11/21/1951",
+    "sexo": "Femenino",
+    "email": "avemaria.anamaria@gmail.com"
+  },
+  {
+    "dni": "33541498",
+    "nombre": "Mayra alicia",
+    "apellido": "Vera",
+    "direccion": "Balcarce 38",
+    "telefono": 1124798193,
+    "fecha_nacimiento": "8/3/1988",
+    "sexo": "Femenino",
+    "email": "mayraaevera@gmail.com"
+  },
+  {
+    "dni": "26550785",
+    "nombre": "Valeria",
+    "apellido": "Besazza",
+    "direccion": "Riccheri 1210",
+    "telefono": 3416207612,
+    "fecha_nacimiento": "4/26/1978",
+    "sexo": "Femenino",
+    "email": "valeriabes@hotmail.com"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Oroño y Salta",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "32695895",
+    "nombre": "Jesi",
+    "apellido": "Peña",
+    "direccion": "San Martin 507 piso 10 dpto 1",
+    "telefono": 3413601928,
+    "fecha_nacimiento": "7/5/1987",
+    "sexo": "Femenino",
+    "email": "jesirp87@gmail.com"
+  },
+  {
+    "dni": "26664759",
+    "nombre": "Ivan",
+    "apellido": "Coltrinari",
+    "direccion": "San Lorenzo 3924",
+    "telefono": 3412030439,
+    "fecha_nacimiento": "6/15/1978",
+    "sexo": "Masculino",
+    "email": "icoltrinari@hotmail.com"
+  },
+  {
+    "dni": "37578520",
+    "nombre": "Lucas",
+    "apellido": "Saldaña",
+    "direccion": "Lavalle 3735",
+    "telefono": 3412795838,
+    "fecha_nacimiento": "4/7/1993",
+    "sexo": "Masculino",
+    "email": "lukassaldania@gmail.com"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Avellaneda Bis 525",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "24569525",
+    "nombre": "Leonardo",
+    "apellido": "Vallejos",
+    "direccion": "Avenida leandro N. Allem",
+    "telefono": 3416835112,
+    "fecha_nacimiento": "1/27/2017",
+    "sexo": "Masculino",
+    "email": "leonardovallejos_858@hotmail.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650. Portero 20134",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "Hmsessa@gmail.com"
+  },
+  {
+    "dni": "38133046",
+    "nombre": "Mara antonela",
+    "apellido": "Vidal",
+    "direccion": "Av del Huerto 1105",
+    "telefono": 3417568958,
+    "fecha_nacimiento": "4/24/1989",
+    "sexo": "Femenino",
+    "email": "mara.anto24@gmail.com"
+  },
+  {
+    "dni": "21953680",
+    "nombre": "Paula",
+    "apellido": "Dameno Almirón",
+    "direccion": "Anchoris 2537",
+    "telefono": 3413568901,
+    "fecha_nacimiento": "11/24/1970",
+    "sexo": "Femenino",
+    "email": "pauladamenoa@gmail.com"
+  },
+  {
+    "dni": "22874773",
+    "nombre": "Carina",
+    "apellido": "Angel",
+    "direccion": "Plaza Argentina 3196",
+    "telefono": 3412805495,
+    "fecha_nacimiento": "8/26/1972",
+    "sexo": "Femenino",
+    "email": "carinaandreaangel@hotmail.com"
+  },
+  {
+    "dni": "14228287",
+    "nombre": "FLORENCIA",
+    "apellido": "MARCHESE",
+    "direccion": "BIEDMA 679",
+    "telefono": 3415111648,
+    "fecha_nacimiento": "2/12/1961",
+    "sexo": "Femenino",
+    "email": "florenciamarchese@yahoo.com.ar"
+  },
+  {
+    "dni": "20214489",
+    "nombre": "Gabriela",
+    "apellido": "Trujillo",
+    "direccion": "Bonifacini 4266 santos lugares",
+    "telefono": 1161510770,
+    "fecha_nacimiento": "9/2/1968",
+    "sexo": "Femenino",
+    "email": "gtrujillo68@hotmail.com"
+  },
+  {
+    "dni": "16880608",
+    "nombre": "Pablo",
+    "apellido": "Llane",
+    "direccion": "Alem 1924",
+    "telefono": 3413729777,
+    "fecha_nacimiento": "4/14/1964",
+    "sexo": "Masculino",
+    "email": "pablollane@gmail.com"
+  },
+  {
+    "dni": "30792996",
+    "nombre": "Marianela",
+    "apellido": "Chehem",
+    "direccion": "Uriburu 925",
+    "telefono": 3416197907,
+    "fecha_nacimiento": "3/18/1985",
+    "sexo": "Femenino",
+    "email": "marianela.chehem@gmail.com"
+  },
+  {
+    "dni": "11871872",
+    "nombre": "Liliana",
+    "apellido": "Molina",
+    "direccion": "Centeno 1806",
+    "telefono": 3416361518,
+    "fecha_nacimiento": "9/28/1955",
+    "sexo": "Femenino",
+    "email": "lilianammolina@hotmail.com"
+  },
+  {
+    "dni": "23317120",
+    "nombre": "Andrea",
+    "apellido": "Ramos",
+    "direccion": "Talacasto 290",
+    "telefono": 341153473073,
+    "fecha_nacimiento": "4/3/1973",
+    "sexo": "Femenino",
+    "email": "andreiavr@msn.com"
+  },
+  {
+    "dni": "23928364",
+    "nombre": "Mariana",
+    "apellido": "SABBAG",
+    "direccion": "Virasoro 1350 piso 2 edificio Bonilla",
+    "telefono": 3415866973,
+    "fecha_nacimiento": "6/22/1974",
+    "sexo": "Femenino",
+    "email": "maru_sabbag@yahoo.com.ar"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Bailen 188",
+    "telefono": 3413697193,
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "16218900",
+    "nombre": "Mariel",
+    "apellido": "Fernández",
+    "direccion": "Constitución 1385",
+    "telefono": 3415993508,
+    "fecha_nacimiento": "10/9/1963",
+    "sexo": "Femenino",
+    "email": "marielnoris@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": 3413037904,
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "julinata86@hotmail.com"
+  },
+  {
+    "dni": "17899610",
+    "nombre": "Miriam",
+    "apellido": "Moreno",
+    "direccion": "Paraguay 357",
+    "telefono": 3413478343,
+    "fecha_nacimiento": "7/19/1966",
+    "sexo": "Femenino",
+    "email": "miriammoreno1966@gmail.com"
+  },
+  {
+    "dni": "23061440",
+    "nombre": "Viviana",
+    "apellido": "Rojas",
+    "direccion": "Agrelo 745",
+    "telefono": 3415414573,
+    "fecha_nacimiento": "2/25/1973",
+    "sexo": "Femenino",
+    "email": "v-rojas08@hotmail.com"
+  },
+  {
+    "dni": "47",
+    "nombre": "Claudia Marcela",
+    "apellido": "Basualdo",
+    "direccion": "Entre Ríos 5565",
+    "telefono": 3416829529,
+    "fecha_nacimiento": "5/1/1966",
+    "sexo": "Femenino",
+    "email": "cmbasualdo@hotmail.com"
+  },
+  {
+    "dni": "37219746",
+    "nombre": "Laura",
+    "apellido": "Cremonini",
+    "direccion": "Mitre 2524",
+    "telefono": 3751561027,
+    "fecha_nacimiento": "2/11/1994",
+    "sexo": "Femenino",
+    "email": "Lauracremonini99@gmail.com"
+  },
+  {
+    "dni": "16218350",
+    "nombre": "Viviana",
+    "apellido": "Parmigiani",
+    "direccion": "Ocampo 3280",
+    "telefono": 3412529922,
+    "fecha_nacimiento": "1/9/1963",
+    "sexo": "Femenino",
+    "email": "vivianaparmigiani@hotmail.com"
+  },
+  {
+    "dni": "22955990",
+    "nombre": "Leticia",
+    "apellido": "Ainsa",
+    "direccion": "Bv Avellaneda (bis) 564 6B",
+    "telefono": 3413241653,
+    "fecha_nacimiento": "3/28/1973",
+    "sexo": "Femenino",
+    "email": "letiainsa@hotmail.com"
+  },
+  {
+    "dni": "35586756",
+    "nombre": "Lara",
+    "apellido": "Garcia",
+    "direccion": "Necochea 1741",
+    "telefono": 3416694634,
+    "fecha_nacimiento": "11/4/1991",
+    "sexo": "Femenino",
+    "email": "laramagaligarcia4@gmail.com"
+  },
+  {
+    "dni": "44042746",
+    "nombre": "Facundo",
+    "apellido": "Aguilera",
+    "direccion": "Tirana 2329",
+    "telefono": 1133345310,
+    "fecha_nacimiento": "11/29/1998",
+    "sexo": "Masculino",
+    "email": "Facundoaguilera627@gmail.com"
+  },
+  {
+    "dni": "12282504",
+    "nombre": "Liliana",
+    "apellido": "Bennice",
+    "direccion": "3 de febrero 3026. PB 2",
+    "telefono": 3415151165,
+    "fecha_nacimiento": "1/19/1956",
+    "sexo": "Femenino",
+    "email": "LILITABENN@HOTMAIL.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650 portero 201",
+    "telefono": 3415866972,
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "hmsessa@gmail.com"
+  },
+  {
+    "dni": "23242383",
+    "nombre": "Andrea",
+    "apellido": "Berrocal",
+    "direccion": "Rioja 2843",
+    "telefono": 3415883444,
+    "fecha_nacimiento": "4/15/1973",
+    "sexo": "Femenino",
+    "email": "Andreaberrocal@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3413800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": 3423800716,
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "12110026",
+    "nombre": "Myriam",
+    "apellido": "Marrone",
+    "direccion": "Virasoro 244 casa11",
+    "telefono": 3416409125,
+    "fecha_nacimiento": "8/29/1955",
+    "sexo": "Femenino",
+    "email": "myr55@hotmail.com.ar"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": 3415768525,
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "17152482",
+    "nombre": "maria alejandra",
+    "apellido": "manson",
+    "direccion": "Riobamba 1972",
+    "telefono": 3416193578,
+    "fecha_nacimiento": "9/11/1964",
+    "sexo": "Femenino",
+    "email": "alemanson64@hotmail.com"
+  },
+  {
+    "dni": "11449785",
+    "nombre": "Marcela",
+    "apellido": "Gianni",
+    "direccion": "Santiago 1631 - 2A",
+    "telefono": 3416398907,
+    "fecha_nacimiento": "12/31/1954",
+    "sexo": "Femenino",
+    "email": "marcelagianni1@gmail.com"
+  },
+  {
+    "dni": "28536094",
+    "nombre": "Debora",
+    "apellido": "Navarro",
+    "direccion": "San Luis 505",
+    "telefono": 3416706077,
+    "fecha_nacimiento": "1/6/1981",
+    "sexo": "Masculino",
+    "email": "debora_navarro22@hotmail.com"
+  },
+  {
+    "dni": "28489089",
+    "nombre": "Cecilia",
+    "apellido": "Locatelli",
+    "direccion": "Laprida 1200",
+    "telefono": 3416966622,
+    "fecha_nacimiento": "9/19/1980",
+    "sexo": "Femenino",
+    "email": "ceci_locatelli@yahoo.com.ar"
+  },
+  {
+    "dni": "22955982",
+    "nombre": "Andrea Carolina",
+    "apellido": "Muga",
+    "direccion": "Italia 2471",
+    "telefono": 3413487585,
+    "fecha_nacimiento": "3/23/1973",
+    "sexo": "Femenino",
+    "email": "andreamuga94@gmail.com"
+  },
+  {
+    "dni": "16778352",
+    "nombre": "Ada",
+    "apellido": "Capra",
+    "direccion": "Rioja 2908",
+    "telefono": 3416241458,
+    "fecha_nacimiento": "11/30/1964",
+    "sexo": "Femenino",
+    "email": "Psicoadacapra@gmail.com"
+  },
+  {
+    "dni": "31028375",
+    "nombre": "Mariana",
+    "apellido": "Amado",
+    "direccion": "Sarmiento 1083",
+    "telefono": 3417550300,
+    "fecha_nacimiento": "10/13/1984",
+    "sexo": "Femenino",
+    "email": "auroramarianaamado@gmail.com"
+  },
+  {
+    "dni": "21548875",
+    "nombre": "Karina",
+    "apellido": "Gayós",
+    "direccion": "Alvear 1128. 7 a",
+    "telefono": 3415911255,
+    "fecha_nacimiento": "10/20/1970",
+    "sexo": "Femenino",
+    "email": "karmgayos@gmail.com"
+  },
+  {
+    "dni": "17228901",
+    "nombre": "Maria Teresa",
+    "apellido": "Onega",
+    "direccion": "Alem 1362",
+    "telefono": 3415552598,
+    "fecha_nacimiento": "7/30/2025",
+    "sexo": "Femenino",
+    "email": "mtonega@yahoo.com"
+  },
+  {
+    "dni": "27121093",
+    "nombre": "Andres",
+    "apellido": "Sola",
+    "direccion": "Colon 1948 dto 2",
+    "telefono": 3413973714,
+    "fecha_nacimiento": "3/24/1979",
+    "sexo": "Masculino",
+    "email": "Andressola@hotmail.com"
+  },
+  {
+    "dni": "41655697",
+    "nombre": "Agustina",
+    "apellido": "Zanotti",
+    "direccion": "Saavedra 594",
+    "telefono": 3413548510,
+    "fecha_nacimiento": "4/21/1999",
+    "sexo": "Femenino",
+    "email": "zanottiagus@gmail.com"
+  },
+  {
+    "dni": "5910467",
+    "nombre": "Marta",
+    "apellido": "Mignacco",
+    "direccion": "9 de julio 2130",
+    "telefono": 3416802914,
+    "fecha_nacimiento": "5/25/1948",
+    "sexo": "Femenino",
+    "email": "Emmignacco@hotmail.come"
+  },
+  {
+    "dni": "24784974",
+    "nombre": "Marta",
+    "apellido": "Raimondi",
+    "direccion": "Rosario",
+    "telefono": 3412627782,
+    "fecha_nacimiento": "3/30/1976",
+    "sexo": "Femenino",
+    "email": "marta_raimondi@hotmail.com"
+  },
+  {
+    "dni": "14299760",
+    "nombre": "Norma",
+    "apellido": "Miskevish",
+    "direccion": "3 de febrero 3233",
+    "telefono": 3416866634,
+    "fecha_nacimiento": "2/10/1961",
+    "sexo": "Femenino",
+    "email": "Mis_normita@hotmail.com"
+  },
+  {
+    "dni": "24327492",
+    "nombre": "Nilda fabiana",
+    "apellido": "Stefani",
+    "direccion": "27 de febrero  1460 dpt 2",
+    "telefono": 3415962250,
+    "fecha_nacimiento": "1/21/1975",
+    "sexo": "Femenino",
+    "email": "fabianasteffi@hotmail.com"
+  },
+  {
+    "dni": "29139174",
+    "nombre": "Melina",
+    "apellido": "Bianchi",
+    "direccion": "24 de setiembre 1663",
+    "telefono": 3416297739,
+    "fecha_nacimiento": "3/12/1982",
+    "sexo": "Femenino",
+    "email": "bianchimeli@gmail.com"
+  },
+  {
+    "dni": "45655999",
+    "nombre": "Lucila Rocío",
+    "apellido": "Sosa",
+    "direccion": "Lamadrid y Gral Paz",
+    "telefono": 3415908735,
+    "fecha_nacimiento": "7/14/2004",
+    "sexo": "Femenino",
+    "email": "lucilaabrahamer@gmail.com"
+  },
+  {
+    "dni": "17460663",
+    "nombre": "Maria del Carmen",
+    "apellido": "Campo",
+    "direccion": "Lima 440",
+    "telefono": 3416363161,
+    "fecha_nacimiento": "10/12/1965",
+    "sexo": "Femenino",
+    "email": "farmaciacampo@yahoo.com.ar"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Bv Oroño 252",
+    "telefono": 3416187175,
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "Mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "21510224",
+    "nombre": "Gabriela Ester",
+    "apellido": "Facchiano",
+    "direccion": "Rodríguez 4533 E",
+    "telefono": 3416048689,
+    "fecha_nacimiento": "3/24/1970",
+    "sexo": "Femenino",
+    "email": "gabitafacchiano@hotmail.com"
+  },
+  {
+    "dni": "38901417",
+    "nombre": "Matias",
+    "apellido": "Sanguinetti",
+    "direccion": "Mitre 2524",
+    "telefono": 3471604503,
+    "fecha_nacimiento": "7/27/1995",
+    "sexo": "Masculino",
+    "email": "matiassanguinetti95@gmail.com"
+  },
+  {
+    "dni": "16745311",
+    "nombre": "Cristina",
+    "apellido": "Lorente",
+    "direccion": "Urquiza 853 3A",
+    "telefono": 3415014921,
+    "fecha_nacimiento": "1/12/1964",
+    "sexo": "Femenino",
+    "email": "lorentecris@gmail.com"
+  },
+  {
+    "dni": "20167489",
+    "nombre": "Adrian",
+    "apellido": "Altan",
+    "direccion": "Rodriguez 4533 E",
+    "telefono": 3415852959,
+    "fecha_nacimiento": "2/1/1968",
+    "sexo": "Masculino",
+    "email": "adrianaltan@hotmail.com"
+  },
+  {
+    "dni": "12397651",
+    "nombre": "Maria teresa",
+    "apellido": "Peri",
+    "direccion": "Necochea 1273",
+    "telefono": 3416641502,
+    "fecha_nacimiento": "3/14/1958",
+    "sexo": "Femenino",
+    "email": "mariateresaperi@gmail.com"
+  },
+  {
+    "dni": "17555872",
+    "nombre": "Marisa",
+    "apellido": "Ciacia",
+    "direccion": "Tarragona 216",
+    "telefono": 3415049275,
+    "fecha_nacimiento": "11/19/1965",
+    "sexo": "Femenino",
+    "email": "ciaciamarisa@gmail.com"
+  },
+  {
+    "dni": "39249800",
+    "nombre": "Maximiliano",
+    "apellido": "Troncoso",
+    "direccion": "San Martin 545",
+    "telefono": 3462594928,
+    "fecha_nacimiento": "11/13/1995",
+    "sexo": "Masculino",
+    "email": "maxitroncoso13@gmail.com"
+  },
+  {
+    "dni": "31542456",
+    "nombre": "Alejandro",
+    "apellido": "Aguilar",
+    "direccion": "Catamarca 1981",
+    "telefono": 2477675977,
+    "fecha_nacimiento": "6/22/1985",
+    "sexo": "Masculino",
+    "email": "ale_comu@hotmail.com"
+  },
+  {
+    "dni": "11271765",
+    "nombre": "Maria del Carmen",
+    "apellido": "Cianciardo",
+    "direccion": "3 de febrero 370  6 B",
+    "telefono": 3416859833,
+    "fecha_nacimiento": "5/13/2025",
+    "sexo": "Femenino",
+    "email": "jardinmisbichitos@hotmail.com"
+  },
+  {
+    "dni": "Pisellini Marchegiani",
+    "nombre": "Silvia",
+    "apellido": "Pisellini Marchegiani",
+    "direccion": "Alem 2845",
+    "telefono": "3413426731",
+    "fecha_nacimiento": "nan",
+    "sexo": "Femenino",
+    "email": "simapisellini@gmail.com"
+  },
+  {
+    "dni": "37263719",
+    "nombre": "Barbara",
+    "apellido": "Barbara",
+    "direccion": "24 de septiembre 2224",
+    "telefono": "3416486075",
+    "fecha_nacimiento": "2/12/1993",
+    "sexo": "Femenino",
+    "email": "barbicabrera9@gmail.com"
+  },
+  {
+    "dni": "13188305",
+    "nombre": "Susana",
+    "apellido": "Lemmo",
+    "direccion": "Rioja 1957",
+    "telefono": "3415694295",
+    "fecha_nacimiento": "4/9/1959",
+    "sexo": "Femenino",
+    "email": "susl123@hotmail.com"
+  },
+  {
+    "dni": "20408998",
+    "nombre": "Daniel",
+    "apellido": "Tamburello",
+    "direccion": "Cochabamba 1662-1",
+    "telefono": "156526227",
+    "fecha_nacimiento": "12/9/1968",
+    "sexo": "Masculino",
+    "email": "dancen10@hotmail.com"
+  },
+  {
+    "dni": "27862839",
+    "nombre": "Carolina",
+    "apellido": "Ciciliani",
+    "direccion": "9 dé julio 3525",
+    "telefono": "3465431542",
+    "fecha_nacimiento": "11/12/1980",
+    "sexo": "Femenino",
+    "email": "cicilianicarolina@gmail.com"
+  },
+  {
+    "dni": "43798078",
+    "nombre": "Paula",
+    "apellido": "Sampaio",
+    "direccion": "Pincen",
+    "telefono": "2392457285",
+    "fecha_nacimiento": "10/30/2001",
+    "sexo": "Femenino",
+    "email": "Sampaiopaula16@gmail.com"
+  },
+  {
+    "dni": "18030917",
+    "nombre": "laura",
+    "apellido": "lucca",
+    "direccion": "Montevideo 764",
+    "telefono": "3427520538",
+    "fecha_nacimiento": "2/28/2003",
+    "sexo": "Femenino",
+    "email": "lauralucca66@hotmail.com"
+  },
+  {
+    "dni": "5134915",
+    "nombre": "Celia del Carmen",
+    "apellido": "Dibernardi",
+    "direccion": "Pje. Palau 2558 - Rosario",
+    "telefono": "3415063154",
+    "fecha_nacimiento": "6/15/1945",
+    "sexo": "Femenino",
+    "email": "celiadibernardi@gmail.com"
+  },
+  {
+    "dni": "29804893",
+    "nombre": "Pablo hernan",
+    "apellido": "Kopawski",
+    "direccion": "Del viso",
+    "telefono": "1164328638",
+    "fecha_nacimiento": "12/21/1982",
+    "sexo": "Masculino",
+    "email": "pablo.kop@gmail.com"
+  },
+  {
+    "dni": "22095638",
+    "nombre": "Gisela",
+    "apellido": "Gallardo",
+    "direccion": "Dorrego 2658 dto2",
+    "telefono": "3416870787",
+    "fecha_nacimiento": "6/12/1971",
+    "sexo": "Femenino",
+    "email": "Gise_gallardo@yahoo.com.ar"
+  },
+  {
+    "dni": "24675905",
+    "nombre": "Celina Angelica",
+    "apellido": "Fernandez",
+    "direccion": "Montevideo 942",
+    "telefono": "3412587157",
+    "fecha_nacimiento": "11/14/1975",
+    "sexo": "Femenino",
+    "email": "celinafernandezpuy@gmail.com"
+  },
+  {
+    "dni": "46370371",
+    "nombre": "Ayelen",
+    "apellido": "Fernández",
+    "direccion": "Pasaje amazonas 3171",
+    "telefono": "3413196187",
+    "fecha_nacimiento": "2/5/2005",
+    "sexo": "Femenino",
+    "email": "ayelenfernandez110@gmail.com"
+  },
+  {
+    "dni": "36005374",
+    "nombre": "Santiago",
+    "apellido": "Menna",
+    "direccion": "Mendoza 956",
+    "telefono": "3415777114",
+    "fecha_nacimiento": "3/21/1992",
+    "sexo": "Masculino",
+    "email": "Santiagomenna92@gmail.com"
+  },
+  {
+    "dni": "33114542",
+    "nombre": "Paola",
+    "apellido": "Centurión",
+    "direccion": "Reconquista 894",
+    "telefono": "3413288394",
+    "fecha_nacimiento": "7/13/1987",
+    "sexo": "Femenino",
+    "email": "paocent@hotmail.com"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": "3415768525",
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "28771808",
+    "nombre": "Luciano",
+    "apellido": "Bonina",
+    "direccion": "Zeballos  278",
+    "telefono": "3413050457",
+    "fecha_nacimiento": "7/3/1981",
+    "sexo": "Masculino",
+    "email": "luciano.tecnuarsrl@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": "3413037904",
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "juliaspampinato@gmail.com"
+  },
+  {
+    "dni": "21893020",
+    "nombre": "Susana",
+    "apellido": "Fernandez",
+    "direccion": "3 de febrero 1409-5°A",
+    "telefono": "2966626416",
+    "fecha_nacimiento": "9/28/1970",
+    "sexo": "Femenino",
+    "email": "suju1444@hotmail.com"
+  },
+  {
+    "dni": "35243853",
+    "nombre": "Renzo",
+    "apellido": "Benvino",
+    "direccion": "Salta 1990 - 3D",
+    "telefono": "2477344363",
+    "fecha_nacimiento": "11/15/1991",
+    "sexo": "Masculino",
+    "email": "renzo_benvino@hotmail.com"
+  },
+  {
+    "dni": "36576231",
+    "nombre": "Magali",
+    "apellido": "Rivas",
+    "direccion": "Presidente Roca 364 departamento 5C Rosario",
+    "telefono": "3462336522",
+    "fecha_nacimiento": "11/10/1991",
+    "sexo": "Femenino",
+    "email": "rivasmagap@gmail.com"
+  },
+  {
+    "dni": "25125048",
+    "nombre": "Julián",
+    "apellido": "Colussi",
+    "direccion": "Cochabamba 1626",
+    "telefono": "3416488127",
+    "fecha_nacimiento": "7/9/1976",
+    "sexo": "Masculino",
+    "email": "juliancolussi1976@gmail.com"
+  },
+  {
+    "dni": "31975471",
+    "nombre": "Marcia",
+    "apellido": "Santa cruz",
+    "direccion": "Juan Manuel de rosas 2290 3ro D",
+    "telefono": "3416867200",
+    "fecha_nacimiento": "12/31/1985",
+    "sexo": "Femenino",
+    "email": "marcia0085@hotmail.com"
+  },
+  {
+    "dni": "40312898",
+    "nombre": "Celina",
+    "apellido": "Balestreri",
+    "direccion": "Alem 1281",
+    "telefono": "3464548967",
+    "fecha_nacimiento": "11/20/1999",
+    "sexo": "Femenino",
+    "email": "Balestrericelina9@gmail.com"
+  },
+  {
+    "dni": "28770537",
+    "nombre": "Evelina",
+    "apellido": "Puccio",
+    "direccion": "Tucumán 1035",
+    "telefono": "3412703600",
+    "fecha_nacimiento": "5/2/1981",
+    "sexo": "Femenino",
+    "email": "puccioevelina@gmail.com"
+  },
+  {
+    "dni": "27213680",
+    "nombre": "Melisa",
+    "apellido": "Darnaud",
+    "direccion": "Santa Fe 1758 1A",
+    "telefono": "3416163030",
+    "fecha_nacimiento": "4/21/1979",
+    "sexo": "Femenino",
+    "email": "melisa.darnaud@outlook.com"
+  },
+  {
+    "dni": "32287445",
+    "nombre": "Stella maris",
+    "apellido": "Casarini",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": "3416024262",
+    "fecha_nacimiento": "5/2/1986",
+    "sexo": "Femenino",
+    "email": "stellamaris2911@hotmail.com"
+  },
+  {
+    "dni": "32651541",
+    "nombre": "Juan manuel",
+    "apellido": "Fernandez",
+    "direccion": "Italia 662 depto 7 D",
+    "telefono": "3416864666",
+    "fecha_nacimiento": "12/13/1985",
+    "sexo": "Masculino",
+    "email": "Chk.fernandez@hotmail.com"
+  },
+  {
+    "dni": "37334323",
+    "nombre": "Yasmin",
+    "apellido": "Padilla",
+    "direccion": "Mitre 2734",
+    "telefono": "3412618727",
+    "fecha_nacimiento": "4/10/1993",
+    "sexo": "Femenino",
+    "email": "yaslinpadilla.z@hotmail.com"
+  },
+  {
+    "dni": "33136577",
+    "nombre": "Samira",
+    "apellido": "Berrueta",
+    "direccion": "Cochabamba 1793",
+    "telefono": "3413417965",
+    "fecha_nacimiento": "12/5/1987",
+    "sexo": "Femenino",
+    "email": "Samiraberrueta5@gmail.com"
+  },
+  {
+    "dni": "34134094",
+    "nombre": "Giovana",
+    "apellido": "Panucci",
+    "direccion": "Santa Fe 2539",
+    "telefono": "3412011009",
+    "fecha_nacimiento": "3/11/1988",
+    "sexo": "Femenino",
+    "email": "Giopanucci@hotmail.com"
+  },
+  {
+    "dni": "22283546",
+    "nombre": "Julio",
+    "apellido": "Diep",
+    "direccion": "Pte Roca 1367",
+    "telefono": "3413485372",
+    "fecha_nacimiento": "4/4/1972",
+    "sexo": "Masculino",
+    "email": "julitocd@yahoo.com.ar"
+  },
+  {
+    "dni": "10196450",
+    "nombre": "ANA MARIA",
+    "apellido": "Ruta",
+    "direccion": "Jujuy 1323",
+    "telefono": "3436615050",
+    "fecha_nacimiento": "11/21/1951",
+    "sexo": "Femenino",
+    "email": "avemaria.anamaria@gmail.com"
+  },
+  {
+    "dni": "33541498",
+    "nombre": "Mayra alicia",
+    "apellido": "Vera",
+    "direccion": "Balcarce 38",
+    "telefono": "1124798193",
+    "fecha_nacimiento": "8/3/1988",
+    "sexo": "Femenino",
+    "email": "mayraaevera@gmail.com"
+  },
+  {
+    "dni": "26550785",
+    "nombre": "Valeria",
+    "apellido": "Besazza",
+    "direccion": "Riccheri 1210",
+    "telefono": "3416207612",
+    "fecha_nacimiento": "4/26/1978",
+    "sexo": "Femenino",
+    "email": "valeriabes@hotmail.com"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Oroño y Salta",
+    "telefono": "3416187175",
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "32695895",
+    "nombre": "Jesi",
+    "apellido": "Peña",
+    "direccion": "San Martin 507 piso 10 dpto 1",
+    "telefono": "3413601928",
+    "fecha_nacimiento": "7/5/1987",
+    "sexo": "Femenino",
+    "email": "jesirp87@gmail.com"
+  },
+  {
+    "dni": "26664759",
+    "nombre": "Ivan",
+    "apellido": "Coltrinari",
+    "direccion": "San Lorenzo 3924",
+    "telefono": "3412030439",
+    "fecha_nacimiento": "6/15/1978",
+    "sexo": "Masculino",
+    "email": "icoltrinari@hotmail.com"
+  },
+  {
+    "dni": "37578520",
+    "nombre": "Lucas",
+    "apellido": "Saldaña",
+    "direccion": "Lavalle 3735",
+    "telefono": "3412795838",
+    "fecha_nacimiento": "4/7/1993",
+    "sexo": "Masculino",
+    "email": "lukassaldania@gmail.com"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Avellaneda Bis 525",
+    "telefono": "3413697193",
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "24569525",
+    "nombre": "Leonardo",
+    "apellido": "Vallejos",
+    "direccion": "Avenida leandro N. Allem",
+    "telefono": "3416835112",
+    "fecha_nacimiento": "1/27/2017",
+    "sexo": "Masculino",
+    "email": "leonardovallejos_858@hotmail.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650. Portero 20134",
+    "telefono": "3415866972",
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "Hmsessa@gmail.com"
+  },
+  {
+    "dni": "38133046",
+    "nombre": "Mara antonela",
+    "apellido": "Vidal",
+    "direccion": "Av del Huerto 1105",
+    "telefono": "3417568958",
+    "fecha_nacimiento": "4/24/1989",
+    "sexo": "Femenino",
+    "email": "mara.anto24@gmail.com"
+  },
+  {
+    "dni": "21953680",
+    "nombre": "Paula",
+    "apellido": "Dameno Almirón",
+    "direccion": "Anchoris 2537",
+    "telefono": "3413568901",
+    "fecha_nacimiento": "11/24/1970",
+    "sexo": "Femenino",
+    "email": "pauladamenoa@gmail.com"
+  },
+  {
+    "dni": "22874773",
+    "nombre": "Carina",
+    "apellido": "Angel",
+    "direccion": "Plaza Argentina 3196",
+    "telefono": "3412805495",
+    "fecha_nacimiento": "8/26/1972",
+    "sexo": "Femenino",
+    "email": "carinaandreaangel@hotmail.com"
+  },
+  {
+    "dni": "14228287",
+    "nombre": "FLORENCIA",
+    "apellido": "MARCHESE",
+    "direccion": "BIEDMA 679",
+    "telefono": "3415111648",
+    "fecha_nacimiento": "2/12/1961",
+    "sexo": "Femenino",
+    "email": "florenciamarchese@yahoo.com.ar"
+  },
+  {
+    "dni": "20214489",
+    "nombre": "Gabriela",
+    "apellido": "Trujillo",
+    "direccion": "Bonifacini 4266 santos lugares",
+    "telefono": "1161510770",
+    "fecha_nacimiento": "9/2/1968",
+    "sexo": "Femenino",
+    "email": "gtrujillo68@hotmail.com"
+  },
+  {
+    "dni": "16880608",
+    "nombre": "Pablo",
+    "apellido": "Llane",
+    "direccion": "Alem 1924",
+    "telefono": "3413729777",
+    "fecha_nacimiento": "4/14/1964",
+    "sexo": "Masculino",
+    "email": "pablollane@gmail.com"
+  },
+  {
+    "dni": "30792996",
+    "nombre": "Marianela",
+    "apellido": "Chehem",
+    "direccion": "Uriburu 925",
+    "telefono": "3416197907",
+    "fecha_nacimiento": "3/18/1985",
+    "sexo": "Femenino",
+    "email": "marianela.chehem@gmail.com"
+  },
+  {
+    "dni": "11871872",
+    "nombre": "Liliana",
+    "apellido": "Molina",
+    "direccion": "Centeno 1806",
+    "telefono": "3416361518",
+    "fecha_nacimiento": "9/28/1955",
+    "sexo": "Femenino",
+    "email": "lilianammolina@hotmail.com"
+  },
+  {
+    "dni": "23317120",
+    "nombre": "Andrea",
+    "apellido": "Ramos",
+    "direccion": "Talacasto 290",
+    "telefono": "341153473073",
+    "fecha_nacimiento": "4/3/1973",
+    "sexo": "Femenino",
+    "email": "andreiavr@msn.com"
+  },
+  {
+    "dni": "23928364",
+    "nombre": "Mariana",
+    "apellido": "SABBAG",
+    "direccion": "Virasoro 1350 piso 2 edificio Bonilla",
+    "telefono": "3415866973",
+    "fecha_nacimiento": "6/22/1974",
+    "sexo": "Femenino",
+    "email": "maru_sabbag@yahoo.com.ar"
+  },
+  {
+    "dni": "17555668",
+    "nombre": "Marcela",
+    "apellido": "Ansonnaud",
+    "direccion": "Bailen 188",
+    "telefono": "3413697193",
+    "fecha_nacimiento": "1/4/1966",
+    "sexo": "Femenino",
+    "email": "Marcelalucarini@yahoo.com.ar"
+  },
+  {
+    "dni": "16218900",
+    "nombre": "Mariel",
+    "apellido": "Fernández",
+    "direccion": "Constitución 1385",
+    "telefono": "3415993508",
+    "fecha_nacimiento": "10/9/1963",
+    "sexo": "Femenino",
+    "email": "marielnoris@gmail.com"
+  },
+  {
+    "dni": "32734235",
+    "nombre": "Julia",
+    "apellido": "Spampinato",
+    "direccion": "España 1484",
+    "telefono": "3413037904",
+    "fecha_nacimiento": "12/16/1986",
+    "sexo": "Femenino",
+    "email": "julinata86@hotmail.com"
+  },
+  {
+    "dni": "17899610",
+    "nombre": "Miriam",
+    "apellido": "Moreno",
+    "direccion": "Paraguay 357",
+    "telefono": "3413478343",
+    "fecha_nacimiento": "7/19/1966",
+    "sexo": "Femenino",
+    "email": "miriammoreno1966@gmail.com"
+  },
+  {
+    "dni": "23061440",
+    "nombre": "Viviana",
+    "apellido": "Rojas",
+    "direccion": "Agrelo 745",
+    "telefono": "3415414573",
+    "fecha_nacimiento": "2/25/1973",
+    "sexo": "Femenino",
+    "email": "v-rojas08@hotmail.com"
+  },
+  {
+    "dni": "47",
+    "nombre": "Claudia Marcela",
+    "apellido": "Basualdo",
+    "direccion": "Entre Ríos 5565",
+    "telefono": "3416829529",
+    "fecha_nacimiento": "5/1/1966",
+    "sexo": "Femenino",
+    "email": "cmbasualdo@hotmail.com"
+  },
+  {
+    "dni": "37219746",
+    "nombre": "Laura",
+    "apellido": "Cremonini",
+    "direccion": "Mitre 2524",
+    "telefono": "3751561027",
+    "fecha_nacimiento": "2/11/1994",
+    "sexo": "Femenino",
+    "email": "Lauracremonini99@gmail.com"
+  },
+  {
+    "dni": "16218350",
+    "nombre": "Viviana",
+    "apellido": "Parmigiani",
+    "direccion": "Ocampo 3280",
+    "telefono": "3412529922",
+    "fecha_nacimiento": "1/9/1963",
+    "sexo": "Femenino",
+    "email": "vivianaparmigiani@hotmail.com"
+  },
+  {
+    "dni": "22955990",
+    "nombre": "Leticia",
+    "apellido": "Ainsa",
+    "direccion": "Bv Avellaneda (bis) 564 6B",
+    "telefono": "3413241653",
+    "fecha_nacimiento": "3/28/1973",
+    "sexo": "Femenino",
+    "email": "letiainsa@hotmail.com"
+  },
+  {
+    "dni": "35586756",
+    "nombre": "Lara",
+    "apellido": "Garcia",
+    "direccion": "Necochea 1741",
+    "telefono": "3416694634",
+    "fecha_nacimiento": "11/4/1991",
+    "sexo": "Femenino",
+    "email": "laramagaligarcia4@gmail.com"
+  },
+  {
+    "dni": "44042746",
+    "nombre": "Facundo",
+    "apellido": "Aguilera",
+    "direccion": "Tirana 2329",
+    "telefono": "1133345310",
+    "fecha_nacimiento": "11/29/1998",
+    "sexo": "Masculino",
+    "email": "Facundoaguilera627@gmail.com"
+  },
+  {
+    "dni": "12282504",
+    "nombre": "Liliana",
+    "apellido": "Bennice",
+    "direccion": "3 de febrero 3026. PB 2",
+    "telefono": "3415151165",
+    "fecha_nacimiento": "1/19/1956",
+    "sexo": "Femenino",
+    "email": "LILITABENN@HOTMAIL.com"
+  },
+  {
+    "dni": "6434131",
+    "nombre": "Haydee",
+    "apellido": "Sessarego",
+    "direccion": "Santiago 650 portero 201",
+    "telefono": "3415866972",
+    "fecha_nacimiento": "10/21/2025",
+    "sexo": "Femenino",
+    "email": "hmsessa@gmail.com"
+  },
+  {
+    "dni": "23242383",
+    "nombre": "Andrea",
+    "apellido": "Berrocal",
+    "direccion": "Rioja 2843",
+    "telefono": "3415883444",
+    "fecha_nacimiento": "4/15/1973",
+    "sexo": "Femenino",
+    "email": "Andreaberrocal@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": "3413800716",
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "17712331",
+    "nombre": "Sandra",
+    "apellido": "Castelli",
+    "direccion": "Mendoza 1531",
+    "telefono": "3423800716",
+    "fecha_nacimiento": "1/6/1967",
+    "sexo": "Femenino",
+    "email": "sandra-castelli@hotmail.com"
+  },
+  {
+    "dni": "12110026",
+    "nombre": "Myriam",
+    "apellido": "Marrone",
+    "direccion": "Virasoro 244 casa11",
+    "telefono": "3416409125",
+    "fecha_nacimiento": "8/29/1955",
+    "sexo": "Femenino",
+    "email": "myr55@hotmail.com.ar"
+  },
+  {
+    "dni": "28314462",
+    "nombre": "Patricio",
+    "apellido": "Carbajales",
+    "direccion": "San Martin 1274",
+    "telefono": "3415768525",
+    "fecha_nacimiento": "7/25/1980",
+    "sexo": "Masculino",
+    "email": "Patriciocarbajales@hotmail.com"
+  },
+  {
+    "dni": "17152482",
+    "nombre": "maria alejandra",
+    "apellido": "manson",
+    "direccion": "Riobamba 1972",
+    "telefono": "3416193578",
+    "fecha_nacimiento": "9/11/1964",
+    "sexo": "Femenino",
+    "email": "alemanson64@hotmail.com"
+  },
+  {
+    "dni": "11449785",
+    "nombre": "Marcela",
+    "apellido": "Gianni",
+    "direccion": "Santiago 1631 - 2A",
+    "telefono": "3416398907",
+    "fecha_nacimiento": "12/31/1954",
+    "sexo": "Femenino",
+    "email": "marcelagianni1@gmail.com"
+  },
+  {
+    "dni": "28536094",
+    "nombre": "Debora",
+    "apellido": "Navarro",
+    "direccion": "San Luis 505",
+    "telefono": "3416706077",
+    "fecha_nacimiento": "1/6/1981",
+    "sexo": "Masculino",
+    "email": "debora_navarro22@hotmail.com"
+  },
+  {
+    "dni": "28489089",
+    "nombre": "Cecilia",
+    "apellido": "Locatelli",
+    "direccion": "Laprida 1200",
+    "telefono": "3416966622",
+    "fecha_nacimiento": "9/19/1980",
+    "sexo": "Femenino",
+    "email": "ceci_locatelli@yahoo.com.ar"
+  },
+  {
+    "dni": "22955982",
+    "nombre": "Andrea Carolina",
+    "apellido": "Muga",
+    "direccion": "Italia 2471",
+    "telefono": "3413487585",
+    "fecha_nacimiento": "3/23/1973",
+    "sexo": "Femenino",
+    "email": "andreamuga94@gmail.com"
+  },
+  {
+    "dni": "16778352",
+    "nombre": "Ada",
+    "apellido": "Capra",
+    "direccion": "Rioja 2908",
+    "telefono": "3416241458",
+    "fecha_nacimiento": "11/30/1964",
+    "sexo": "Femenino",
+    "email": "Psicoadacapra@gmail.com"
+  },
+  {
+    "dni": "31028375",
+    "nombre": "Mariana",
+    "apellido": "Amado",
+    "direccion": "Sarmiento 1083",
+    "telefono": "3417550300",
+    "fecha_nacimiento": "10/13/1984",
+    "sexo": "Femenino",
+    "email": "auroramarianaamado@gmail.com"
+  },
+  {
+    "dni": "21548875",
+    "nombre": "Karina",
+    "apellido": "Gayós",
+    "direccion": "Alvear 1128. 7 a",
+    "telefono": "3415911255",
+    "fecha_nacimiento": "10/20/1970",
+    "sexo": "Femenino",
+    "email": "karmgayos@gmail.com"
+  },
+  {
+    "dni": "17228901",
+    "nombre": "Maria Teresa",
+    "apellido": "Onega",
+    "direccion": "Alem 1362",
+    "telefono": "3415552598",
+    "fecha_nacimiento": "7/30/2025",
+    "sexo": "Femenino",
+    "email": "mtonega@yahoo.com"
+  },
+  {
+    "dni": "27121093",
+    "nombre": "Andres",
+    "apellido": "Sola",
+    "direccion": "Colon 1948 dto 2",
+    "telefono": "3413973714",
+    "fecha_nacimiento": "3/24/1979",
+    "sexo": "Masculino",
+    "email": "Andressola@hotmail.com"
+  },
+  {
+    "dni": "41655697",
+    "nombre": "Agustina",
+    "apellido": "Zanotti",
+    "direccion": "Saavedra 594",
+    "telefono": "3413548510",
+    "fecha_nacimiento": "4/21/1999",
+    "sexo": "Femenino",
+    "email": "zanottiagus@gmail.com"
+  },
+  {
+    "dni": "5910467",
+    "nombre": "Marta",
+    "apellido": "Mignacco",
+    "direccion": "9 de julio 2130",
+    "telefono": "3416802914",
+    "fecha_nacimiento": "5/25/1948",
+    "sexo": "Femenino",
+    "email": "Emmignacco@hotmail.come"
+  },
+  {
+    "dni": "24784974",
+    "nombre": "Marta",
+    "apellido": "Raimondi",
+    "direccion": "Rosario",
+    "telefono": "3412627782",
+    "fecha_nacimiento": "3/30/1976",
+    "sexo": "Femenino",
+    "email": "marta_raimondi@hotmail.com"
+  },
+  {
+    "dni": "14299760",
+    "nombre": "Norma",
+    "apellido": "Miskevish",
+    "direccion": "3 de febrero 3233",
+    "telefono": "3416866634",
+    "fecha_nacimiento": "2/10/1961",
+    "sexo": "Femenino",
+    "email": "Mis_normita@hotmail.com"
+  },
+  {
+    "dni": "24327492",
+    "nombre": "Nilda fabiana",
+    "apellido": "Stefani",
+    "direccion": "27 de febrero  1460 dpt 2",
+    "telefono": "3415962250",
+    "fecha_nacimiento": "1/21/1975",
+    "sexo": "Femenino",
+    "email": "fabianasteffi@hotmail.com"
+  },
+  {
+    "dni": "29139174",
+    "nombre": "Melina",
+    "apellido": "Bianchi",
+    "direccion": "24 de setiembre 1663",
+    "telefono": "3416297739",
+    "fecha_nacimiento": "3/12/1982",
+    "sexo": "Femenino",
+    "email": "bianchimeli@gmail.com"
+  },
+  {
+    "dni": "45655999",
+    "nombre": "Lucila Rocío",
+    "apellido": "Sosa",
+    "direccion": "Lamadrid y Gral Paz",
+    "telefono": "3415908735",
+    "fecha_nacimiento": "7/14/2004",
+    "sexo": "Femenino",
+    "email": "lucilaabrahamer@gmail.com"
+  },
+  {
+    "dni": "17460663",
+    "nombre": "Maria del Carmen",
+    "apellido": "Campo",
+    "direccion": "Lima 440",
+    "telefono": "3416363161",
+    "fecha_nacimiento": "10/12/1965",
+    "sexo": "Femenino",
+    "email": "farmaciacampo@yahoo.com.ar"
+  },
+  {
+    "dni": "18193702",
+    "nombre": "Cecilia",
+    "apellido": "Gigena",
+    "direccion": "Bv Oroño 252",
+    "telefono": "3416187175",
+    "fecha_nacimiento": "6/4/1966",
+    "sexo": "Femenino",
+    "email": "Mceciliagigena@hotmail.com"
+  },
+  {
+    "dni": "21510224",
+    "nombre": "Gabriela Ester",
+    "apellido": "Facchiano",
+    "direccion": "Rodríguez 4533 E",
+    "telefono": "3416048689",
+    "fecha_nacimiento": "3/24/1970",
+    "sexo": "Femenino",
+    "email": "gabitafacchiano@hotmail.com"
+  },
+  {
+    "dni": "38901417",
+    "nombre": "Matias",
+    "apellido": "Sanguinetti",
+    "direccion": "Mitre 2524",
+    "telefono": "3471604503",
+    "fecha_nacimiento": "7/27/1995",
+    "sexo": "Masculino",
+    "email": "matiassanguinetti95@gmail.com"
+  },
+  {
+    "dni": "16745311",
+    "nombre": "Cristina",
+    "apellido": "Lorente",
+    "direccion": "Urquiza 853 3A",
+    "telefono": "3415014921",
+    "fecha_nacimiento": "1/12/1964",
+    "sexo": "Femenino",
+    "email": "lorentecris@gmail.com"
+  },
+  {
+    "dni": "20167489",
+    "nombre": "Adrian",
+    "apellido": "Altan",
+    "direccion": "Rodriguez 4533 E",
+    "telefono": "3415852959",
+    "fecha_nacimiento": "2/1/1968",
+    "sexo": "Masculino",
+    "email": "adrianaltan@hotmail.com"
+  },
+  {
+    "dni": "12397651",
+    "nombre": "Maria teresa",
+    "apellido": "Peri",
+    "direccion": "Necochea 1273",
+    "telefono": "3416641502",
+    "fecha_nacimiento": "3/14/1958",
+    "sexo": "Femenino",
+    "email": "mariateresaperi@gmail.com"
+  },
+  {
+    "dni": "17555872",
+    "nombre": "Marisa",
+    "apellido": "Ciacia",
+    "direccion": "Tarragona 216",
+    "telefono": "3415049275",
+    "fecha_nacimiento": "11/19/1965",
+    "sexo": "Femenino",
+    "email": "ciaciamarisa@gmail.com"
+  },
+  {
+    "dni": "39249800",
+    "nombre": "Maximiliano",
+    "apellido": "Troncoso",
+    "direccion": "San Martin 545",
+    "telefono": "3462594928",
+    "fecha_nacimiento": "11/13/1995",
+    "sexo": "Masculino",
+    "email": "maxitroncoso13@gmail.com"
+  },
+  {
+    "dni": "31542456",
+    "nombre": "Alejandro",
+    "apellido": "Aguilar",
+    "direccion": "Catamarca 1981",
+    "telefono": "2477675977",
+    "fecha_nacimiento": "6/22/1985",
+    "sexo": "Masculino",
+    "email": "ale_comu@hotmail.com"
+  },
+  {
+    "dni": "11271765",
+    "nombre": "Maria del Carmen",
+    "apellido": "Cianciardo",
+    "direccion": "3 de febrero 370  6 B",
+    "telefono": "3416859833",
+    "fecha_nacimiento": "5/13/2025",
+    "sexo": "Femenino",
+    "email": "jardinmisbichitos@hotmail.com"
+  }
+]

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada de Stock Total</title>
+
+    <!-- jQuery & Select2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+
+<h2>Entradas de Stock Total</h2>
+<input type="text" id="buscador" placeholder="🔎 Buscar..." style="margin-bottom: 10px; padding: 5px; width: 200px;">
+
+    <table border="1" class="pedidos_table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Recibido Por</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stock %}
+            <tr>
+                <td>{{ stock["fecha"] }}</td>
+                <td>{{ stock["recibido_por"] }}</td>
+                <td>{{ stock["Producto"] }}</td>
+                <td>{{ stock["cantidad"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        document.getElementById('buscador').addEventListener('input', function() {
+            let filtro = this.value.toLowerCase()
+    
+            document.querySelectorAll('.pedidos_table tbody tr').forEach(fila => {
+                let id = fila.cells[0].textContent.toLowerCase()
+                let producto = fila.cells[1].textContent.toLowerCase()
+                let stock = fila.cells[2].textContent.toLowerCase()
+    
+                if (id.includes(filtro) || producto.includes(filtro) || stock.includes(filtro)) {
+                    fila.style.display = ""
+                } else {
+                    fila.style.display = "none"
+                }
+            })
+        })
+    </script>
+    
+</body>
+</html>

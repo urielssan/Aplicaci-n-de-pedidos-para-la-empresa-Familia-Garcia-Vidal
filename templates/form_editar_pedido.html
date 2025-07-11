@@ -1,0 +1,229 @@
+<!-- form_editar_pedido.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+  {% include 'partials/navbar.html' %}
+
+  <form class="form" action="{{ url_for('actualizar_pedido') }}" method="post">
+    <h2 style="color: #5C0029;">Editar Pedido</h2>
+    <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+    <input type="hidden" name="id" value="{{ pedido['ID'] }}">
+
+    <div class="productos">
+      <h4>Vendedor:</h4>
+      <select name="vendedor" required>
+        {% for v in ["Veronica", "Silvina", "Lautaro", "Laura", "Lucia"] %}
+        <option value="{{ v }}" {% if pedido['Vendedor'] == v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Cliente:</h4>
+      <input type="text" name="cliente" value="{{ pedido['Cliente'] }}">
+      <h4>DNI:</h4>
+      <input type="text" name="dni" value="{{ pedido['DNI'] }}">
+
+      <h4>Dirección:</h4>
+      <input type="text" name="direccion" value="{{ pedido['Dirección'] }}">
+
+      <h4>Teléfono:</h4>
+      <input type="text" name="telefono" value="{{ pedido['Teléfono'] }}">
+
+      <h4>Email:</h4>
+      <input type="email" name="email" value="{{ pedido['Email'] }}">
+
+      <h4>Fecha de nacimiento:</h4>
+      <input type="date" name="fecha_nacimiento" value="{{ pedido['Fecha de Nacimiento'] }}">
+
+      <h4>Sexo:</h4>
+      <select name="sexo">
+        <option value="">--</option>
+        {% for s in ["F", "M", "X"] %}
+        <option value="{{ s }}" {% if pedido['Sexo'] == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Fecha de Entrega:</h4>
+      <input type="date" name="fecha_entrega" value="{{ pedido['Fecha de Entrega'] }}">
+
+      <h4>Horario de Entrega:</h4>
+      <select name="horario_entrega">
+        {% for h in ["09:00 a 12:00", "12:00 a 15:00", "15:00 a 18:00", "18:00 a 21:00"] %}
+        <option value="{{ h }}" {% if pedido['Horario de Entrega'] == h %}selected{% endif %}>{{ h }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Tipo de Pedido:</h4>
+      <select name="estado">
+        {% for e in ["Inmediato", "Entrega a domicilio", "Retiro en local"] %}
+        <option value="{{ e }}" {% if pedido['Estado'] == e %}selected{% endif %}>{{ e }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Método de Pago:</h4>
+      <select name="metodo_pago">
+        {% for m in ["Efectivo", "Transferencia", "QR", "Débito", "Crédito", "Modo"] %}
+        <option value="{{ m }}" {% if pedido['Método de Pago'] == m %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Banco:</h4>
+      <select name="banco">
+        {% for b in ["Payway", "Mercado-Pago", "viumi", "-"] %}
+        <option value="{{ b }}" {% if pedido['Banco'] == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+      </select>
+
+        <h4>Descuento:</h4>
+        <select name="descuentoOn" id="descuento">
+        <option value="0" {% if pedido['Descuento'] == '0' %}selected{% endif %}>Sin descuento</option>
+        <option value="5" {% if pedido['Descuento'] == '5' %}selected{% endif %}>5%</option>
+        <option value="10" {% if pedido['Descuento'] == '10' %}selected{% endif %}>10%</option>
+        <option value="15" {% if pedido['Descuento'] == '15' %}selected{% endif %}>15%</option>
+        </select>
+
+
+      <h4>¿Pagado?</h4>
+      <select name="pagado">
+        <option value="No" {% if pedido['Pagado'] == 'No' %}selected{% endif %}>No</option>
+        <option value="Sí" {% if pedido['Pagado'] == 'Sí' %}selected{% endif %}>Sí</option>
+      </select>
+
+      <h4>Zona de Envío:</h4>
+      <select name="zona_envio" id="zona_envio">
+        {% for z in ["0", "2500", "3500", "4500", "5500", "6500"] %}
+        <option value="{{ z }}" {% if pedido['Zona de Envio'] == z %}selected{% endif %}>${{ z }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Medio (Pidio por):</h4>
+      <select name="pidio">
+        {% for p in ["Manychat", "Local", "Tienda Nube", "Local Virtual"] %}
+        <option value="{{ p }}" {% if pedido['Medio'] == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+
+      <h4>Local:</h4>
+      <select name="local">
+        <option value="3 de Febrero" {% if pedido['Local'] == '3 de Febrero' %}selected{% endif %}>3 de Febrero</option>
+      </select>
+    </div>
+
+    <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+
+    <div class="submit">
+      <h4 style="margin-top: 1em;">Productos</h4>
+      <div id="productos-container"></div>
+      <button type="button" onclick="agregarProducto()">+ Agregar Producto</button>
+      <h4 style="margin-top: 1em;">Observaciones:</h4>
+      <input type="text" name="observaciones" value="{{ pedido['Observaciones'] }}">
+      <h4>Monto:</h4>
+      <input type="number" step="0.01" name="monto" id="monto_total" readonly style="background-color: #eee;">
+
+      <input style="margin-top: 1em;" type="submit" value="Actualizar Pedido">
+    </div>
+  </form>
+
+  <script>
+    const preciosProductos = {{ precios_productos|tojson|safe }};
+  </script>
+  <script>
+    const productosConCantidad = {{ pedido['__productos'] | tojson | safe }};
+
+    window.onload = () => {
+      const container = document.getElementById('productos-container');
+      productosConCantidad.forEach(([nombre, cantidad]) => {
+        container.innerHTML += generarItemProducto(nombre, cantidad);
+      });
+    };
+
+    function generarItemProducto(nombre = '', cantidad = 1) {
+      return `
+        <div class="producto-item">
+          <div class="producto-linea">
+            <label>Producto:</label>
+            <select name="productos[]" class="producto-select" required>
+              <option value="">Seleccionar producto</option>
+              ${Object.entries(preciosProductos).map(([p, precio]) =>
+                `<option value="${p}" ${p === nombre ? 'selected' : ''}>${p} - $${precio}</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div class="producto-linea">
+            <label>Cantidad:</label>
+            <input type="number" name="cantidades[]" min="0.001" step="0.001" value="${cantidad}" required>
+          </div>
+          <button type="button" onclick="this.parentNode.remove()">❌</button>
+        </div>`;
+    }
+
+    function agregarProducto() {
+      document.getElementById('productos-container').innerHTML += generarItemProducto();
+      $('.producto-select').select2({ width: "100%" });
+    }
+
+    $(document).ready(function () {
+      $('.producto-select').select2({ width: "100%" });
+    });
+  </script>
+<script>
+  function calcularMonto() {
+    let total = 0;
+    document.querySelectorAll('.producto-item').forEach(item => {
+      const select = item.querySelector('select[name="productos[]"]');
+      const input = item.querySelector('input[name="cantidades[]"]');
+      const nombreProducto = select.value;
+      const cantidad = parseFloat(input.value) || 0;
+      const precioUnitario = preciosProductos[nombreProducto] || 0;
+      total += precioUnitario * cantidad;
+    });
+
+    // Obtener descuento
+    const descuentoValor = parseFloat(document.getElementById('descuento').value) || 0;
+    const descuentoAplicado = total * (descuentoValor / 100);
+
+    // Obtener envío
+    const envio = parseFloat(document.getElementById('zona_envio').value) || 0;
+
+    const totalFinal = total - descuentoAplicado + envio;
+
+    document.getElementById('monto_total').value = totalFinal.toFixed(2);
+  }
+
+  // Escuchar cambios
+  document.addEventListener('input', function (e) {
+    if (
+      e.target.name === 'productos[]' ||
+      e.target.name === 'cantidades[]' ||
+      e.target.name === 'descuentoOn' ||
+      e.target.name === 'zona_envio'
+    ) {
+      calcularMonto();
+    }
+  });
+
+  // Calcular al cargar
+  window.onload = () => {
+    const container = document.getElementById('productos-container');
+    productosConCantidad.forEach(([nombre, cantidad]) => {
+      container.innerHTML += generarItemProducto(nombre, cantidad);
+    });
+    calcularMonto();
+  };
+</script>
+<script>
+  document.querySelector('form').addEventListener('submit', function (e) {
+    calcularMonto();  // 🔁 Asegura que el valor actualizado llegue al backend
+  });
+</script>
+
+</body>
+</html>

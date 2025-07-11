@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Recetas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <h2>Recetas</h2>
+    <form method="POST">
+        <table class="pedidos_table">
+            <thead>
+                <tr>
+                    <th>ID Receta</th>
+                    <th>Producto Terminado</th>
+                    <th>Materia Prima</th>
+                    <th>Unidad</th>
+                    <th>Categoría</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for receta in recetas %}
+                    {% for mp in union if mp.ID_receta == receta.ID %}
+                    <tr>
+                        <td>{{ receta.ID }}</td>
+                        <td>{{ receta.Producto }}</td>
+                        <td>{{ mp.Materia }}</td>
+                        <td>{{ mp.Unidad }}</td>
+                        <td>{{ mp.Categoria }}</td>
+                        <td>{{ mp.Cantidad }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+        <h3>➕ Crear nueva receta</h3>
+        <input type="number" name="nueva_id_receta" placeholder="ID Receta" required>
+        <input type="text" name="nuevo_producto" placeholder="Producto terminado" required>
+        <br><br>
+        <input type="submit" name="accion" value="agregar_receta">
+    </form>
+
+    <hr>
+    <h2>➕ Añadir Materia Prima a Receta</h2>
+    <form method="POST">
+        <label>ID de receta:</label>
+        <input type="number" name="id_receta" required>
+        <br>
+        <br>
+        <label>Materia prima:</label>
+        <select name="id_materia_prima">
+            {% for mp in materias_primas %}
+                <option value="{{ mp.ID }}">{{ mp.Materia }} ({{ mp.Unidad }})</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+        <label>Cantidad:</label>
+        <input type="number" step="0.01" name="cantidad" required>
+        <br>
+        <br>
+        <button type="submit" name="accion" value="agregar_mp">Añadir</button>
+    </form>
+</body>
+</html>

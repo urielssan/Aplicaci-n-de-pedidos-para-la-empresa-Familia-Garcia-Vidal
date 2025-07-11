@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Recetas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+</head>
+<body>
+
+
+<!-- templates/editar_clientes.html -->
+{% include 'partials/navbar.html' %}
+<h2>Editar Clientes</h2>
+<table class="pedidos_table">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in clientes %}
+        <tr>
+            <td>{{ c.dni }}</td>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.apellido }}</td>
+            <td><i><a style="color:rgb(21, 16, 62)" href="{{ url_for('editar_cliente', dni=c.dni) }}">Editar</a></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

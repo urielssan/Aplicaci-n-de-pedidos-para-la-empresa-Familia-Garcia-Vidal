@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorteo FGV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+  <style>
+    .main {
+      background-color: #5C0029;
+      color: #e4c631;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 40px;
+    }
+
+    #slot-container {
+      position: relative;
+      width: 400px;
+      height: 300px; /* 5 nombres de 60px */
+      overflow: hidden;
+      border: 4px solid #e4c631;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+
+    #slot {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      transition: top 4s cubic-bezier(0.1, 0.7, 0.1, 1);
+    }
+
+    .nombre {
+      height: 60px;
+      line-height: 60px;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #5C0029;
+    }
+
+    .flecha {
+      position: absolute;
+      top: 20px;
+      left: 10%;
+      transform: translateX(-50%) rotate(270deg);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid #000000;
+      z-index: 2;
+    }
+
+    #spin {
+      margin-top: 20px;
+      padding: 14px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 20px;
+      background: white;
+      color: #5C0029;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #spin:hover {
+      background: #e8e8e8;
+    }
+
+    #ganador {
+      font-size: 2em;
+      margin-top: 30px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    
+  {% include 'partials/navbar.html' %}
+
+
+<div class="main">
+  <div id="slot-container">
+    <div class="flecha"></div>
+    <div id="slot"></div>
+  </div>
+
+  <button id="spin">¡GIRAR!</button>
+  <div id="ganador"></div>
+</div>
+  <script>
+  const participantes = {{ participantes|tojson }};
+  const slot = document.getElementById("slot");
+  const ganadorDiv = document.getElementById("ganador");
+  const VISIBLE = 10;
+  const GANADOR_INDEX = Math.floor(VISIBLE / 2);
+  const REPETICIONES = 50;
+
+  // Devuelve el nombre completo
+  function mostrarNombre(nombre) {
+    return nombre || '';
+  }
+
+  function cargarNombres(ganaNombre = null) {
+    let contenido = "";
+    for (let i = 0; i < REPETICIONES; i++) {
+      const nombre = participantes[Math.floor(Math.random() * participantes.length)].Nombre;
+      contenido += `<div class="nombre">${mostrarNombre(nombre)}</div>`;
+    }
+    let nombresFinales = [];
+    if (ganaNombre) {
+      let otros = participantes.filter(p => p.Nombre !== ganaNombre);
+      for (let i = 0; i < VISIBLE; i++) {
+        if (i === GANADOR_INDEX) {
+          nombresFinales.push(ganaNombre);
+        } else {
+          const idx = Math.floor(Math.random() * otros.length);
+          nombresFinales.push(otros[idx]?.Nombre || ganaNombre);
+        }
+      }
+    } else {
+      for (let i = 0; i < VISIBLE; i++) {
+        const nombre = participantes[Math.floor(Math.random() * participantes.length)].Nombre;
+        nombresFinales.push(nombre);
+      }
+    }
+    for (let nombre of nombresFinales) {
+      contenido += `<div class="nombre">${mostrarNombre(nombre)}</div>`;
+    }
+    slot.innerHTML = contenido;
+  }
+
+  function girar() {
+    const ganadorObj = participantes[Math.floor(Math.random() * participantes.length)];
+    const nombreGanador = ganadorObj.Nombre;
+    cargarNombres(nombreGanador);
+
+    const totalNombres = slot.children.length;
+    const desplazamiento = (totalNombres - VISIBLE + GANADOR_INDEX) * 60;
+
+    slot.style.transition = "top 16s cubic-bezier(0.1, 0.7, 0.1, 1)";
+    slot.style.top = `-${desplazamiento}px`;
+
+    setTimeout(() => {
+      ganadorDiv.innerText = `Ganó ${nombreGanador}`;
+    }, 16400);
+  }
+
+  document.getElementById("spin").addEventListener("click", () => {
+    slot.style.transition = "none";
+    slot.style.top = "0px";
+    ganadorDiv.innerText = "";
+    setTimeout(girar, 100);
+  });
+
+  cargarNombres();
+</script>
+</body>
+</html>
+

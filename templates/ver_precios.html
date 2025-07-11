@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Precios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+    <h2>Productos</h2>
+    <form method="POST">
+        <table class="pedidos_table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Eliminar ❌ </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto, precio in precios.items() %}
+                <tr>
+                    <td>
+                        <input type="text" name="nombre_existente_{{ loop.index }}" value="{{ producto }}">
+                    </td>
+                    <td>
+                        <input type="number" name="precio_existente_{{ loop.index }}" value="{{ precio }}" style="width: 100px;">
+                    </td>
+                    <td>
+                        <input type="checkbox" name="eliminar_{{ loop.index }}">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+        <h3>➕ Agregar nuevo producto</h3>
+        <input type="text" name="nuevo_nombre" placeholder="Nombre del producto" >
+        <input type="number" name="nuevo_precio" placeholder="Precio" >
+
+        <br><br>
+        <input type="hidden" name="total_productos" value="{{ precios|length }}">
+        <input type="submit" value="Guardar cambios">
+    </form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Cliente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  {% include 'partials/navbar.html' %}
+  <form id="form-cliente" class="form">
+    <h2 style="color: #5C0029; margin-bottom: 1em;">Registrar nuevo cliente</h2>
+    <div style="display: flex; flex-direction: column; gap: 1em;">
+      <input type="text" name="dni" placeholder="DNI" required>
+      <input type="text" name="nombre" placeholder="Nombre o Apodo" required>
+      <input type="text" name="apellido" placeholder="Apellido" required>
+      <input type="text" name="direccion" placeholder="Dirección">
+      <input type="text" name="telefono" placeholder="Teléfono">
+      <input type="date" name="fecha_nacimiento" placeholder="Fecha de nacimiento">
+      <select name="sexo" required>
+        <option value="">Sexo</option>
+        <option value="F">Femenino</option>
+        <option value="M">Masculino</option>
+        <option value="X">Otro</option>
+      </select>
+      <input type="email" name="email" placeholder="Email">
+    </div>
+    <div class="submit" style="margin-top: 1.5em;">
+      <input type="submit" value="Guardar Cliente">
+      <p id="mensaje"></p>
+    </div>
+  </form>
+
+  <script>
+    document.getElementById('form-cliente').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const form = e.target
+
+      const cliente = {
+        dni: form.dni.value.trim(),
+        nombre: form.nombre.value.trim(),
+        apellido: form.apellido.value.trim(),
+        direccion: form.direccion.value.trim(),
+        telefono: form.telefono.value.trim(),
+        fecha_nacimiento: form.fecha_nacimiento.value,
+        sexo: form.sexo.value,
+        email: form.email.value.trim()
+      }
+
+      const res = await fetch('/clientes', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(cliente)
+      })
+
+      const data = await res.json()
+      document.getElementById('mensaje').innerText = data.mensaje
+      if (res.ok) form.reset()
+    })
+  </script>
+</body>
+</html>

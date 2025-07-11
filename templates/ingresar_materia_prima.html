@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ingreso de Materia Prima</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+    <!-- Agregar jQuery y Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+</head>
+
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+
+
+    <form class="form" action="{{ url_for('guardar_materia_prima') }}" method="post">
+        <h1>Ingresar Materia Prima</h1>
+
+        <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+        <div class="productos">
+            <h3>Recibio:</h3>
+            <select id="vendedor" name="vendedor" required>
+                <option value="Veronica">Veronica</option>
+                <option value="Silvina">Silvina</option>
+                <option value="Lautaro">Lautaro</option>
+                <option value="Laura">Laura</option>
+                <option value="Lucia">Lucia</option>
+            </select>
+            <h3>Fecha de Entrega:</h3>
+            <input type="date" id="fecha" name="fecha" required>
+        </div>
+        <div class="submit">
+            <h3 style="color: var(--color-texto); margin-bottom: 0;">Productos</h3>
+            <div id="productos-container"></div> <!-- Contenedor donde se agregan los productos dinámicamente -->
+            <button type="button" onclick="agregarMateriaPrima()"> + Agregar Materia Prima</button>
+            <h3>Observaciones:</h3>
+            <input type="text" name="observaciones">
+
+            <input type="submit" value="Guardar Stock">
+        </div>
+    </form>
+
+    <script>
+        document.querySelector('.form').addEventListener('submit', function () {
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.value = "Guardando...";
+        });
+
+
+        const materiaPrima = {{ materia_prima | tojson }};
+
+        function agregarMateriaPrima() {
+            let container = document.getElementById("productos-container");
+            let div = document.createElement("div");
+            div.classList.add("producto-item");
+            let idMateriaPrima = "MPrima-" + Math.random().toString(36).substr(2, 9);
+
+            div.innerHTML = `
+        <select name="productos[]" class="producto-select" id="${idMateriaPrima}">
+            <option value="">Seleccionar producto</option>
+            ${Object.keys(materiaPrima).map(p => `<option value="${p}">${p}</option>`).join("")}
+        </select>
+        Cantidad: <input type="number" name="cantidades[]" min="-1000" step="0.01" value="1" required>
+        <button type="button" onclick="this.parentNode.remove()">X</button>
+    `;
+
+            container.appendChild(div);
+
+            const select = $(`#${idMateriaPrima}`);
+            select.select2();
+
+            // Abrimos Select2 y enfocamos el campo de búsqueda interno
+            setTimeout(() => {
+                select.select2('open');
+                setTimeout(() => {
+                    // Enfocar el input de búsqueda interno
+                    document.querySelector('.select2-container--open .select2-search__field')?.focus();
+                }, 50); // Mini delay para que se haya renderizado el campo
+            }, 100);
+        }
+
+
+        document.addEventListener('click', () => {
+            setTimeout(() => {
+                document.querySelector('.select2-container--open .select2-search__field')?.focus();
+            }, 50);
+        });
+    </script>
+
+</body>
+
+</html>

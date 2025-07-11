@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada de Stock Total</title>
+
+    <!-- jQuery & Select2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+
+<h2>Ultimas 10 Salidas de Caja</h2>
+<input type="text" id="buscador" placeholder="🔎 Buscar..." style="margin-bottom: 10px; padding: 5px; width: 200px;">
+
+    <table border="1" class="pedidos_table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Vendedor</th>
+                <th>Detalle</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salidas in datos_salidas %}
+            <tr>
+                <td>{{ salidas["Fecha"] }}</td>
+                <td>{{ salidas["Vendedor"] }}</td>
+                <td>{{ salidas["Detalle"] }}</td>
+                <td>{{ salidas["Monto"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
