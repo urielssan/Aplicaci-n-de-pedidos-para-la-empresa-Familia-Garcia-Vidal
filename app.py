@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_file, make_response
 import pandas as pd
 from modules.utils import  init_excel
 from modules.pdf_generator import generar_pdf, generar_pdf_detalles_pedido
@@ -7,8 +7,13 @@ from functools import wraps
 from datetime import datetime
 import json
 from pathlib import Path
-
 import os
+import zipfile
+from graphviz import Digraph
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
@@ -1503,6 +1508,53 @@ def editar_cliente(dni):
 
     return render_template('form_editar_cliente.html', cliente=cliente)
 
+
+@app.route('/generar_flujo')
+def generar_flujo():
+    # 🔹 Acceder al Sheet "flujo_produccion"
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+    client = gspread.authorize(creds)
+    sheet = client.open("flujo_produccion").worksheet("flujo_produccion.csv")
+    data = sheet.get_all_records()
+    df = pd.DataFrame(data)
+
+    # 🔹 Crear PDFs
+    output_folder = 'diagramas_temp'
+    os.makedirs(output_folder, exist_ok=True)
+
+    for idx, row in df.iterrows():
+        producto = row['Producto']
+        pasos = row.dropna()[1:]
+        dot = Digraph(format='pdf')
+        dot.attr(rankdir='LR')
+        dot.attr('node', shape='box', style='filled', fillcolor='lightgrey', fontname='Helvetica')
+        prev_node = None
+        for i, paso in enumerate(pasos):
+            node_id = f"n{i}"
+            if paso:
+                dot.node(node_id, paso)
+                if prev_node:
+                    dot.edge(prev_node, node_id)
+                prev_node = node_id
+        safe_name = producto.replace(" ", "_").replace("/", "_")
+        dot.render(filename=f"{output_folder}/{safe_name}", cleanup=True)
+
+    # 🔹 Comprimir PDFs en ZIP
+    zip_path = "diagramas_flujo.zip"
+    with zipfile.ZipFile(zip_path, 'w') as zipf:
+        for file in os.listdir(output_folder):
+            if file.endswith('.pdf'):
+                zipf.write(os.path.join(output_folder, file), arcname=file)
+
+    response = make_response(send_file("diagramas_flujo.zip", as_attachment=True))
+    response.headers["Content-Type"] = "application/zip"
+    return response
+
+@app.route('/generar_flujos')
+@login_requerido
+def generar_flujos():
+    return render_template('generar_flujo.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

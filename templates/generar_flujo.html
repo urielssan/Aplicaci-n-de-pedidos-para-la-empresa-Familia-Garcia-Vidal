@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Generar flujo</title>
+</head>
+
+<body>
+    <h2>Generar diagramas de flujo</h2>
+    <button onclick="descargarZip()">Descargar y volver</button>
+
+    <script>
+        async function descargarZip() {
+            try {
+                const response = await fetch('{{ url_for("generar_flujo") }}')
+                if (!response.ok) throw new Error("Error al generar archivo")
+
+                const blob = await response.blob()
+                const url = window.URL.createObjectURL(blob)
+                const link = document.createElement('a')
+                link.href = url
+                link.download = "diagramas_flujo.zip"
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+
+                // 🔁 Liberar objeto URL y redirigir
+                window.URL.revokeObjectURL(url)
+                window.location.href = "{{ url_for('index') }}"
+            } catch (error) {
+                alert("Hubo un error al generar el archivo.")
+                console.error(error)
+            }
+        }
+    </script>
+</body>
+
+</html>
