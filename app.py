@@ -105,6 +105,63 @@ def obtener_cliente(dni):
 def registrar_cliente_form():
     return render_template('registrar_cliente.html')
 
+@app.route('/registrar_json', methods=['POST'])
+def registrar_json():
+    try:
+        nuevos_clientes = request.get_json()
+
+        # Leer clientes existentes
+        if os.path.exists('clientes.json'):
+            with open('clientes.json', 'r', encoding='utf-8') as f:
+                clientes_existentes = json.load(f)
+        else:
+            clientes_existentes = []
+
+        # Agregar nuevos clientes
+        clientes_existentes.extend(nuevos_clientes)
+
+        # Guardar todo de nuevo
+        with open('clientes.json', 'w', encoding='utf-8') as f:
+            json.dump(clientes_existentes, f, indent=2, ensure_ascii=False)
+
+        return jsonify({"estado": "ok", "mensaje": f"{len(nuevos_clientes)} clientes registrados"}), 200
+
+    except Exception as e:
+        return jsonify({"estado": "error", "mensaje": str(e)}), 500
+
+@app.route('/limpiar_json', methods=['GET', 'POST'])   
+def limpiar_json():
+    try:
+        ruta_json = "modules/clientes.json"
+        if not os.path.exists(ruta_json):
+            return jsonify({"error": "clientes.json no existe"}), 404
+
+        with open(ruta_json, "r", encoding="utf-8") as f:
+            clientes = json.load(f)
+
+        # Usamos un set para registrar combinaciones únicas
+        vistos = set()
+        clientes_limpios = []
+
+        for c in clientes:
+            clave = (
+                str(c.get("dni", "")).strip(),
+                str(c.get("nombre", "")).strip().lower(),
+                str(c.get("apellido", "")).strip().lower()
+            )
+            if clave not in vistos:
+                vistos.add(clave)
+                clientes_limpios.append(c)
+
+        # Guardamos la lista limpia
+        with open(ruta_json, "w", encoding="utf-8") as f:
+            json.dump(clientes_limpios, f, indent=2, ensure_ascii=False)
+
+        return jsonify({"mensaje": "JSON limpiado correctamente", "total": len(clientes_limpios)})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
