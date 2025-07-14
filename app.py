@@ -12,6 +12,7 @@ import zipfile
 from graphviz import Digraph
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import requests
 
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
@@ -1510,41 +1511,51 @@ def editar_cliente(dni):
 
 
 @app.route('/generar_flujo')
+@app.route('/generar_flujo')
 def generar_flujo():
-    # 🔹 Acceder al Sheet "flujo_produccion"
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+    
     client = gspread.authorize(creds)
     sheet = client.open("flujo_produccion").worksheet("flujo_produccion.csv")
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
-
-    # 🔹 Crear PDFs
-    output_folder = 'diagramas_temp'
+    output_folder = "diagramas_api"
     os.makedirs(output_folder, exist_ok=True)
 
     for idx, row in df.iterrows():
         producto = row['Producto']
         pasos = row.dropna()[1:]
-        dot = Digraph(format='pdf')
-        dot.attr(rankdir='LR')
-        dot.attr('node', shape='box', style='filled', fillcolor='lightgrey', fontname='Helvetica')
-        prev_node = None
-        for i, paso in enumerate(pasos):
-            node_id = f"n{i}"
-            if paso:
-                dot.node(node_id, paso)
-                if prev_node:
-                    dot.edge(prev_node, node_id)
-                prev_node = node_id
-        safe_name = producto.replace(" ", "_").replace("/", "_")
-        dot.render(filename=f"{output_folder}/{safe_name}", cleanup=True)
 
-    # 🔹 Comprimir PDFs en ZIP
+        # Armar el código DOT
+        dot_code = "digraph G {\n"
+        dot_code += '  rankdir=LR;\n'
+        dot_code += '  node [shape=box, style=filled, fillcolor=lightgrey, fontname="Helvetica"];\n'
+
+        for i, paso in enumerate(pasos):
+            if paso:
+                dot_code += f'  n{i} [label="{paso}"];\n'
+                if i > 0:
+                    dot_code += f'  n{i-1} -> n{i};\n'
+        dot_code += "}"
+
+        # Llamar a la API de QuickChart
+        api_url = 'https://quickchart.io/graphviz'
+        params = {'graph': dot_code,
+                  'format': 'png'}
+        response = requests.get(api_url, params=params)
+
+        # Guardar imagen
+        safe_name = producto.replace(" ", "_").replace("/", "_")
+        image_path = os.path.join(output_folder, f"{safe_name}.png")
+        with open(image_path, "wb") as f:
+            f.write(response.content)
+
+    # Crear ZIP
     zip_path = "diagramas_flujo.zip"
     with zipfile.ZipFile(zip_path, 'w') as zipf:
         for file in os.listdir(output_folder):
-            if file.endswith('.pdf'):
+            if file.endswith(".png"):
                 zipf.write(os.path.join(output_folder, file), arcname=file)
 
     response = make_response(send_file("diagramas_flujo.zip", as_attachment=True))
