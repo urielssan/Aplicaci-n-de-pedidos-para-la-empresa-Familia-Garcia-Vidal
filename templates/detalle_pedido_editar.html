@@ -1,6 +1,7 @@
 <!-- editar_pedidos.html adaptado para mostrar el formulario SIEMPRE visible, sin modal -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 </head>
+
 <body>
   {% include 'partials/navbar.html' %}
   <h2>Editar Pedido</h2>
@@ -34,11 +36,11 @@
     <label>Fecha de nacimiento:</label>
     <input type="date" name="fecha_nacimiento" id="fecha_nacimiento_cliente">
     <label>Sexo:</label>
-    <select name="sexo" id="sexo_cliente">
-      <option value="">--</option>
-      <option value="F">Femenino</option>
-      <option value="M">Masculino</option>
-      <option value="X">Otro</option>
+    <input type="text" name="sexo" id="sexo_cliente">
+    <option value="">--</option>
+    <option value="Femenino" name="Femenino">Femenino</option>
+    <option value="Masculino" name="Masculino">Masculino</option>
+    <option value="X" name="X">Otro</option>
     </select>
     <label>Medio (Pidió por):</label>
     <select name="pidio" id="pidio">
@@ -103,8 +105,9 @@
     <button type="submit">Guardar Cambios</button>
   </form>
   <script>
-    const preciosProductos = {{ precios_productos|tojson|safe }}
+    const preciosProductos = {{ precios_productos| tojson | safe }}
   </script>
   <script src="{{ url_for('static', filename='js/editar_pedido.js') }}"></script>
 </body>
+
 </html>
