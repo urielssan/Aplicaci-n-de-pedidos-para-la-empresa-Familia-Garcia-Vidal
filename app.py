@@ -40,7 +40,7 @@ def cargar_precios():
         with open(JSON_PATH, 'r') as f:
             data = json.load(f)
 
-            return dict(sorted(data.items()))
+            return dict(sorted(data.items(), key=lambda item: item[1]["nombre"]))
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo JSON en {JSON_PATH}")
         return {}
@@ -462,7 +462,7 @@ def enviar_pedido():
     medio = request.form["pidio"]
     precios_productos = cargar_precios()
 
-    precios = [precios_productos.get(p, 0) for p in productos]
+    precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
 
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
@@ -843,7 +843,8 @@ def generar_pdf_pedido(pedido_id):
         print("Error: La cantidad de productos no coincide con la cantidad de cantidades.")
         return "Error en los datos del pedido", 500  # O manejar el error como prefieras
 
-    precios = [precios_productos.get(p.strip(), 0) for p in productos]
+    precios = [precios_productos.get(p.strip(), {}).get("precio", 0) for p in productos]
+
 
     # Asegúrate de que monto sea float (manejo de errores adicional)
     try:
@@ -937,33 +938,50 @@ def ver_precios():
     if request.method == "POST":
         nuevos_precios = {}
         total = int(request.form.get("total_productos", 0))
+        next_id = 1
 
+        # Obtener IDs existentes si estamos editando productos existentes
         for i in range(1, total + 1):
+            id_existente = request.form.get(f"id_existente_{i}")
             nombre = request.form.get(f"nombre_existente_{i}", "").strip()
             precio = request.form.get(f"precio_existente_{i}")
             eliminar = request.form.get(f"eliminar_{i}")
 
             if nombre and precio and not eliminar:
-                nuevos_precios[nombre] = int(precio)
+                nuevos_precios[id_existente] = {
+                    "nombre": nombre,
+                    "precio": int(precio)
+                }
 
-        # Agregar producto nuevo si lo completaron
+                # Para nuevos IDs, mantener el máximo actual
+                next_id = max(next_id, int(id_existente) + 1)
+
+        # Agregar producto nuevo si fue completado
         nuevo_nombre = request.form.get("nuevo_nombre", "").strip()
         nuevo_precio = request.form.get("nuevo_precio", "").strip()
 
         if nuevo_nombre and nuevo_precio:
-            nuevos_precios[nuevo_nombre] = int(nuevo_precio)
+            nuevos_precios[str(next_id)] = {
+                "nombre": nuevo_nombre,
+                "precio": int(nuevo_precio)
+            }
 
         # Guardar en el archivo JSON
         with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(dict(sorted(nuevos_precios.items())), f, indent=4, ensure_ascii=False)
+            json.dump(nuevos_precios, f, indent=4, ensure_ascii=False)
 
         flash("Lista de precios actualizada con éxito")
         return redirect(url_for("ver_precios"))
 
+    # GET: leer y ordenar productos por nombre
     with open(json_path, "r", encoding="utf-8") as f:
-        precios = json.load(f)
+        data = json.load(f)
 
-    return render_template("ver_precios.html", precios=precios)
+    # Ordenar por nombre
+    precios_ordenados = dict(sorted(data.items(), key=lambda x: x[1]["nombre"]))
+
+    return render_template("ver_precios.html", precios=precios_ordenados)
+
 
 
 
