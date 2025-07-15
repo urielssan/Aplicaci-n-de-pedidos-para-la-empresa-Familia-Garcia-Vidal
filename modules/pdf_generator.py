@@ -8,7 +8,7 @@ from reportlab.lib.enums import TA_CENTER
 from modules.config import Config  # Importamos la configuración
 
 
-def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones):
+def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones, estado):
     pdf_path = f"orden_pedido_{pedido_id}.pdf"
     LOGO_PATH = Config.LOGO_PATH
 
@@ -27,6 +27,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
     elements.append(Spacer(1, 10))
     elements.append(Paragraph(f"<b>ORDEN DE PEDIDO #{pedido_id}</b>", styles["Heading3"]))
     elements.append(Spacer(1, 10))
+    elements.append(Paragraph(f"<b>TIPO DE PEDIDO: {estado}</b>", styles["Heading2"]))
     elements.append(Spacer(1, 10))
     elements.append(Paragraph("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -", styles["Normal"]))
 
