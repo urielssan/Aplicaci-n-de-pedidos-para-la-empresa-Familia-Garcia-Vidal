@@ -14,6 +14,10 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
 
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
 app = Flask(__name__)
@@ -533,7 +537,7 @@ def enviar_pedido():
 
     guardar_en_sheets(datos_pedido, productos, cantidades)
 
-    return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones)
+    return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado)
  
 @app.route("/editar_pedidos")
 def editar_pedidos():
@@ -1510,7 +1514,7 @@ def editar_cliente(dni):
     return render_template('form_editar_cliente.html', cliente=cliente)
 
 
-@app.route('/generar_flujo')
+
 @app.route('/generar_flujo')
 def generar_flujo():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -1523,6 +1527,7 @@ def generar_flujo():
     output_folder = "diagramas_api"
     os.makedirs(output_folder, exist_ok=True)
 
+    imagenes = []
     for idx, row in df.iterrows():
         producto = row['Producto']
         pasos = row.dropna()[1:]
@@ -1541,8 +1546,7 @@ def generar_flujo():
 
         # Llamar a la API de QuickChart
         api_url = 'https://quickchart.io/graphviz'
-        params = {'graph': dot_code,
-                  'format': 'png'}
+        params = {'graph': dot_code, 'format': 'png'}
         response = requests.get(api_url, params=params)
 
         # Guardar imagen
@@ -1550,16 +1554,32 @@ def generar_flujo():
         image_path = os.path.join(output_folder, f"{safe_name}.png")
         with open(image_path, "wb") as f:
             f.write(response.content)
+        imagenes.append((image_path, producto))
 
-    # Crear ZIP
-    zip_path = "diagramas_flujo.zip"
-    with zipfile.ZipFile(zip_path, 'w') as zipf:
-        for file in os.listdir(output_folder):
-            if file.endswith(".png"):
-                zipf.write(os.path.join(output_folder, file), arcname=file)
+    # Crear PDF con las imágenes (horizontal)
+    pdf_path = "diagramas_flujo.pdf"
+    c = canvas.Canvas(pdf_path, pagesize=landscape(letter))
+    width, height = landscape(letter)
 
-    response = make_response(send_file("diagramas_flujo.zip", as_attachment=True))
-    response.headers["Content-Type"] = "application/zip"
+    for image_path, producto in imagenes:
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(40, height - 50, f"Producto: {producto}")
+        img = ImageReader(image_path)
+        img_width, img_height = img.getSize()
+        max_width = width - 80
+        max_height = height - 120
+        scale = min(max_width / img_width, max_height / img_height, 1.0)
+        draw_width = img_width * scale
+        draw_height = img_height * scale
+        x = (width - draw_width) / 2
+        y = (height - draw_height) / 2 - 30
+        c.drawImage(img, x, y, draw_width, draw_height)
+        c.showPage()
+
+    c.save()
+
+    response = make_response(send_file(pdf_path, as_attachment=True))
+    response.headers["Content-Type"] = "application/pdf"
     return response
 
 @app.route('/generar_flujos')

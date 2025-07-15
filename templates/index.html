@@ -91,8 +91,6 @@
         <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
         <br>
         <div class="productos">
-            <div class="seccion-formulario">
-                <h3>1. Datos del Pedido</h3>
                 <h4>Vendedor:</h4>
                 <select id="vendedor" name="vendedor" required>
                     <option value="">-- Seleccionar --</option>
@@ -101,6 +99,7 @@
                     <option value="Lautaro">Lautaro</option>
                     <option value="Laura">Laura</option>
                     <option value="Lucia">Lucia</option>
+                    <option value="IT">IT-Pruebas</option>
                 </select>
                 <h4>¿Tipo de Pedido?</h4>
                 <select id="estado" name="estado" onchange="cambiarTipoPedido()" required>
@@ -113,11 +112,9 @@
                 <h4>Local:</h4><select id="local" name="local">
                     <option value="3 de Febrero">3 de Febrero</option>
                 </select>
-            </div>
             <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
             <br>
 
-            <div class="seccion-formulario">
                 <h4>Seleccioná un cliente:</h4>
                 <select id="selector_cliente" class="cliente-select">
                     <option value="">-- Elegir cliente registrado --</option>
@@ -159,10 +156,8 @@
                     <option value="Tienda Nube">Tienda Nube</option>
                     <option value="Local Virtual">Local Virtual</option>
                 </select>
-            </div>
             <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
             <br>
-            <div class="seccion-formulario">
                 <h4>Fecha de Entrega:</h4>
                 <input type="date" id="fecha_entrega" name="fecha_entrega" required>
                 <h4>Horario de Entrega:</h4><select id="horario_entrega" name="horario_entrega" required>
@@ -191,10 +186,11 @@
                 <h4>Banco:</h4>
                 <select name="banco" id="banco" required>
                     <option value="">-- Seleccionar --</option>
+                    <option value="-">-</option>
                     <option value="Payway">Payway</option>
                     <option value="Mercado-Pago">Mercado Pago</option>
                     <option value="viumi">viumi</option>
-                    <option value="-">-</option>
+                    
                 </select>
 
 
@@ -212,8 +208,6 @@
                     <option value="No">No</option>
                     <option value="Sí">Sí</option>
                 </select>
-
-            </div>
             <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
             <h2 id="subtotal" style="color:var(--color-texto)">Subtotal: $0.00</h2>
             <h2 id="descuento" style="color:var(--color-fondo)">Descuento: $0.00</h2>
@@ -251,6 +245,7 @@
 
             <input style="margin-top: 1em;" type="submit" value="Enviar Pedido">
         </div>
+        
     </form>
 
     <script>
