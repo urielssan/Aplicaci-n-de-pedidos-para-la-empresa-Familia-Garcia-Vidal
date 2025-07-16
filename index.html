@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Ingresar Pedido</title>
-<!-- Styles and fonts -->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
-<!-- Agregar jQuery y Select2 -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <title>Ingresar Pedido</title>
+    <!-- Styles and fonts -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+    <!-- Agregar jQuery y Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-<script>
-
-
-const preciosProductos = {{ precios_productos|tojson }};
-
-function actualizarSubtotal() {
-    let total = 0;
-    let productos = document.querySelectorAll(".producto-item");
-
-    productos.forEach(div => {
-        let producto = div.querySelector("select").value;
-        let cantidad = div.querySelector("input").value;
-        let precioUnitario = preciosProductos[producto] || 0;
-        total += (precioUnitario * cantidad);
-    });
-
-    let descuentoOn = document.getElementById("descuentoOn").value;
-    let descuento = descuentoOn === "1" ? 0.05 : 0;
-
-    let totalConDescuento = total - (total * descuento);
-
-    document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
-    document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento*total).toFixed(2)}` : `Descuento: $0.00`;
-    document.getElementById("monto").value = totalConDescuento.toFixed(2);
-}
+    <script>
 
 
-    function agregarProducto() {
-        let container = document.getElementById("productos-container");
-        let div = document.createElement("div");
-        div.classList.add("producto-item");
-        let idProducto = "producto-" + Math.random().toString(36).substr(2, 9); // Genera un ID único
+        const preciosProductos = {{ precios_productos| tojson }};
 
-div.innerHTML = `
+        function actualizarSubtotal() {
+            let total = 0;
+            let productos = document.querySelectorAll(".producto-item");
+
+            productos.forEach(div => {
+                let productoId = div.querySelector("select").value;
+                let cantidad = parseFloat(div.querySelector("input").value) || 0;
+                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
+                total += precioUnitario * cantidad;
+            });
+
+            let descuentoOn = document.getElementById("descuentoOn").value;
+            let descuento = descuentoOn === "1" ? 0.05 : 0;
+
+            let totalConDescuento = total - (total * descuento);
+
+            document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
+            document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento * total).toFixed(2)}` : `Descuento: $0.00`;
+            document.getElementById("monto").value = totalConDescuento.toFixed(2);
+        }
+
+
+        function agregarProducto() {
+            let container = document.getElementById("productos-container");
+            let div = document.createElement("div");
+            div.classList.add("producto-item");
+            let idProducto = "producto-" + Math.random().toString(36).substr(2, 9); // Genera un ID único
+
+            div.innerHTML = `
     <div class="producto-linea">
         <label>Producto:</label><br>
         <select name="productos[]" class="producto-select" id="${idProducto}" onchange="actualizarSubtotal()">
-            <option value="">Seleccionar producto</option>
-            ${Object.keys(preciosProductos).map(p => `<option value="${p}">${p} - $${preciosProductos[p]}</option>`).join("")}
-        </select>
+    <option value="">Seleccionar producto</option>
+    ${Object.keys(preciosProductos).map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`).join("")}
+</select>
     </div>
     <div class="producto-linea">
         <label>Cantidad:</label><br>
@@ -60,14 +62,15 @@ div.innerHTML = `
     </div>
     <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
 `;
-     container.appendChild(div);
+            container.appendChild(div);
 
-        // Aplicar Select2 al nuevo producto agregado
-        $(`#${idProducto}`).select2();
-    }
-</script>
-    
+            // Aplicar Select2 al nuevo producto agregado
+            $(`#${idProducto}`).select2();
+        }
+    </script>
+
 </head>
+
 <body>
     <!-- 🔹 Navbar -->
     {% include 'partials/navbar.html' %}
@@ -77,8 +80,8 @@ div.innerHTML = `
 
     <form class="form" action="/enviar_pedido" method="post">
         <h2 style="color: #5C0029;">Ingrese su pedido:</h2>
-        
-<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+
+        <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
         <br>
         <div class="productos">
             <h4>Vendedor:</h4>
@@ -90,40 +93,44 @@ div.innerHTML = `
                 <option value="Lucia">Lucia</option>
             </select>
             <h4>¿Tipo de Pedido?</h4>
-            <select id="estado" name="estado" onchange="cambiarTipoPedido()"><option value="Inmediato">Inmediato</option><option value="Entrega a domicilio">Entrega a domicilio</option><option value="Retiro en local">Retiro en local</option></select>
+            <select id="estado" name="estado" onchange="cambiarTipoPedido()">
+                <option value="Inmediato">Inmediato</option>
+                <option value="Entrega a domicilio">Entrega a domicilio</option>
+                <option value="Retiro en local">Retiro en local</option>
+            </select>
 
             <h4>Local:</h4><select id="local" name="local">
                 <option value="3 de Febrero">3 de Febrero</option>
             </select>
-<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
-  <br>
-        <h4>Seleccioná un cliente:</h4>
-        <select id="selector_cliente" class="cliente-select">
+            <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+            <br>
+            <h4>Seleccioná un cliente:</h4>
+            <select id="selector_cliente" class="cliente-select">
 
-        <option value="">-- Elegir cliente registrado --</option>
-        </select>
+                <option value="">-- Elegir cliente registrado --</option>
+            </select>
 
-        <h4>Cliente:</h4>
-        <input type="text" id="cliente" name="cliente" required>
+            <h4>Cliente:</h4>
+            <input type="text" id="cliente" name="cliente" required>
 
-        <h4>Dirección:</h4>
-        <input type="text" id="direccion" name="direccion">
+            <h4>Dirección:</h4>
+            <input type="text" id="direccion" name="direccion">
 
-        <h4>Teléfono:</h4>
-        <input type="text" id="telefono" name="telefono">
+            <h4>Teléfono:</h4>
+            <input type="text" id="telefono" name="telefono">
 
-        <h4>Email:</h4>
-        <input type="email" id="email_cliente" disabled>
+            <h4>Email:</h4>
+            <input type="email" id="email_cliente" disabled>
 
-         <h4>¿Por donde pidio?</h4>
+            <h4>¿Por donde pidio?</h4>
             <select name="pidio" id="pidio" required>
                 <option value="Manychat">Manychat</option>
                 <option value="Local">Local</option>
                 <option value="Tienda Nube">Tienda Nube</option>
             </select>
 
-<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
-  <br>
+            <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+            <br>
             <h4>Fecha de Entrega:</h4>
             <input type="date" id="fecha_entrega" name="fecha_entrega" required>
             <h4>Horario de Entrega:</h4><select id="horario_entrega" name="horario_entrega">
@@ -133,8 +140,8 @@ div.innerHTML = `
                 <option value="18:00 a 21:00">18 a 21 hrs</option>
             </select>
 
-<hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
-  <br>
+            <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+            <br>
             <h4>Método de Pago:</h4>
             <select name="metodo_pago" id="metodo_pago" required onchange="actualizarSubtotal()">
                 <option value="Efectivo">Efectivo</option>
@@ -153,27 +160,33 @@ div.innerHTML = `
 
 
             <h4>¿Con Descuento?</h4>
-            <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()"><option value="0">No</option><option value="1">Sí</option></select>
+            <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()">
+                <option value="0">No</option>
+                <option value="1">Sí</option>
+            </select>
             <h4>¿Incluye envío?</h4>
             <select name="envio" id="envio" onchange="toggleZonaEnvio()">
                 <option value="No">No</option>
                 <option value="Sí">Sí</option>
             </select>
-            
 
-<hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">                  
+
+            <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
             <h2 id="subtotal" style="color:var(--color-texto)">Subtotal: $0.00</h2>
-            <h2 id="descuento"  style="color:var(--color-fondo)">Descuento: $0.00</h2>
+            <h2 id="descuento" style="color:var(--color-fondo)">Descuento: $0.00</h2>
 
             <hr style="background-color: black; height: 1px; border: none;">
             <h2 id="monto-visual" style="color: #77966D; text-decoration: underline;">Monto Final: $0.00</h2>
-<hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">   
+            <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
             <input type="number" name="monto" id="monto" style="display: none;" required readonly>
             <h4>¿Pagado?</h4>
-            <select id="pagado" name="pagado"><option value="No">No</option><option value="Sí">Sí</option></select>
+            <select id="pagado" name="pagado">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
 
         </div>
-        <div id="zona-envio-container"  style="display: none;">
+        <div id="zona-envio-container" style="display: none;">
             <label for="zona_envio">Zona de Envío:</label>
             <select name="zona_envio" id="zona_envio" class="input-text">
                 <option value="0">🚚 $0 - Monto mínimo alcanzado</option>
@@ -183,7 +196,7 @@ div.innerHTML = `
                 <option value="5500">📍 $5.500 - Funes</option>
                 <option value="6500">📍 $6.500 - Roldán o Baigorria</option>
             </select>
-        </div> 
+        </div>
 
         <div class="submit">
             <h4 style="margin-top: 1em;">Productos</h4>
@@ -195,141 +208,142 @@ div.innerHTML = `
             <input style="margin-top: 1em;" type="submit" value="Enviar Pedido">
         </div>
     </form>
-    
+
     <script>
 
-function cambiarTipoPedido() {
-    const tipo = document.getElementById("estado").value;
-    const contenedor = document.getElementById("direccion-dinamica");
-    contenedor.innerHTML = ""; // limpiar
+        function cambiarTipoPedido() {
+            const tipo = document.getElementById("estado").value;
+            const contenedor = document.getElementById("direccion-dinamica");
+            contenedor.innerHTML = ""; // limpiar
 
-    const envioSelect = document.getElementById("envio");
-    const zonaEnvioContainer = document.getElementById("zona-envio-container");
+            const envioSelect = document.getElementById("envio");
+            const zonaEnvioContainer = document.getElementById("zona-envio-container");
 
-    if (tipo === "Entrega a domicilio") {
-    contenedor.innerHTML = `
+            if (tipo === "Entrega a domicilio") {
+                contenedor.innerHTML = `
         <h4>Dirección del cliente:</h4>
         <input type="text" name="direccion" id="direccion" required">
     `;
 
-        envioSelect.value = "Sí";
-        envioSelect.disabled = false;
-        zonaEnvioContainer.style.display = "block";
-    } 
-    else {
-        contenedor.innerHTML = `
+                envioSelect.value = "Sí";
+                envioSelect.disabled = false;
+                zonaEnvioContainer.style.display = "block";
+            }
+            else {
+                contenedor.innerHTML = `
             <h4>Seleccioná el local:</h4>
             <select name="direccion" required>
                 <option value="3 de Febrero 380">3 de Febrero 380</option>
                 <option value="Rueda 193">Rueda 193</option>
             </select>
         `;
-        envioSelect.value = "No";
-        envioSelect.disabled = true;
-        zonaEnvioContainer.style.display = "none";
-    }
+                envioSelect.value = "No";
+                envioSelect.disabled = true;
+                zonaEnvioContainer.style.display = "none";
+            }
 
-    actualizarSubtotal();
-}
-
-// Ejecutar al cargar (en caso de que ya haya un valor seleccionado)
-document.addEventListener("DOMContentLoaded", cambiarTipoPedido);
-
-
-
-function toggleZonaEnvio() {
-    const envio = document.getElementById("envio").value;
-    const zonaContainer = document.getElementById("zona-envio-container");
-    zonaContainer.style.display = (envio === "Sí") ? "block" : "none";
-    actualizarSubtotal(); // Volver a calcular el total con o sin envío
-}
-
-document.getElementById("zona_envio").addEventListener("change", actualizarSubtotal);
-document.getElementById("envio").addEventListener("change", actualizarSubtotal);
-
-function actualizarSubtotal() {
-    let total = 0;
-    let productos = document.querySelectorAll(".producto-item");
-
-    productos.forEach(div => {
-        let producto = div.querySelector("select").value;
-        let cantidad = parseFloat(div.querySelector("input").value) || 0;
-        let precioUnitario = preciosProductos[producto] || 0;
-        total += precioUnitario * cantidad;
-    });
-
-    let descuentoOn = document.getElementById("descuentoOn").value;
-    let descuento = descuentoOn === "1" ? 0.05 : 0;
-    let totalConDescuento = total - (total * descuento);
-
-    // Sumar costo de envío si corresponde
-    const envio = document.getElementById("envio").value;
-    if (envio === "Sí") {
-        let zona = document.getElementById("zona_envio").value;
-        let costoEnvio = parseInt(zona.replace(/\D/g, "")) || 0; // Extraer números del string
-        totalConDescuento += costoEnvio;
-    }
-
-    document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
-    document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento*total).toFixed(2)}` : `Descuento: $0.00`;
-    document.getElementById("monto").value = totalConDescuento.toFixed(2);
-    document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
-}
-
-// Volver a aplicar el cálculo al cargar la página
-document.addEventListener("DOMContentLoaded", actualizarSubtotal);
-
-
-document.querySelector('.form').addEventListener('submit', function(e) {
-        const submitBtn = document.querySelector('input[type="submit"]');
-        submitBtn.disabled = true;              // Deshabilitar botón
-        submitBtn.value = "¡Enviado!";        // Cambiar texto para indicar envío
-    });
-    </script>
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  const res = await fetch("/clientes")
-  const clientes = await res.json()
-
-  const selector = document.getElementById("selector_cliente")
-  clientes.forEach(c => {
-    const option = document.createElement("option")
-    option.value = c.dni
-    option.textContent = `${c.nombre} ${c.apellido} (${c.dni})`
-    selector.appendChild(option)
-  })
-
-  selector.addEventListener("change", () => {
-    const seleccionado = clientes.find(c => c.dni === selector.value)
-    if (seleccionado) {
-      document.getElementById("cliente").value = `${seleccionado.nombre} ${seleccionado.apellido}`
-      document.getElementById("direccion").value = seleccionado.direccion || ""
-      document.getElementById("telefono").value = seleccionado.telefono || ""
-      document.getElementById("email_cliente").value = seleccionado.email || ""
-    } else {
-      document.getElementById("cliente").value = ""
-      document.getElementById("direccion").value = ""
-      document.getElementById("telefono").value = ""
-      document.getElementById("email_cliente").value = ""
-    }
-  })
-})
-</script>
-<script>
-  $(document).ready(function () {
-    $('.cliente-select').select2({
-      placeholder: "Buscar cliente...",
-      width: "100%",
-      allowClear: true,
-      language: {
-        noResults: function () {
-          return "Cliente no encontrado";
+            actualizarSubtotal();
         }
-      }
-    });
-  });
-</script>
+
+        // Ejecutar al cargar (en caso de que ya haya un valor seleccionado)
+        document.addEventListener("DOMContentLoaded", cambiarTipoPedido);
+
+
+
+        function toggleZonaEnvio() {
+            const envio = document.getElementById("envio").value;
+            const zonaContainer = document.getElementById("zona-envio-container");
+            zonaContainer.style.display = (envio === "Sí") ? "block" : "none";
+            actualizarSubtotal(); // Volver a calcular el total con o sin envío
+        }
+
+        document.getElementById("zona_envio").addEventListener("change", actualizarSubtotal);
+        document.getElementById("envio").addEventListener("change", actualizarSubtotal);
+
+        function actualizarSubtotal() {
+            let total = 0;
+            let productos = document.querySelectorAll(".producto-item");
+
+            productos.forEach(div => {
+                let productoId = div.querySelector("select").value;
+                let cantidad = parseFloat(div.querySelector("input").value) || 0;
+                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
+                total += precioUnitario * cantidad;
+            });
+
+            let descuentoOn = document.getElementById("descuentoOn").value;
+            let descuento = descuentoOn === "1" ? 0.05 : 0;
+            let totalConDescuento = total - (total * descuento);
+
+            // Sumar costo de envío si corresponde
+            const envio = document.getElementById("envio").value;
+            if (envio === "Sí") {
+                let zona = document.getElementById("zona_envio").value;
+                let costoEnvio = parseInt(zona.replace(/\D/g, "")) || 0; // Extraer números del string
+                totalConDescuento += costoEnvio;
+            }
+
+            document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
+            document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento * total).toFixed(2)}` : `Descuento: $0.00`;
+            document.getElementById("monto").value = totalConDescuento.toFixed(2);
+            document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
+        }
+
+        // Volver a aplicar el cálculo al cargar la página
+        document.addEventListener("DOMContentLoaded", actualizarSubtotal);
+
+
+        document.querySelector('.form').addEventListener('submit', function (e) {
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.disabled = true;              // Deshabilitar botón
+            submitBtn.value = "¡Enviado!";        // Cambiar texto para indicar envío
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const res = await fetch("/clientes")
+            const clientes = await res.json()
+
+            const selector = document.getElementById("selector_cliente")
+            clientes.forEach(c => {
+                const option = document.createElement("option")
+                option.value = c.dni
+                option.textContent = `${c.nombre} ${c.apellido} (${c.dni})`
+                selector.appendChild(option)
+            })
+
+            selector.addEventListener("change", () => {
+                const seleccionado = clientes.find(c => c.dni === selector.value)
+                if (seleccionado) {
+                    document.getElementById("cliente").value = `${seleccionado.nombre} ${seleccionado.apellido}`
+                    document.getElementById("direccion").value = seleccionado.direccion || ""
+                    document.getElementById("telefono").value = seleccionado.telefono || ""
+                    document.getElementById("email_cliente").value = seleccionado.email || ""
+                } else {
+                    document.getElementById("cliente").value = ""
+                    document.getElementById("direccion").value = ""
+                    document.getElementById("telefono").value = ""
+                    document.getElementById("email_cliente").value = ""
+                }
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.cliente-select').select2({
+                placeholder: "Buscar cliente...",
+                width: "100%",
+                allowClear: true,
+                language: {
+                    noResults: function () {
+                        return "Cliente no encontrado";
+                    }
+                }
+            });
+        });
+    </script>
 
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,21 +17,29 @@
     <style>
         /* Estilos básicos para el modal y los items de producto (puedes moverlos a styles.css) */
         #editarModal {
-            display: none; /* Oculto por defecto */
-            position: fixed; /* Fijo en la pantalla */
+            display: none;
+            /* Oculto por defecto */
+            position: fixed;
+            /* Fijo en la pantalla */
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%); /* Centrado */
+            transform: translate(-50%, -50%);
+            /* Centrado */
             width: 80%;
-            max-width: 600px; /* Ancho máximo */
-            max-height: 80vh; /* Altura máxima */
-            overflow-y: auto; /* Scroll si el contenido es muy largo */
+            max-width: 600px;
+            /* Ancho máximo */
+            max-height: 80vh;
+            /* Altura máxima */
+            overflow-y: auto;
+            /* Scroll si el contenido es muy largo */
             background-color: white;
             padding: 20px;
             border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            /* Asegura que esté por encima de otros elementos */
         }
+
         #editarModal label,
         #editarModal p {
             display: block;
@@ -38,6 +47,7 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
+
         #editarModal input[type="text"],
         #editarModal input[type="date"],
         #editarModal input[type="number"],
@@ -47,8 +57,10 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Importante para que el padding no aumente el ancho */
+            box-sizing: border-box;
+            /* Importante para que el padding no aumente el ancho */
         }
+
         #editarModal button[type="submit"],
         #editarModal button[type="button"] {
             padding: 10px 15px;
@@ -57,46 +69,67 @@
             border-radius: 4px;
             cursor: pointer;
         }
-         #editarModal button[type="submit"] {
-            background-color: #408b42; /* Verde */
+
+        #editarModal button[type="submit"] {
+            background-color: #408b42;
+            /* Verde */
             color: white;
         }
-        #editarModal button[type="button"]:not([onclick^="eliminarProducto"]) { /* Botón Cancelar y Agregar Producto */
-             background-color: #f44336; /* Rojo */
-             color: white;
+
+        #editarModal button[type="button"]:not([onclick^="eliminarProducto"]) {
+            /* Botón Cancelar y Agregar Producto */
+            background-color: #f44336;
+            /* Rojo */
+            color: white;
         }
-         #editarModal button[onclick^="eliminarProducto"] { /* Botón Eliminar Producto (X) */
-             background: none;
-             border: none;
-             color: red;
-             font-size: 1.2em;
-             padding: 0 5px;
-             vertical-align: middle;
-         }
+
+        #editarModal button[onclick^="eliminarProducto"] {
+            /* Botón Eliminar Producto (X) */
+            background: none;
+            border: none;
+            color: red;
+            font-size: 1.2em;
+            padding: 0 5px;
+            vertical-align: middle;
+        }
+
         .producto-item {
             margin-bottom: 15px;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
-            display: flex; /* Alinea elementos en fila */
-            flex-wrap: wrap; /* Permite que pasen a la siguiente línea si no caben */
-            align-items: center; /* Centra verticalmente */
-            gap: 10px; /* Espacio entre elementos */
+            display: flex;
+            /* Alinea elementos en fila */
+            flex-wrap: wrap;
+            /* Permite que pasen a la siguiente línea si no caben */
+            align-items: center;
+            /* Centra verticalmente */
+            gap: 10px;
+            /* Espacio entre elementos */
         }
+
         .producto-item select.producto-select {
-             flex-grow: 1; /* Ocupa el espacio disponible */
-             min-width: 200px; /* Ancho mínimo */
+            flex-grow: 1;
+            /* Ocupa el espacio disponible */
+            min-width: 200px;
+            /* Ancho mínimo */
         }
-         .producto-item input[type="number"] {
-             width: 80px; /* Ancho fijo para cantidad */
-         }
-         .producto-item label { /* Si decides usar labels dentro del item */
-             margin-right: 5px;
-         }
-         /* Asegurar que Select2 se vea bien dentro del flex container */
+
+        .producto-item input[type="number"] {
+            width: 80px;
+            /* Ancho fijo para cantidad */
+        }
+
+        .producto-item label {
+            /* Si decides usar labels dentro del item */
+            margin-right: 5px;
+        }
+
+        /* Asegurar que Select2 se vea bien dentro del flex container */
         .producto-item .select2-container {
             flex-grow: 1;
             min-width: 200px;
-            width: auto !important; /* Sobrescribir ancho fijo de select2 si es necesario */
+            width: auto !important;
+            /* Sobrescribir ancho fijo de select2 si es necesario */
         }
 
         /* Estilos para la tabla principal (opcional, mejora la legibilidad) */
@@ -105,555 +138,569 @@
             border-collapse: collapse;
             margin-top: 20px;
         }
-        .pedidos_table th, .pedidos_table td {
+
+        .pedidos_table th,
+        .pedidos_table td {
             border: 1px solid #ddd;
             padding: 4px;
             text-align: center;
         }
+
         .pedidos_table th {
             background-color: #f2f2f2;
         }
+
         .pedidos_table tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         .pedidos_table button {
             padding: 5px 10px;
             cursor: pointer;
             border: none;
             border-radius: 3px;
         }
-         .pedidos_table button[onclick^="editarPedido"] {
-             background-color: #ffc107; /* Amarillo */
-             color: black;
-         }
-          .pedidos_table button[onclick^="eliminarPedido"] {
-             background-color: #dc3545; /* Rojo */
-             color: white;
-         }
 
+        .pedidos_table button[onclick^="editarPedido"] {
+            background-color: #ffc107;
+            /* Amarillo */
+            color: black;
+        }
+
+        .pedidos_table button[onclick^="eliminarPedido"] {
+            background-color: #dc3545;
+            /* Rojo */
+            color: white;
+        }
     </style>
 
 </head>
+
 <body>
     {% include 'partials/navbar.html' %} <h2>Gestión de Pedidos</h2>
-    <input type="text" id="buscador" placeholder="🔎 Buscar..." style="margin-bottom: 10px; padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
+    <input type="text" id="buscador" placeholder="🔎 Buscar..."
+        style="margin-bottom: 10px; padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
 
     <table class="pedidos_table">
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Vendedor</th>
-            <th>Cliente</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Fecha Entrega</th>
-            <th>Monto</th>
-            <th>Método de Pago</th>
-            <th>Pagado</th>
-            <th>Productos</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for pedido in pedidos %} <tr>
-            <td>{{ pedido["ID"] }}</td>
-            <td>{{ pedido["Vendedor"] }}</td>
-            <td>{{ pedido["Cliente"] }}</td>
-            <td>{{ pedido["Dirección"] }}</td>
-            <td>{{ pedido["Teléfono"] }}</td>
-            <td>{{ pedido["Fecha de Entrega"] }}</td> <td>{{ pedido["Monto"] }}</td> <td>{{ pedido["Método de Pago"] }}</td>
-            <td>{{ pedido["Pagado"] }}</td>
-            <td>
-                <a style="color: black; text-decoration: underline;" href="{{ url_for('detalle_pedido', pedido_id=pedido['ID']) }}">Ver Productos</a>
-            </td>
-            <td>
-                <a href="{{ url_for('editar_pedido_form', pedido_id=pedido['ID']) }}">
-                <button>✏️ Editar</button>
-                </a>
-            </td>
-            <td>
-                <button onclick="eliminarPedido('{{ pedido['ID'] }}')">🗑️ Eliminar</button>
-            </td>
-        </tr>
-        {% else %}
-         <tr>
-             <td colspan="13" style="text-align: center;">No hay pedidos para mostrar.</td>
-         </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            <tr>
+                <th>ID</th>
+                <th>Vendedor</th>
+                <th>Cliente</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Fecha Entrega</th>
+                <th>Monto</th>
+                <th>Método de Pago</th>
+                <th>Pagado</th>
+                <th>Productos</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %} <tr>
+                <td>{{ pedido["ID"] }}</td>
+                <td>{{ pedido["Vendedor"] }}</td>
+                <td>{{ pedido["Cliente"] }}</td>
+                <td>{{ pedido["Dirección"] }}</td>
+                <td>{{ pedido["Teléfono"] }}</td>
+                <td>{{ pedido["Fecha de Entrega"] }}</td>
+                <td>{{ pedido["Monto"] }}</td>
+                <td>{{ pedido["Método de Pago"] }}</td>
+                <td>{{ pedido["Pagado"] }}</td>
+                <td>
+                    <a style="color: black; text-decoration: underline;"
+                        href="{{ url_for('detalle_pedido', pedido_id=pedido['ID']) }}">Ver Productos</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('editar_pedido_form', pedido_id=pedido['ID']) }}">
+                        <button>✏️ Editar</button>
+                    </a>
+                </td>
+                <td>
+                    <button onclick="eliminarPedido('{{ pedido['ID'] }}')">🗑️ Eliminar</button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="13" style="text-align: center;">No hay pedidos para mostrar.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<div id="editarModal">
-    <h3>Editar Pedido</h3>
-    <form id="editForm" action="{{ url_for('actualizar_pedido') }}" method="POST">
-        <input type="hidden" id="id" name="id">
+    <div id="editarModal">
+        <h3>Editar Pedido</h3>
+        <form id="editForm" action="{{ url_for('actualizar_pedido') }}" method="POST">
+            <input type="hidden" id="id" name="id">
 
-        <p>Vendedor:</p>
-        <select id="vendedor" name="vendedor" required>
-            <option value="Veronica">Veronica</option>
-            <option value="Silvina">Silvina</option>
-            <option value="Lautaro">Lautaro</option>
-            <option value="Laura">Laura</option>
-            <option value="Lucia">Lucia</option>
-        </select>
+            <p>Vendedor:</p>
+            <select id="vendedor" name="vendedor" required>
+                <option value="Veronica">Veronica</option>
+                <option value="Silvina">Silvina</option>
+                <option value="Lautaro">Lautaro</option>
+                <option value="Laura">Laura</option>
+                <option value="Lucia">Lucia</option>
+            </select>
 
-        <label for="cliente">Cliente:</label>
-        <input type="text" id="cliente" name="cliente">
-        <label for="direccion">Dirección:</label>
-        <div id="direccion-container">
-        </div>
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono">
-
-        <label for="fecha_entrega">Fecha de Entrega:</label>
-        <input type="date" id="fecha_entrega" name="fecha_entrega">
-
-        <label for="pagado">Pagado:</label>
-        <select id="pagado" name="pagado">
-            <option value="Sí">Sí</option> <option value="No">No</option>
-        </select>
-
-        <label for="metodo_pago">Método de Pago:</label>
-        <select id="metodo_pago" name="metodo_pago">
-            <option value="Efectivo">Efectivo</option>
-            <option value="Transferencia">Transferencia</option>
-            <option value="Débito">Débito</option>
-            <option value="Crédito">Crédito</option>
-            <option value="Mercado-Pago">Mercado Pago</option>
-            <option value="Payway">Payway</option>
-            <option value="QR">QR</option>
-        </select>
-
-        <p>¿Tipo de Pedido?</p>
-        <select name="estado" id="estado">
-            <option value="Inmediato">Inmediato</option>
-            <option value="Entrega a domicilio">Entrega a domicilio</option>
-            <option value="Retiro en local">Retiro en local</option>
-        </select>
-
-        <label for="horario_entrega">Horario Entrega:</label>
-        <select id="horario_entrega" name="horario_entrega">
-            <option value="09:00 a 12:00">09 a 12 hrs / LUNES a SÁBADOS</option>
-            <option value="12:00 a 15:00">12 a 15 hrs / LUNES a SÁBADOS</option>
-            <option value="15:00 a 18:00">15 a 18 hrs / LUNES a SÁBADOS</option>
-            <option value="18:00 a 21:00">18 a 21 hrs / LUNES a SÁBADOS</option>
-        </select>
-
-        <div id="zona-envio-container-modal" style="display: none;">
-            <label for="zona_envio_modal">Zona de Envío:</label>
-            <select name="zona_envio" id="zona_envio_modal" class="input-text">
-                <option value="0">🚚 $0 - Monto mínimo alcanzado / Sin costo</option>
-                <option value="2500">📍 $2.500 - Macrocentro Rosario</option>
-                <option value="3500">📍 $3.500 - Rosario (fuera del macrocentro)</option>
-                <option value="4500">📍 $4.500 - Fisherton</option>
-                <option value="5500">📍 $5.500 - Funes</option>
-                <option value="6500">📍 $6.500 - Roldán o Baigorria</option>
-                </select>
-        </div>
-
-        <h4>Productos</h4>
-        <div id="productos-container" style="margin-bottom: 15px;">
+            <label for="cliente">Cliente:</label>
+            <input type="text" id="cliente" name="cliente">
+            <label for="direccion">Dirección:</label>
+            <div id="direccion-container">
             </div>
-        <button type="button" onclick="agregarProducto()">➕ Agregar Producto</button>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono">
 
-        <p>¿Con Descuento?</p>
-        <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()">
-            <option value="1">Sí (5%)</option> <option value="0">No</option>
-        </select>
+            <label for="fecha_entrega">Fecha de Entrega:</label>
+            <input type="date" id="fecha_entrega" name="fecha_entrega">
 
-        <h3 id="subtotal" style="margin-top: 15px;">Subtotal: $0.00</h3>
-        <h3 id="descuento">Descuento: $0.00</h3>
-        <h3 id="costo_envio">Costo de Envío: $0.00</h3>
-        <label for="monto">Monto Total:</label>
-        <input type="number" id="monto" name="monto" readonly style="font-weight: bold; font-size: 1.1em;">
+            <label for="pagado">Pagado:</label>
+            <select id="pagado" name="pagado">
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+            </select>
 
-        <button type="submit">Guardar Cambios</button>
-        <button type="button" onclick="cerrarModal()">Cancelar</button>
-    </form>
-</div>
+            <label for="metodo_pago">Método de Pago:</label>
+            <select id="metodo_pago" name="metodo_pago">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="Débito">Débito</option>
+                <option value="Crédito">Crédito</option>
+                <option value="Mercado-Pago">Mercado Pago</option>
+                <option value="Payway">Payway</option>
+                <option value="QR">QR</option>
+            </select>
 
-<script>
-// Variable global con precios (asegúrate que se carga correctamente desde Flask/Jinja2)
-// Usar 'safe' es importante si los nombres de productos pueden tener caracteres especiales HTML
-const preciosProductos = {{ precios_productos|tojson|safe }};
+            <p>¿Tipo de Pedido?</p>
+            <select name="estado" id="estado">
+                <option value="Inmediato">Inmediato</option>
+                <option value="Entrega a domicilio">Entrega a domicilio</option>
+                <option value="Retiro en local">Retiro en local</option>
+            </select>
 
-// --- Funciones Principales ---
+            <label for="horario_entrega">Horario Entrega:</label>
+            <select id="horario_entrega" name="horario_entrega">
+                <option value="09:00 a 12:00">09 a 12 hrs / LUNES a SÁBADOS</option>
+                <option value="12:00 a 15:00">12 a 15 hrs / LUNES a SÁBADOS</option>
+                <option value="15:00 a 18:00">15 a 18 hrs / LUNES a SÁBADOS</option>
+                <option value="18:00 a 21:00">18 a 21 hrs / LUNES a SÁBADOS</option>
+            </select>
 
-/**
- * Actualiza los cálculos de subtotal, descuento, costo de envío y monto total en el modal.
- */
-function actualizarSubtotal() {
-    let total = 0;
-    // Selecciona solo los items de producto dentro del contenedor específico
-    let productos = document.querySelectorAll("#productos-container .producto-item");
+            <div id="zona-envio-container-modal" style="display: none;">
+                <label for="zona_envio_modal">Zona de Envío:</label>
+                <select name="zona_envio" id="zona_envio_modal" class="input-text">
+                    <option value="0">🚚 $0 - Monto mínimo alcanzado / Sin costo</option>
+                    <option value="2500">📍 $2.500 - Macrocentro Rosario</option>
+                    <option value="3500">📍 $3.500 - Rosario (fuera del macrocentro)</option>
+                    <option value="4500">📍 $4.500 - Fisherton</option>
+                    <option value="5500">📍 $5.500 - Funes</option>
+                    <option value="6500">📍 $6.500 - Roldán o Baigorria</option>
+                </select>
+            </div>
 
-    productos.forEach(div => {
-        let productoSelect = div.querySelector("select.producto-select");
-        let cantidadInput = div.querySelector("input[name='cantidades[]']");
+            <h4>Productos</h4>
+            <div id="productos-container" style="margin-bottom: 15px;">
+            </div>
+            <button type="button" onclick="agregarProducto()">➕ Agregar Producto</button>
 
-        // Procesa solo si el select y el input existen y hay un producto seleccionado
-        if (productoSelect && cantidadInput && productoSelect.value) {
-            let producto = productoSelect.value;
-            // Obtiene la cantidad, asegurándose que sea un número (o 0 si no es válido)
-            let cantidad = parseFloat(cantidadInput.value) || 0;
-            // Obtiene el precio unitario del objeto global (o 0 si no existe)
-            let precioUnitario = preciosProductos[producto] || 0;
+            <p>¿Con Descuento?</p>
+            <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()">
+                <option value="1">Sí (5%)</option>
+                <option value="0">No</option>
+            </select>
 
-            // Calcula subtotal del item y redondea a 2 decimales para evitar errores de precisión flotante
-            let subtotalItem = parseFloat((precioUnitario * cantidad).toFixed(2));
-            total += subtotalItem; // Suma al total general
+            <h3 id="subtotal" style="margin-top: 15px;">Subtotal: $0.00</h3>
+            <h3 id="descuento">Descuento: $0.00</h3>
+            <h3 id="costo_envio">Costo de Envío: $0.00</h3>
+            <label for="monto">Monto Total:</label>
+            <input type="number" id="monto" name="monto" readonly style="font-weight: bold; font-size: 1.1em;">
+
+            <button type="submit">Guardar Cambios</button>
+            <button type="button" onclick="cerrarModal()">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        // Variable global con precios (asegúrate que se carga correctamente desde Flask/Jinja2)
+        // Usar 'safe' es importante si los nombres de productos pueden tener caracteres especiales HTML
+        const preciosProductos = {{ precios_productos| tojson | safe }};
+        console.log(preciosProductos)
+        // --- Funciones Principales ---
+
+        /**
+         * Actualiza los cálculos de subtotal, descuento, costo de envío y monto total en el modal.
+         */
+        function actualizarSubtotal() {
+            let total = 0;
+            // Selecciona solo los items de producto dentro del contenedor específico
+            let productos = document.querySelectorAll("#productos-container .producto-item");
+
+            productos.forEach(div => {
+                let productoSelect = div.querySelector("select.producto-select");
+                let cantidadInput = div.querySelector("input[name='cantidades[]']");
+
+                // Procesa solo si el select y el input existen y hay un producto seleccionado
+                if (productoSelect && cantidadInput && productoSelect.value) {
+                    let producto = productoSelect.value;
+                    // Obtiene la cantidad, asegurándose que sea un número (o 0 si no es válido)
+                    let cantidad = parseFloat(cantidadInput.value) || 0;
+                    // Obtiene el precio unitario del objeto global (o 0 si no existe)
+                    let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
+
+                    // Calcula subtotal del item y redondea a 2 decimales para evitar errores de precisión flotante
+                    let subtotalItem = parseFloat((precioUnitario * cantidad).toFixed(2));
+                    total += subtotalItem; // Suma al total general
+                }
+            });
+
+            // Calcular descuento (5% si está activo)
+            let descuentoOnSelect = document.getElementById("descuentoOn");
+            let descuentoPorcentaje = (descuentoOnSelect && descuentoOnSelect.value === "1") ? 0.05 : 0;
+            // Calcula y redondea el monto del descuento
+            let montoDescuento = parseFloat((total * descuentoPorcentaje).toFixed(2));
+
+            // Calcular total después de aplicar el descuento
+            let totalConDescuento = total - montoDescuento;
+
+            // Calcular costo de envío
+            let costoEnvio = 0;
+            let tipoPedidoSelect = document.getElementById("estado");
+            let zonaEnvioSelect = document.getElementById("zona_envio_modal");
+
+            // Verifica si es entrega a domicilio y si el select de zona existe
+            if (tipoPedidoSelect && tipoPedidoSelect.value === "Entrega a domicilio" && zonaEnvioSelect) {
+                // Intenta convertir el valor de la zona a número, si falla o no es un número, usa 0
+                let valorZona = parseFloat(zonaEnvioSelect.value);
+                costoEnvio = !isNaN(valorZona) ? valorZona : 0;
+            }
+
+            // Sumar costo de envío al total final
+            let totalFinal = totalConDescuento + costoEnvio;
+
+            // --- Actualizar la interfaz de usuario (los elementos h3 y el input monto) ---
+            // Función auxiliar para formatear a moneda (ej: $123.45)
+            const formatCurrency = (value) => `$${value.toFixed(2)}`;
+
+            document.getElementById("subtotal").innerText = `Subtotal: ${formatCurrency(total)}`;
+            document.getElementById("descuento").innerText = montoDescuento > 0 ? `Descuento: -${formatCurrency(montoDescuento)}` : `Descuento: ${formatCurrency(0)}`;
+
+            // Actualiza el costo de envío (asegúrate que el h3 con id="costo_envio" exista)
+            let costoEnvioElement = document.getElementById("costo_envio");
+            if (costoEnvioElement) { // Buena práctica: verificar si el elemento existe antes de intentar modificarlo
+                costoEnvioElement.innerText = costoEnvio > 0 ? `Costo de Envío: ${formatCurrency(costoEnvio)}` : `Costo de Envío: ${formatCurrency(0)}`;
+            }
+
+            // Actualiza el campo Monto (Total final) que se enviará con el formulario
+            // Se guarda solo el número (ej: 123.45) ya que es un input numérico (aunque sea readonly)
+            document.getElementById("monto").value = totalFinal.toFixed(2);
         }
-    });
 
-    // Calcular descuento (5% si está activo)
-    let descuentoOnSelect = document.getElementById("descuentoOn");
-    let descuentoPorcentaje = (descuentoOnSelect && descuentoOnSelect.value === "1") ? 0.05 : 0;
-    // Calcula y redondea el monto del descuento
-    let montoDescuento = parseFloat((total * descuentoPorcentaje).toFixed(2));
-
-    // Calcular total después de aplicar el descuento
-    let totalConDescuento = total - montoDescuento;
-
-    // Calcular costo de envío
-    let costoEnvio = 0;
-    let tipoPedidoSelect = document.getElementById("estado");
-    let zonaEnvioSelect = document.getElementById("zona_envio_modal");
-
-    // Verifica si es entrega a domicilio y si el select de zona existe
-    if (tipoPedidoSelect && tipoPedidoSelect.value === "Entrega a domicilio" && zonaEnvioSelect) {
-         // Intenta convertir el valor de la zona a número, si falla o no es un número, usa 0
-         let valorZona = parseFloat(zonaEnvioSelect.value);
-         costoEnvio = !isNaN(valorZona) ? valorZona : 0;
-    }
-
-    // Sumar costo de envío al total final
-    let totalFinal = totalConDescuento + costoEnvio;
-
-    // --- Actualizar la interfaz de usuario (los elementos h3 y el input monto) ---
-    // Función auxiliar para formatear a moneda (ej: $123.45)
-    const formatCurrency = (value) => `$${value.toFixed(2)}`;
-
-    document.getElementById("subtotal").innerText = `Subtotal: ${formatCurrency(total)}`;
-    document.getElementById("descuento").innerText = montoDescuento > 0 ? `Descuento: -${formatCurrency(montoDescuento)}` : `Descuento: ${formatCurrency(0)}`;
-
-    // Actualiza el costo de envío (asegúrate que el h3 con id="costo_envio" exista)
-    let costoEnvioElement = document.getElementById("costo_envio");
-    if (costoEnvioElement) { // Buena práctica: verificar si el elemento existe antes de intentar modificarlo
-         costoEnvioElement.innerText = costoEnvio > 0 ? `Costo de Envío: ${formatCurrency(costoEnvio)}` : `Costo de Envío: ${formatCurrency(0)}`;
-    }
-
-    // Actualiza el campo Monto (Total final) que se enviará con el formulario
-    // Se guarda solo el número (ej: 123.45) ya que es un input numérico (aunque sea readonly)
-    document.getElementById("monto").value = totalFinal.toFixed(2);
-}
-
-/**
- * Agrega una nueva fila (div) para seleccionar un producto y su cantidad.
- * Inicializa Select2 en el nuevo select creado.
- */
-function agregarProducto() {
-    // Crear el HTML para la nueva fila de producto usando template literals
-    const nuevoProductoHtml = `
+        /**
+         * Agrega una nueva fila (div) para seleccionar un producto y su cantidad.
+         * Inicializa Select2 en el nuevo select creado.
+         */
+        function agregarProducto() {
+            // Crear el HTML para la nueva fila de producto usando template literals
+            const nuevoProductoHtml = `
         <div class="producto-item">
             <select name="productos[]" class="producto-select" onchange="actualizarSubtotal()">
                 <option value="">Seleccionar producto</option>
-                ${Object.keys(preciosProductos).map(p =>
-                    // Asegura mostrar 0 si un producto no tiene precio definido
-                    `<option value="${p}">${p} - $${preciosProductos[p] !== undefined ? preciosProductos[p] : 0}</option>`
-                 ).join("")}
-            </select>
+                ${Object.keys(preciosProductos).map(id =>
+                `<option value="${id}">${id} - ${preciosProductos[id].nombre} - $${preciosProductos[id].precio}</option>`
+            ).join("")}            </select>
             <label for="cantidad_${Date.now()}">Cantidad:</label> <input type="number" id="cantidad_${Date.now()}" name="cantidades[]" min="0.001" step="0.001" value="1" required oninput="actualizarSubtotal()">
             <button type="button" onclick="eliminarProducto(this)" title="Eliminar este producto">❌</button>
         </div>`;
 
-    // Añadir el HTML al final del contenedor usando jQuery
-    const $nuevoProductoDiv = $(nuevoProductoHtml).appendTo('#productos-container');
+            // Añadir el HTML al final del contenedor usando jQuery
+            const $nuevoProductoDiv = $(nuevoProductoHtml).appendTo('#productos-container');
 
-    // Inicializar select2 SOLO en el select que se acaba de añadir dentro del nuevo div
-    // Esto evita reinicializar los selects anteriores
-    $nuevoProductoDiv.find('.producto-select').select2({
-        placeholder: "Seleccionar producto", // Texto que aparece por defecto
-        allowClear: true // Opcional: permite quitar la selección con una 'x'
-    });
+            // Inicializar select2 SOLO en el select que se acaba de añadir dentro del nuevo div
+            // Esto evita reinicializar los selects anteriores
+            $nuevoProductoDiv.find('.producto-select').select2({
+                placeholder: "Seleccionar producto", // Texto que aparece por defecto
+                allowClear: true // Opcional: permite quitar la selección con una 'x'
+            });
 
-    // No es estrictamente necesario llamar a actualizarSubtotal aquí,
-    // ya que se llamará cuando se cambie el producto o la cantidad.
-    // actualizarSubtotal();
-}
+            // No es estrictamente necesario llamar a actualizarSubtotal aquí,
+            // ya que se llamará cuando se cambie el producto o la cantidad.
+            // actualizarSubtotal();
+        }
 
-/**
- * Elimina la fila de producto (el div.producto-item) asociada al botón presionado.
- * @param {HTMLElement} btn - El botón de eliminar (la 'X') que fue presionado.
- */
-function eliminarProducto(btn) {
-    // $(btn) convierte el botón DOM a objeto jQuery
-    // .closest('.producto-item') busca el ancestro más cercano que sea un div.producto-item
-    // .remove() elimina ese div del DOM
-    $(btn).closest('.producto-item').remove();
-    // Es crucial recalcular el total después de eliminar un producto
-    actualizarSubtotal();
-}
+        /**
+         * Elimina la fila de producto (el div.producto-item) asociada al botón presionado.
+         * @param {HTMLElement} btn - El botón de eliminar (la 'X') que fue presionado.
+         */
+        function eliminarProducto(btn) {
+            // $(btn) convierte el botón DOM a objeto jQuery
+            // .closest('.producto-item') busca el ancestro más cercano que sea un div.producto-item
+            // .remove() elimina ese div del DOM
+            $(btn).closest('.producto-item').remove();
+            // Es crucial recalcular el total después de eliminar un producto
+            actualizarSubtotal();
+        }
 
-/**
- * Muestra el modal de edición, limpia el contenedor de productos,
- * y carga los datos del pedido (incluyendo sus productos) desde el servidor.
- * @param {string|number} id - El ID del pedido a editar.
- */
-function editarPedido(id) {
-    // Muestra el div del modal
-    $("#editarModal").show();
-    // Establece el valor del input oculto 'id' que se enviará con el formulario
-    $("#id").val(id);
+        /**
+         * Muestra el modal de edición, limpia el contenedor de productos,
+         * y carga los datos del pedido (incluyendo sus productos) desde el servidor.
+         * @param {string|number} id - El ID del pedido a editar.
+         */
+        function editarPedido(id) {
+            // Muestra el div del modal
+            $("#editarModal").show();
+            // Establece el valor del input oculto 'id' que se enviará con el formulario
+            $("#id").val(id);
 
-    // Referencia al contenedor de productos
-    let container = $('#productos-container');
-    // Limpia cualquier producto cargado anteriormente en el modal
-    container.html('');
+            // Referencia al contenedor de productos
+            let container = $('#productos-container');
+            // Limpia cualquier producto cargado anteriormente en el modal
+            container.html('');
 
-    // Realiza la petición al backend para obtener los datos detallados del pedido
-    fetch(`/obtener_productos_pedido/${id}`) // Asegúrate que esta ruta exista en tu backend (Flask)
-        .then(response => {
-            // Verifica si la respuesta del servidor fue exitosa (status 200-299)
-            if (!response.ok) {
-                // Si hay un error (ej: 404, 500), lanza un error para pasar al .catch()
-                throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
-            }
-            // Convierte la respuesta JSON a un objeto JavaScript
-            return response.json();
-        })
-        .then(data => {
-            // Verifica si la data recibida tiene la estructura esperada
-            if (!data || !data.datos_pedido || !data.productos) {
-                 throw new Error("La respuesta del servidor no tiene el formato esperado (faltan datos_pedido o productos).");
-            }
+            // Realiza la petición al backend para obtener los datos detallados del pedido
+            fetch(`/obtener_productos_pedido/${id}`) // Asegúrate que esta ruta exista en tu backend (Flask)
+                .then(response => {
+                    // Verifica si la respuesta del servidor fue exitosa (status 200-299)
+                    if (!response.ok) {
+                        // Si hay un error (ej: 404, 500), lanza un error para pasar al .catch()
+                        throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    // Convierte la respuesta JSON a un objeto JavaScript
+                    return response.json();
+                })
+                .then(data => {
+                    // Verifica si la data recibida tiene la estructura esperada
+                    if (!data || !data.datos_pedido || !data.productos) {
+                        throw new Error("La respuesta del servidor no tiene el formato esperado (faltan datos_pedido o productos).");
+                    }
 
-            const pedido = data.datos_pedido; // Datos generales del pedido
-            const productosPedido = data.productos; // Lista de productos del pedido
+                    const pedido = data.datos_pedido; // Datos generales del pedido
+                    const productosPedido = data.productos; // Lista de productos del pedido
 
-            // --- Precargar campos generales del formulario con los datos del pedido ---
-            $("#vendedor").val(pedido["Vendedor"]);
-            $("#cliente").val(pedido["Cliente"]);
-            $("#direccion").val(pedido["Dirección"]);
-            $("#telefono").val(pedido["Teléfono"]);
+                    // --- Precargar campos generales del formulario con los datos del pedido ---
+                    $("#vendedor").val(pedido["Vendedor"]);
+                    $("#cliente").val(pedido["Cliente"]);
+                    $("#direccion").val(pedido["Dirección"]);
+                    $("#telefono").val(pedido["Teléfono"]);
 
-            // Formatear fecha si viene como DD/MM/YYYY a YYYY-MM-DD para el input date
-            let fechaEntrega = pedido["Fecha de Entrega"];
-            if (fechaEntrega && fechaEntrega.includes('/')) {
-                // Divide por '/', invierte el array y une con '-'
-                fechaEntrega = fechaEntrega.split("/").reverse().join("-");
-            }
-            $("#fecha_entrega").val(fechaEntrega);
+                    // Formatear fecha si viene como DD/MM/YYYY a YYYY-MM-DD para el input date
+                    let fechaEntrega = pedido["Fecha de Entrega"];
+                    if (fechaEntrega && fechaEntrega.includes('/')) {
+                        // Divide por '/', invierte el array y une con '-'
+                        fechaEntrega = fechaEntrega.split("/").reverse().join("-");
+                    }
+                    $("#fecha_entrega").val(fechaEntrega);
 
-            $("#pagado").val(pedido["Pagado"]); // Asegúrate que los values 'Sí'/'No' coincidan
-            $("#metodo_pago").val(pedido["Método de Pago"]);
-            $("#horario_entrega").val(pedido["Horario de Entrega"]); // Asegúrate que los values coincidan
-            $("#estado").val(pedido["Tipo de Pedido"]);
-            // Precargar descuento si viene en los datos (ajusta el nombre del campo si es diferente)
-            if (pedido["DescuentoAplicado"] !== undefined) { // Ejemplo: si el campo se llama DescuentoAplicado
-                 $("#descuentoOn").val(pedido["DescuentoAplicado"] ? "1" : "0");
-            }
+                    $("#pagado").val(pedido["Pagado"]); // Asegúrate que los values 'Sí'/'No' coincidan
+                    $("#metodo_pago").val(pedido["Método de Pago"]);
+                    $("#horario_entrega").val(pedido["Horario de Entrega"]); // Asegúrate que los values coincidan
+                    $("#estado").val(pedido["Tipo de Pedido"]);
+                    // Precargar descuento si viene en los datos (ajusta el nombre del campo si es diferente)
+                    if (pedido["DescuentoAplicado"] !== undefined) { // Ejemplo: si el campo se llama DescuentoAplicado
+                        $("#descuentoOn").val(pedido["DescuentoAplicado"] ? "1" : "0");
+                    }
 
-            // --- Lógica para mostrar/ocultar y precargar Zona de Envío ---
-            const zonaEnvioContainer = $("#zona-envio-container-modal");
-            const zonaEnvioSelect = $("#zona_envio_modal");
-            if (pedido["Tipo de Pedido"] === "Entrega a domicilio") {
-                zonaEnvioContainer.show(); // Muestra el div de zona de envío
-                // Precarga la zona seleccionada si el dato existe en el pedido
-                // Ajusta "Zona Envio" si el campo se llama diferente en tu backend
-                if (pedido["Zona Envio"] !== undefined && pedido["Zona Envio"] !== null) {
-                    zonaEnvioSelect.val(pedido["Zona Envio"]);
-                } else {
-                    zonaEnvioSelect.val("0"); // Valor por defecto si no viene especificado
-                }
-            } else {
-                zonaEnvioContainer.hide(); // Oculta el div si no es entrega a domicilio
-                zonaEnvioSelect.val("0"); // Resetea el valor por si acaso
-            }
+                    // --- Lógica para mostrar/ocultar y precargar Zona de Envío ---
+                    const zonaEnvioContainer = $("#zona-envio-container-modal");
+                    const zonaEnvioSelect = $("#zona_envio_modal");
+                    if (pedido["Tipo de Pedido"] === "Entrega a domicilio") {
+                        zonaEnvioContainer.show(); // Muestra el div de zona de envío
+                        // Precarga la zona seleccionada si el dato existe en el pedido
+                        // Ajusta "Zona Envio" si el campo se llama diferente en tu backend
+                        if (pedido["Zona Envio"] !== undefined && pedido["Zona Envio"] !== null) {
+                            zonaEnvioSelect.val(pedido["Zona Envio"]);
+                        } else {
+                            zonaEnvioSelect.val("0"); // Valor por defecto si no viene especificado
+                        }
+                    } else {
+                        zonaEnvioContainer.hide(); // Oculta el div si no es entrega a domicilio
+                        zonaEnvioSelect.val("0"); // Resetea el valor por si acaso
+                    }
 
-            // --- Cargar los productos existentes del pedido (DENTRO del .then) ---
-            productosPedido.forEach(p => {
-                // Genera el HTML para cada producto del pedido
-                const productoHtml = `
+                    // --- Cargar los productos existentes del pedido (DENTRO del .then) ---
+                    productosPedido.forEach(p => {
+                        // Genera el HTML para cada producto del pedido
+                        const productoHtml = `
                     <div class="producto-item">
                         <select name="productos[]" class="producto-select" onchange="actualizarSubtotal()">
                             <option value="">Seleccionar producto</option>
-                            ${Object.keys(preciosProductos).map(prod =>
-                                // Marca como 'selected' el producto que coincide con p.nombre
-                                `<option value="${prod}" ${p.nombre === prod ? 'selected' : ''}>
-                                    ${prod} - $${preciosProductos[prod] !== undefined ? preciosProductos[prod] : 0}
+                            ${Object.keys(preciosProductos).map(id =>
+                            // Marca como 'selected' el producto que coincide con p.nombre
+                            `<option value="${id}" ${p.nombre === preciosProductos[id].nombre ? 'selected' : ''}>
+                                    ${id} - $${preciosProductos[id].precio !== undefined ? preciosProductos[id].precio : 0}
                                  </option>`
-                            ).join("")}
+                        ).join("")}
                         </select>
                         <label for="cantidad_${p.id || Math.random()}">Cantidad:</label> <input name="cantidades[]" id="cantidad_${p.id || Math.random()}" type="number" value="${p.cantidad}" min="0.001" step="0.001" onchange="actualizarSubtotal()">
                         <button type="button" onclick="eliminarProducto(this)" title="Eliminar este producto">❌</button>
                     </div>`;
-                // Añade el HTML del producto al contenedor
-                container.append(productoHtml);
-            });
+                        // Añade el HTML del producto al contenedor
+                        container.append(productoHtml);
+                    });
 
-            // Inicializar Select2 para TODOS los selects de producto que se acaban de cargar/crear
-            // Se usa container.find() para aplicar solo a los selects dentro del contenedor actual
-            container.find('.producto-select').select2({
-                 placeholder: "Seleccionar producto",
-                 allowClear: true
-            });
+                    // Inicializar Select2 para TODOS los selects de producto que se acaban de cargar/crear
+                    // Se usa container.find() para aplicar solo a los selects dentro del contenedor actual
+                    container.find('.producto-select').select2({
+                        placeholder: "Seleccionar producto",
+                        allowClear: true
+                    });
 
-            // Finalmente, actualiza los totales (subtotal, descuento, envío, monto)
-            // Se llama una sola vez después de cargar todo
-            actualizarSubtotal();
+                    // Finalmente, actualiza los totales (subtotal, descuento, envío, monto)
+                    // Se llama una sola vez después de cargar todo
+                    actualizarSubtotal();
 
-        }) // Fin del .then() que procesa la data exitosa
-        .catch(error => {
-             // Se ejecuta si hubo un error en fetch() o si se lanzó un error en .then()
-             console.error("Error al obtener o procesar datos del pedido:", error);
-             // Muestra un mensaje de error al usuario
-             alert(`Error al cargar los datos del pedido: ${error.message}. Por favor, revisa la consola (F12) para más detalles técnicos.`);
-             // Opcionalmente, podrías cerrar el modal si la carga falla
-             // cerrarModal();
-        });
+                }) // Fin del .then() que procesa la data exitosa
+                .catch(error => {
+                    // Se ejecuta si hubo un error en fetch() o si se lanzó un error en .then()
+                    console.error("Error al obtener o procesar datos del pedido:", error);
+                    // Muestra un mensaje de error al usuario
+                    alert(`Error al cargar los datos del pedido: ${error.message}. Por favor, revisa la consola (F12) para más detalles técnicos.`);
+                    // Opcionalmente, podrías cerrar el modal si la carga falla
+                    // cerrarModal();
+                });
 
-    // MUY IMPORTANTE: No debe haber código duplicado aquí fuera que intente cargar productos de nuevo.
-};
+            // MUY IMPORTANTE: No debe haber código duplicado aquí fuera que intente cargar productos de nuevo.
+        };
 
-/**
- * Actualiza el campo de dirección (input o select) según el tipo de pedido.
- * @param {string} [initialValue=''] - El valor inicial para pre-rellenar el campo.
- */
- function actualizarCampoDireccion(initialValue = '') {
-    const tipoPedido = $('#estado').val(); // Obtener valor del select de estado
-    const container = $('#direccion-container'); // Contenedor para el campo de dirección
-    container.empty(); // Limpiar el contenido actual del contenedor
+        /**
+         * Actualiza el campo de dirección (input o select) según el tipo de pedido.
+         * @param {string} [initialValue=''] - El valor inicial para pre-rellenar el campo.
+         */
+        function actualizarCampoDireccion(initialValue = '') {
+            const tipoPedido = $('#estado').val(); // Obtener valor del select de estado
+            const container = $('#direccion-container'); // Contenedor para el campo de dirección
+            container.empty(); // Limpiar el contenido actual del contenedor
 
-    if (tipoPedido === 'Inmediato' || tipoPedido === 'Retiro en local') {
-        // Crear el HTML para el select desplegable
-        const selectHtml = `
+            if (tipoPedido === 'Inmediato' || tipoPedido === 'Retiro en local') {
+                // Crear el HTML para el select desplegable
+                const selectHtml = `
             <select id="direccion" name="direccion" required>
                 <option value="Rueda 193">Rueda 193</option>
                 <option value="3 de Febrero 380">3 de Febrero 380</option>
             </select>`;
-        container.html(selectHtml); // Insertar el select en el contenedor
+                container.html(selectHtml); // Insertar el select en el contenedor
 
-        // Si hay un valor inicial y coincide con una opción, seleccionarla
-        if (initialValue && container.find(`option[value="${initialValue}"]`).length > 0) {
-            container.find('select').val(initialValue);
-        } else {
-             // Opcional: seleccionar la primera opción por defecto si no hay coincidencia
-             container.find('select').val('Rueda 1745 bis');
+                // Si hay un valor inicial y coincide con una opción, seleccionarla
+                if (initialValue && container.find(`option[value="${initialValue}"]`).length > 0) {
+                    container.find('select').val(initialValue);
+                } else {
+                    // Opcional: seleccionar la primera opción por defecto si no hay coincidencia
+                    container.find('select').val('Rueda 1745 bis');
+                }
+
+            } else { // Por defecto o para 'Entrega a domicilio'
+                // Crear el HTML para el input de texto libre
+                const inputHtml = `<input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección de entrega">`;
+                container.html(inputHtml); // Insertar el input en el contenedor
+
+                // Si hay un valor inicial, establecerlo en el input
+                if (initialValue) {
+                    container.find('input').val(initialValue);
+                }
+            }
         }
 
-    } else { // Por defecto o para 'Entrega a domicilio'
-        // Crear el HTML para el input de texto libre
-        const inputHtml = `<input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección de entrega">`;
-        container.html(inputHtml); // Insertar el input en el contenedor
-
-        // Si hay un valor inicial, establecerlo en el input
-        if (initialValue) {
-            container.find('input').val(initialValue);
+        /**
+         * Envía una petición al backend para eliminar un pedido completo, previa confirmación.
+         * @param {string|number} id - El ID del pedido a eliminar.
+         */
+        function eliminarPedido(id) {
+            // Muestra un diálogo de confirmación al usuario
+            if (confirm(`¿Estás seguro de que deseas eliminar el pedido ${id}? Esta acción no se puede deshacer.`)) {
+                // Si el usuario confirma, envía la petición al backend
+                fetch(`/eliminar_pedido/${id}`, { // Asegúrate que esta ruta exista en Flask
+                    method: 'POST', // O 'DELETE' si tu backend espera ese método para eliminar
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // Puedes añadir headers de autenticación si son necesarios (ej: CSRF token)
+                    },
+                    // No se necesita body si el ID va en la URL, a menos que tu backend lo requiera
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Si la eliminación fue exitosa (status 2xx), recarga la página
+                            // para que la tabla se actualice y muestre el pedido eliminado.
+                            alert(`Pedido ${id} eliminado correctamente.`);
+                            location.reload();
+                        } else {
+                            // Si hubo un error en el servidor (status 4xx, 5xx)
+                            // Intenta obtener más detalles del cuerpo de la respuesta (si lo hay)
+                            response.text().then(text => {
+                                console.error("Error del servidor al eliminar:", text);
+                                alert(`Error al eliminar el pedido ${id}. Respuesta del servidor: ${text || response.statusText}`);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        // Error durante la petición fetch (ej: problema de red)
+                        console.error("Error en la petición fetch para eliminar:", error);
+                        alert(`Error de conexión al intentar eliminar el pedido ${id}. Revisa tu conexión o contacta al administrador.`);
+                    });
+            }
+            // Si el usuario cancela la confirmación, no se hace nada.
         }
-    }
-}
 
-/**
- * Envía una petición al backend para eliminar un pedido completo, previa confirmación.
- * @param {string|number} id - El ID del pedido a eliminar.
- */
-function eliminarPedido(id) {
-    // Muestra un diálogo de confirmación al usuario
-    if (confirm(`¿Estás seguro de que deseas eliminar el pedido ${id}? Esta acción no se puede deshacer.`)) {
-        // Si el usuario confirma, envía la petición al backend
-        fetch(`/eliminar_pedido/${id}`, { // Asegúrate que esta ruta exista en Flask
-            method: 'POST', // O 'DELETE' si tu backend espera ese método para eliminar
-            headers: {
-                'Content-Type': 'application/json'
-                // Puedes añadir headers de autenticación si son necesarios (ej: CSRF token)
-            },
-            // No se necesita body si el ID va en la URL, a menos que tu backend lo requiera
-        })
-        .then(response => {
-            if (response.ok) {
-                // Si la eliminación fue exitosa (status 2xx), recarga la página
-                // para que la tabla se actualice y muestre el pedido eliminado.
-                alert(`Pedido ${id} eliminado correctamente.`);
-                location.reload();
-            } else {
-                // Si hubo un error en el servidor (status 4xx, 5xx)
-                // Intenta obtener más detalles del cuerpo de la respuesta (si lo hay)
-                response.text().then(text => {
-                   console.error("Error del servidor al eliminar:", text);
-                   alert(`Error al eliminar el pedido ${id}. Respuesta del servidor: ${text || response.statusText}`);
+        /**
+         * Cierra (oculta) el modal de edición.
+         */
+        function cerrarModal() {
+            $("#editarModal").hide();
+            // Opcional: Limpiar completamente el formulario al cerrar para la próxima vez que se abra
+            // $('#editForm')[0].reset(); // Resetea valores de inputs y selects
+            // $('#productos-container').html(''); // Vacía los productos
+            // $('#zona_envio_modal').val("0"); // Resetea zona de envío
+            // $('#zona-envio-container-modal').hide(); // Oculta zona de envío
+            // // Podrías llamar a actualizarSubtotal si quieres que los totales se reseteen a 0
+            // // actualizarSubtotal();
+        }
+
+
+        // --- Inicializaciones y Event Listeners Globales ---
+
+        // Se ejecuta cuando todo el HTML está cargado y listo
+        $(document).ready(function () {
+
+            // Listener para el cambio de Tipo de Pedido en el modal (para mostrar/ocultar zona envío)
+            // Se asigna una sola vez cuando el documento está listo.
+            actualizarCampoDireccion(); // Llama a la nueva función sin valor inicial
+            $("#estado").on("change", function () {
+                const zonaEnvioContainer = $("#zona-envio-container-modal");
+                const zonaEnvioSelect = $("#zona_envio_modal");
+                if (this.value === "Entrega a domicilio") {
+                    zonaEnvioContainer.show(); // Muestra el div
+                } else {
+                    zonaEnvioContainer.hide(); // Oculta el div
+                    zonaEnvioSelect.val("0"); // Resetea el valor del select de zona
+                }
+                // Actualiza el subtotal porque el costo de envío puede haber cambiado
+                actualizarSubtotal();
+            });
+
+            // Listener para el campo de búsqueda de la tabla principal
+            $('#buscador').on('input', function () {
+                let filtro = this.value.toLowerCase().trim(); // Obtiene el texto, minúsculas, sin espacios extra
+                // Itera sobre cada fila (tr) dentro del cuerpo (tbody) de la tabla
+                $('.pedidos_table tbody tr').each(function () {
+                    let fila = $(this); // La fila actual como objeto jQuery
+                    let textoFila = fila.text().toLowerCase(); // Obtiene todo el texto de la fila en minúsculas
+                    // Comprueba si el texto de la fila incluye el filtro
+                    if (textoFila.includes(filtro)) {
+                        fila.show(); // Muestra la fila si coincide
+                    } else {
+                        fila.hide(); // Oculta la fila si no coincide
+                    }
                 });
-            }
-        })
-        .catch(error => {
-            // Error durante la petición fetch (ej: problema de red)
-            console.error("Error en la petición fetch para eliminar:", error);
-            alert(`Error de conexión al intentar eliminar el pedido ${id}. Revisa tu conexión o contacta al administrador.`);
-        });
-    }
-    // Si el usuario cancela la confirmación, no se hace nada.
-}
+            });
 
-/**
- * Cierra (oculta) el modal de edición.
- */
-function cerrarModal() {
-    $("#editarModal").hide();
-    // Opcional: Limpiar completamente el formulario al cerrar para la próxima vez que se abra
-    // $('#editForm')[0].reset(); // Resetea valores de inputs y selects
-    // $('#productos-container').html(''); // Vacía los productos
-    // $('#zona_envio_modal').val("0"); // Resetea zona de envío
-    // $('#zona-envio-container-modal').hide(); // Oculta zona de envío
-    // // Podrías llamar a actualizarSubtotal si quieres que los totales se reseteen a 0
-    // // actualizarSubtotal();
-}
+            // NO inicializar Select2 aquí de forma global para '.producto-select'
+            // porque esos elementos se crean dinámicamente dentro del modal.
+            // Se inicializarán en las funciones agregarProducto y editarPedido.
+            // $('.producto-select').select2(); // <-- COMENTADO/ELIMINADO
 
+        }); // Fin de $(document).ready
 
-// --- Inicializaciones y Event Listeners Globales ---
-
-// Se ejecuta cuando todo el HTML está cargado y listo
-$(document).ready(function() {
-
-    // Listener para el cambio de Tipo de Pedido en el modal (para mostrar/ocultar zona envío)
-    // Se asigna una sola vez cuando el documento está listo.
-    actualizarCampoDireccion(); // Llama a la nueva función sin valor inicial
-    $("#estado").on("change", function() {
-        const zonaEnvioContainer = $("#zona-envio-container-modal");
-        const zonaEnvioSelect = $("#zona_envio_modal");
-        if (this.value === "Entrega a domicilio") {
-            zonaEnvioContainer.show(); // Muestra el div
-        } else {
-            zonaEnvioContainer.hide(); // Oculta el div
-            zonaEnvioSelect.val("0"); // Resetea el valor del select de zona
-        }
-        // Actualiza el subtotal porque el costo de envío puede haber cambiado
-        actualizarSubtotal();
-    });
-
-    // Listener para el campo de búsqueda de la tabla principal
-    $('#buscador').on('input', function() {
-        let filtro = this.value.toLowerCase().trim(); // Obtiene el texto, minúsculas, sin espacios extra
-        // Itera sobre cada fila (tr) dentro del cuerpo (tbody) de la tabla
-        $('.pedidos_table tbody tr').each(function() {
-            let fila = $(this); // La fila actual como objeto jQuery
-            let textoFila = fila.text().toLowerCase(); // Obtiene todo el texto de la fila en minúsculas
-            // Comprueba si el texto de la fila incluye el filtro
-            if (textoFila.includes(filtro)) {
-                fila.show(); // Muestra la fila si coincide
-            } else {
-                fila.hide(); // Oculta la fila si no coincide
-            }
-        });
-    });
-
-    // NO inicializar Select2 aquí de forma global para '.producto-select'
-    // porque esos elementos se crean dinámicamente dentro del modal.
-    // Se inicializarán en las funciones agregarProducto y editarPedido.
-    // $('.producto-select').select2(); // <-- COMENTADO/ELIMINADO
-
-}); // Fin de $(document).ready
-
-</script>
+    </script>
 
 </body>
+
 </html>
