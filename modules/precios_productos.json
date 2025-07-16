@@ -235,6 +235,14 @@
         "nombre": "Filet Pechuga",
         "precio": 14000
     },
+    "2100340080002": {
+        "nombre": "Guiso de Arvejas (1u)",
+        "precio": 8000
+    },
+    "2100330080005": {
+        "nombre": "Guiso de Lentejas (1u)",
+        "precio": 8000
+    },
     "2100190085004": {
         "nombre": "Hamburguesas Cordero (4u)",
         "precio": 8500
@@ -258,6 +266,10 @@
     "65": {
         "nombre": "Mignon (1u)",
         "precio": 300
+    },
+    "2100180120005": {
+        "nombre": "Milanesa de Cerdo (1kg)",
+        "precio": 12000
     },
     "2100240125001": {
         "nombre": "Novillo Desmechado (400g)",
@@ -299,16 +311,12 @@
         "nombre": "Pollo Entero mediano (1u)",
         "precio": 13000
     },
-    "2100160150008": {
-        "nombre": "Premium Milanesa Bife Angosto (1kg)",
-        "precio": 15000
-    },
     "2100170150005": {
         "nombre": "Premium Milanesa Bife Ancho (1kg)",
         "precio": 15000
     },
-    "2100120150000": {
-        "nombre": "Premium Milanesa Peceto (1kg)",
+    "2100160150008": {
+        "nombre": "Premium Milanesa Bife Angosto (1kg)",
         "precio": 15000
     },
     "2100140150004": {
@@ -317,6 +325,10 @@
     },
     "2100130150007": {
         "nombre": "Premium Milanesa Lomo (1kg)",
+        "precio": 15000
+    },
+    "2100120150000": {
+        "nombre": "Premium Milanesa Peceto (1kg)",
         "precio": 15000
     },
     "2100150150001": {
@@ -351,16 +363,16 @@
         "nombre": "Tradicional Milanesa Bola Lomo (1kg)",
         "precio": 13000
     },
-    "2100110130005": {
-        "nombre": "Tradicional Milanesa Nalga (1kg)",
-        "precio": 13000
-    },
     "2100090130002": {
         "nombre": "Tradicional Milanesa Cuadrada (1kg)",
         "precio": 13000
     },
     "2100080130005": {
         "nombre": "Tradicional Milanesa Cuadril (1kg)",
+        "precio": 13000
+    },
+    "2100110130005": {
+        "nombre": "Tradicional Milanesa Nalga (1kg)",
         "precio": 13000
     },
     "2100230080006": {
@@ -378,17 +390,5 @@
     "87": {
         "nombre": "Vino Rosado (750ml)",
         "precio": 8000
-    },
-    "2100330080005": {
-        "nombre": "Guiso de Lentejas (1u)",
-        "precio": 8000
-    },
-    "2100340080002": {
-        "nombre": "Guiso de Arvejas (1u)",
-        "precio": 8000
-    },
-    "2100180120005": {
-        "nombre": "Milanesa de Cerdo (1kg)",
-        "precio": 12000
     }
 }
