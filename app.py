@@ -1555,7 +1555,7 @@ def generar_flujo():
         dot_code += '  node [shape=box, style=filled, fillcolor=lightgrey, fontname="Helvetica"];\n'
 
         for i, paso in enumerate(pasos):
-            if paso:
+            if paso and len(paso) > 1:
                 dot_code += f'  n{i} [label="{paso}"];\n'
                 if i > 0:
                     dot_code += f'  n{i-1} -> n{i};\n'
