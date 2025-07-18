@@ -537,7 +537,7 @@ def enviar_pedido():
 
     guardar_en_sheets(datos_pedido, productos, cantidades)
 
-    return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado)
+    return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado,medio)
  
 @app.route("/editar_pedidos")
 def editar_pedidos():
@@ -590,7 +590,7 @@ def actualizar_pedido():
         {"range": f"F{fila_pedido}", "values": [[request.form["telefono"]]]},
         {"range": f"G{fila_pedido}", "values": [[request.form["email"]]]},
         {"range": f"H{fila_pedido}", "values": [[request.form["fecha_nacimiento"]]]},
-        {"range": f"I{fila_pedido}", "values": [[request.form["sexo"]]]},
+        {"range": f"I{fila_pedido}", "values": [[request.form["sexo_cliente"]]]},
         {"range": f"J{fila_pedido}", "values": [[request.form["fecha_entrega"]]]},
         {"range": f"K{fila_pedido}", "values": [[request.form["horario_entrega"]]]},
         {"range": f"L{fila_pedido}", "values": [[request.form["metodo_pago"]]]},
@@ -1586,6 +1586,56 @@ def generar_flujo():
 @login_requerido
 def generar_flujos():
     return render_template('generar_flujo.html')
+
+
+@app.route('/verificacion_pagos')
+def verificacion_pagos():
+    sheet = conectar_sheets()
+    hoja = sheet.worksheet("Pedidos")
+    pedidos = hoja.get_all_records()
+
+    pedidos_no_pagados = [p for p in pedidos if p.get("Pagado", "").strip().lower() == "no"]
+
+    return render_template("verificacion_pagos.html", pedidos=pedidos_no_pagados)
+
+@app.route('/verificar_pago/<int:pedido_id>')
+def editar_pago(pedido_id):
+    sheet = conectar_sheets()
+    hoja = sheet.worksheet("Pedidos")
+    pedidos = hoja.get_all_records()
+
+    pedido = next((p for p in pedidos if int(p["ID"]) == pedido_id), None)
+    if not pedido:
+        return "Pedido no encontrado", 404
+    
+    productos_raw = str(pedido["Productos"])
+    cantidades_raw = str(pedido["Cantidades"])
+
+    productos = [p.strip() for p in productos_raw.split(",")]
+    cantidades = [c.strip() for c in cantidades_raw.split(",")]
+
+    productos_y_cantidades = list(zip(productos, cantidades))
+    return render_template("form_verificar_pago.html", pedido=pedido, productos_y_cantidades=productos_y_cantidades)
+
+
+@app.route('/actualizar_pago', methods=['POST'])
+def actualizar_pago():
+    pedido_id = int(request.form['id'])
+    nuevo_estado = request.form['pagado']
+
+    sheet = conectar_sheets()
+    hoja = sheet.worksheet("Pedidos")
+    pedidos = hoja.get_all_records()
+
+    fila = next((i for i, p in enumerate(pedidos, start=2) if int(p["ID"]) == pedido_id), None)
+
+    if fila:
+        hoja.update_cell(fila, 14, nuevo_estado)  # Columna N
+        flash("✅ Estado de pago actualizado correctamente", "success")
+    else:
+        flash("❌ Pedido no encontrado", "error")
+
+    return redirect(url_for('verificacion_pagos'))
 
 if __name__ == '__main__':
     app.run(debug=True)
