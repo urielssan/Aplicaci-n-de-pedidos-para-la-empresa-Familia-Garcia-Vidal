@@ -27,6 +27,10 @@ app.secret_key = "clave_secreta"
 #Datos de autenticación
 USUARIO_ADMIN = "admin"
 CONTRASEÑA_ADMIN = "admin123"
+USUARIO_VENDEDOR = "vendedor"
+CONTRASEÑA_VENDEDOR = "vendedor123"
+USUARIO_COCINERO = "cocinero"
+CONTRASEÑA_COCINERO = "cocinero123"
 
 
 # Configuraciones
@@ -178,11 +182,22 @@ def login():
         usuario = request.form["usuario"]
         contraseña = request.form["contraseña"]
 
+       # Según el usuario, asignamos un rol
         if usuario == USUARIO_ADMIN and contraseña == CONTRASEÑA_ADMIN:
+            session["rol"] = "admin"
             session["usuario"] = usuario
             next_page = request.args.get("next")  # 🔹 Ver si había una página previa
             return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
-
+        elif usuario == USUARIO_VENDEDOR and contraseña == CONTRASEÑA_VENDEDOR:
+            session["rol"] = "vendedor"
+            session["usuario"] = usuario
+            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
+            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
+        elif usuario == USUARIO_COCINERO and contraseña == CONTRASEÑA_COCINERO:
+            session["rol"] = "cocinero"
+            session["usuario"] = usuario
+            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
+            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
         else:
             return render_template("login.html", error="Usuario o contraseña incorrectos")
 
@@ -192,12 +207,18 @@ def login():
 
 # 🔹 Decorador para proteger rutas
 
-def login_requerido(f):
-    @wraps(f)
-    def decorador(*args, **kwargs):
-        if "usuario" not in session:
-            return redirect(url_for("login"))  # 🔹 Redirigir a login si no está autenticado
-        return f(*args, **kwargs)
+def rol_requerido(*roles):
+    def decorador(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if "usuario" not in session:
+                flash("Tenés que iniciar sesión primero.", "error")
+                return redirect(url_for("login"))
+            if session.get("rol") not in roles:
+                flash("No tenés permisos para acceder a esta página.", "error")
+                return redirect(url_for("index"))
+            return func(*args, **kwargs)
+        return wrapper
     return decorador
 
 
@@ -212,13 +233,13 @@ def error_servidor(e):
 
 
 @app.route('/')
-@login_requerido
+@rol_requerido("admin", "vendedor", "cocinero")
 def index():
     precios = cargar_precios()
     return render_template("index.html",precios_productos=precios)
 
 @app.route('/ver_pedidos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_pedidos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -266,7 +287,7 @@ def ver_pedidos():
 
 
 @app.route('/ver_delivery')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_delivery():
     """Trae los pedidos de Google Sheets y los muestra en una tabla,
     formateando la columna de Productos con sus cantidades (int si es entero, sino float)."""
@@ -315,7 +336,7 @@ def ver_delivery():
 
 
 @app.route('/ver_delivery_hoy')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_delivery_hoy():
     """Trae los pedidos de Google Sheets y los muestra en una tabla,
     formateando la columna de Productos con sus cantidades (int si es entero, sino float)."""
@@ -364,7 +385,7 @@ def ver_delivery_hoy():
 
 
 @app.route('/ver_retiro_en_local')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_retiro_en_local():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -383,7 +404,7 @@ def ver_retiro_en_local():
 
 
 @app.route('/ver_retiro_en_local_hoy')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_retiro_en_local_hoy():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -426,7 +447,7 @@ def obtener_productos_pedido(pedido_id):
 
 
 @app.route('/enviar_pedido', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def enviar_pedido():
     df_pedidos = pd.read_excel(FILE_PATH, sheet_name="Pedidos", engine="openpyxl")
     try:
@@ -684,24 +705,26 @@ def eliminar_pedido(pedido_id):
         return f"Error interno del servidor: {e}", 500
 
 @app.route('/ingresar_stock')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ingresar_stock():
     precios = cargar_precios()
     return render_template("ingresar_stock.html",precios_productos = precios)
 
 @app.route('/ingresar_materia_prima')
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def ingresar_materia_prima():
     materia_prima = cargar_materia_prima()
     return render_template("ingresar_materia_prima.html", materia_prima=materia_prima)
 
 @app.route('/ingresar_desposte', methods=["GET"])
+@rol_requerido("admin", "cocinero")
 def ingresar_desposte():
     with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
         materias_primas = json.load(f)
     return render_template("ingresar_desposte.html", materias_primas=materias_primas)
 
 @app.route('/crear_receta')
+@rol_requerido("admin", "cocinero")
 def crear_receta():
     with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
         productos = json.load(f)
@@ -710,7 +733,7 @@ def crear_receta():
     return render_template("crear_receta.html", productos=productos, materias_primas=materias_primas)
 
 @app.route('/guardar_stock', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def guardar_stock():
     sheet = conectar_sheets()
     hoja_stock = sheet.worksheet("Stock")
@@ -740,7 +763,7 @@ def guardar_stock():
     return redirect(url_for("ingresar_stock", precios_productos=precios))
 
 @app.route('/guardar_materia_prima', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def guardar_materia_prima():
     sheet = conectar_sheets()
     hoja_materia = sheet.worksheet("Materia prima ingresos")  # ✅ hoja específica
@@ -885,7 +908,7 @@ def guardar_receta():
     return redirect(url_for("ver_recetas"))
 
 @app.route('/ver_salida')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_caja_salida():
     
     return render_template("caja_salida.html")
@@ -894,7 +917,7 @@ def ver_caja_salida():
 from datetime import datetime
 
 @app.route('/caja_salida', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def caja_salida():
     sheet = conectar_sheets()
     hoja_caja_salida = sheet.worksheet("Salida Caja")
@@ -917,7 +940,7 @@ def caja_salida():
 
 
 @app.route('/ver_salidas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_salidas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -934,7 +957,7 @@ def ver_salidas():
 
 
 @app.route('/pedido/<pedido_id>')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def detalle_pedido(pedido_id):
     """Muestra la página de detalle de un pedido específico, uniendo productos y cantidades,
     enviándolos como listas."""
@@ -1056,7 +1079,7 @@ def generar_pdf_pedido(pedido_id):
 
 
 @app.route('/editar_pedido/pedido_id')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def detalle_editar_pedido(pedido_id):
     sheet = conectar_sheets()
     hoja_pedidos = sheet.worksheet("Pedidos")  # Asegúrate del nombre de tu hoja
@@ -1106,7 +1129,7 @@ def detalle_editar_pedido(pedido_id):
 
 
 @app.route("/ver_precios", methods=["GET", "POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_precios():
     json_path = os.path.join("modules", "precios_productos.json")
 
@@ -1159,7 +1182,7 @@ def ver_precios():
 
 
 @app.route('/ver_stock')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1177,7 +1200,7 @@ def ver_stock():
     return render_template("stock_nuevo.html", stock=datos_stock)
 
 @app.route("/ver_materia_prima", methods=["GET", "POST"])
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def ver_materia_prima():
     json_path = os.path.join("modules", "materia_prima.json")
 
@@ -1264,7 +1287,7 @@ def ver_recetas():
 
 
 @app.route('/ver_stock_entrada')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_entrada():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1282,7 +1305,7 @@ def ver_stock_entrada():
     return render_template("entrada_stock.html", stock=datos_stock)
 
 @app.route('/ver_stock_entrada_total')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_entrada_total():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1301,7 +1324,7 @@ def ver_stock_entrada_total():
 
 
 @app.route('/ver_stock/milanesas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_milanesas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1319,7 +1342,7 @@ def ver_stock_milanesas():
     return render_template("vista_stock_milanesas.html", stock=datos_stock)
 
 @app.route('/ver_stock/frescos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_frescos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1337,7 +1360,7 @@ def ver_stock_frescos():
     return render_template("vista_stock_frescos.html", stock=datos_stock)
 
 @app.route('/ver_stock/bebidas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_bebidas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1355,7 +1378,7 @@ def ver_stock_bebidas():
     return render_template("vista_stock_bebidas.html", stock=datos_stock)
 
 @app.route('/ver_stock/desmechados')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_desmechados():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1373,7 +1396,7 @@ def ver_stock_desmechados():
     return render_template("vista_stock_desmechados.html", stock=datos_stock)
 
 @app.route('/ver_stock/empanadas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_empanadas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1391,7 +1414,7 @@ def ver_stock_empanadas():
     return render_template("vista_stock_empanadas.html", stock=datos_stock)
 
 @app.route('/ver_stock/hamburguesas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_carnes():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1409,7 +1432,7 @@ def ver_stock_carnes():
     return render_template("vista_stock_carnes.html", stock=datos_stock)
 
 @app.route('/ver_stock/nuevo')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_nuevo():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1427,7 +1450,7 @@ def ver_stock_nuevo():
     return render_template("stock_nuevo.html", stock=datos_stock)
 
 @app.route('/ver_stock/pizzas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_pizzas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1445,7 +1468,7 @@ def ver_stock_pizzas():
     return render_template("vista_stock_pizzas.html", stock=datos_stock)
 
 @app.route('/ver_stock/etiquetas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_etiquetas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1463,7 +1486,7 @@ def ver_stock_etiquetas():
     return render_template("vista_stock_etiquetas.html", stock=datos_stock)
 
 @app.route('/ver_stock/promos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_promos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1481,7 +1504,7 @@ def ver_stock_promos():
     return render_template("vista_stock_promos.html", stock=datos_stock)
 
 @app.route('/caja_diaria')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_caja_diaria():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1500,7 +1523,7 @@ def ver_caja_diaria():
 
 
 @app.route("/editar_pedido_form/<pedido_id>")
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_pedido_form(pedido_id):
     sheet = conectar_sheets()
     hoja = sheet.worksheet("Pedidos")
@@ -1540,7 +1563,7 @@ def editar_pedido_form(pedido_id):
 
 
 @app.route('/exportar_montos_clientes')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def exportar_montos_clientes():
     import pandas as pd
     from datetime import datetime, timedelta
@@ -1619,7 +1642,7 @@ def exportar_montos_clientes():
 
 
 @app.route('/sorteo_ruleta')
-@login_requerido
+@rol_requerido("admin")
 def sorteo_ruleta():
     import pandas as pd
     try:
@@ -1632,7 +1655,7 @@ def sorteo_ruleta():
 
 
 @app.route('/sorteo_ruleta_todos')
-@login_requerido
+@rol_requerido("admin")
 def sorteo_ruleta_todos():
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
@@ -1647,14 +1670,14 @@ def sorteo_ruleta_todos():
 # http://localhost:5000/exportar_montos_clientes
 
 @app.route('/editar_clientes')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_clientes():
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
     return render_template('editar_clientes.html', clientes=clientes)
 
 @app.route('/editar_cliente/<dni>', methods=['GET', 'POST'])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_cliente(dni):
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
@@ -1750,12 +1773,13 @@ def generar_flujo():
     return response
 
 @app.route('/generar_flujos')
-@login_requerido
+@rol_requerido("admin")
 def generar_flujos():
     return render_template('generar_flujo.html')
 
 
 @app.route('/verificacion_pagos')
+@rol_requerido("admin", "vendedor")
 def verificacion_pagos():
     sheet = conectar_sheets()
     hoja = sheet.worksheet("Pedidos")
