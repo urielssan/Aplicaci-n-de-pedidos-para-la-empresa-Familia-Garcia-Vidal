@@ -6,12 +6,29 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.lib.enums import TA_CENTER
 from modules.config import Config  # Importamos la configuración
+from pathlib import Path
+import json
+JSON_PATH = Path("modules/precios_productos.json")
 
+def cargar_precios():
+    """Carga los precios de los productos desde el archivo JSON."""
+    try:
+        with open(JSON_PATH, 'r') as f:
+            data = json.load(f)
+
+            return dict(sorted(data.items(), key=lambda item: item[1]["nombre"]))
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo JSON en {JSON_PATH}")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error: El archivo JSON en {JSON_PATH} no es válido.")
+        return {}
 
 def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones, estado, medio):
     pdf_path = f"orden_pedido_{pedido_id}.pdf"
     LOGO_PATH = Config.LOGO_PATH
 
+    productosJSON = cargar_precios()
     doc = SimpleDocTemplate(pdf_path, pagesize=(150 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
     elements = []
     styles = getSampleStyleSheet()
@@ -37,7 +54,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
     table_data = [["Producto", "Cant.", "P. Unit", "Total"]]
     for producto, cantidad, precio in zip(productos, cantidades, precios):
         total_precio = total_precio + precio * float(cantidad)
-        table_data.append([producto, f"{cantidad}x", f"${precio:,.2f}", f"${total_precio:,.2f}"])
+        table_data.append([productosJSON[producto]["nombre"], f"{cantidad}x", f"${precio:,.2f}", f"${total_precio:,.2f}"])
 
     table = Table(table_data, colWidths=[40 * mm, 25 * mm, 25 * mm, 25 * mm], hAlign='CENTER')
     table.setStyle(TableStyle([
@@ -60,6 +77,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
         descuento =  total_precio * 0.05
     elif descuento == 2:
         elements.append(Spacer(1, 10))
+        descuento =  total_precio * 0.1
     elif descuento == 3:
         elements.append(Spacer(1, 10))
         descuento =  total_precio * 0.15  

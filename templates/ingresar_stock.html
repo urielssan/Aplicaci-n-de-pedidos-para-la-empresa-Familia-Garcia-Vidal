@@ -57,20 +57,20 @@
             submitBtn.value = "Guardando...";
         });
 
-
-        const preciosProductos = {{ precios_productos| tojson }};
+        const preciosProductos = {{ precios_productos | tojson | safe }};
 
         function agregarProducto(nombreProducto = null) {
             const selects = document.querySelectorAll('.producto-select');
+            const nombreInput = (nombreProducto || "").toLowerCase();
 
-            // 1️⃣ Si ya existe ese producto en la lista, solo sumamos 1 a la cantidad
-            if (nombreProducto) {
-                for (let select of selects) {
-                    if (select.value === nombreProducto) {
-                        const cantidadInput = select.parentElement.querySelector('input[type="number"]');
-                        cantidadInput.value = parseFloat(cantidadInput.value) + 1;
-                        return; // No agregamos otro, salimos
-                    }
+            // 1️⃣ Si ya existe, sumamos cantidad
+            for (let select of selects) {
+                const id = select.value;
+                const nombreExistente = preciosProductos[id]?.nombre?.toLowerCase() || "";
+                if (id === nombreProducto || nombreExistente === nombreInput) {
+                    const cantidadInput = select.parentElement.querySelector('input[type="number"]');
+                    cantidadInput.value = parseFloat(cantidadInput.value) + 1;
+                    return;
                 }
             }
 
@@ -81,27 +81,44 @@
             let idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
 
             div.innerHTML = `
-        <select name="productos[]" class="producto-select" id="${idProducto}">
+        <select name="productos[]" class="producto-select" id="${idProducto}" required style="width: 300px;">
             <option value="">Seleccionar producto</option>
-            ${Object.keys(preciosProductos).map(p => `<option value="${p}" ${p === nombreProducto ? 'selected' : ''}>${p} - $${preciosProductos[p]}</option>`).join("")}
+            ${Object.entries(preciosProductos).map(([id, prod]) =>
+                `<option value="${id}">${prod.nombre} - $${prod.precio}</option>`
+            ).join("")}
         </select>
         Cantidad: <input type="number" name="cantidades[]" min="-1000" step="0.01" value="1" required>
         <button type="button" onclick="this.parentNode.remove()">X</button>
-    `;
+        `;
 
             container.appendChild(div);
 
-            const select = $(`#${idProducto}`);
-            select.select2();
+            const $select = $(`#${idProducto}`);
+            $select.select2({
+                matcher: function (params, data) {
+                    if ($.trim(params.term) === '') return data;
 
+                    const term = params.term.toLowerCase();
+                    const id = data.id?.toLowerCase() || '';
+                    const text = data.text?.toLowerCase() || '';
+
+                    // 🔍 Mostrar si el término buscado aparece en el ID o en el nombre
+                    if (id.includes(term) || text.includes(term)) {
+                        return data;
+                    }
+
+                    return null;
+                }
+            });
+
+            // Abre el select y enfoca el campo de búsqueda
             setTimeout(() => {
-                select.select2('open');
+                $select.select2('open');
                 setTimeout(() => {
                     document.querySelector('.select2-container--open .select2-search__field')?.focus();
                 }, 50);
             }, 100);
         }
-
 
         document.addEventListener('click', () => {
             setTimeout(() => {
@@ -109,6 +126,8 @@
             }, 50);
         });
     </script>
+
+
 
 </body>
 

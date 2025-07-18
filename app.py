@@ -44,7 +44,7 @@ def cargar_precios():
         with open(JSON_PATH, 'r') as f:
             data = json.load(f)
 
-            return dict(sorted(data.items()))
+            return dict(sorted(data.items(), key=lambda item: item[1]["nombre"]))
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo JSON en {JSON_PATH}")
         return {}
@@ -466,7 +466,7 @@ def enviar_pedido():
     medio = request.form["pidio"]
     precios_productos = cargar_precios()
 
-    precios = [precios_productos.get(p, 0) for p in productos]
+    precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
 
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
@@ -581,7 +581,7 @@ def actualizar_pedido():
     except:
         fecha_formateada = request.form["fecha_entrega"]  # Si falla, lo deja como vino
 
-
+    fecha_real = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     updates = [
         {"range": f"B{fila_pedido}", "values": [[request.form["dni"]]]},
         {"range": f"C{fila_pedido}", "values": [[request.form["vendedor"]]]},
@@ -600,7 +600,7 @@ def actualizar_pedido():
         {"range": f"S{fila_pedido}", "values": [[request.form["zona_envio"]]]},
         {"range": f"T{fila_pedido}", "values": [[request.form["observaciones"]]]},
         {"range": f"U{fila_pedido}", "values": [[request.form["descuentoOn"]]]},  # Descuento como string
-        {"range": f"V{fila_pedido}", "values": [[fecha_formateada]]},  # Fecha de ingreso formateada
+        {"range": f"V{fila_pedido}", "values": [[fecha_real]]},  # Fecha de ingreso formateada
         {"range": f"W{fila_pedido}", "values": [[request.form["banco"]]]},
         {"range": f"X{fila_pedido}", "values": [[request.form["local"]]]},
         {"range": f"Y{fila_pedido}", "values": [[request.form["pidio"]]]}
@@ -658,7 +658,7 @@ def guardar_stock():
     hoja_stock = sheet.worksheet("Stock")
     precios = cargar_precios()
     vendedor = request.form["vendedor"]
-    productos = request.form.getlist("productos[]")
+    productos = request.form.getlist("productos[]") #es el ID jejox
     cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
     observaciones = request.form.get("observaciones", "")
 
@@ -670,10 +670,12 @@ def guardar_stock():
 
     fecha_formateada = fecha_obj.strftime("%Y-%m-%d")  # 🟢 FORMATO RECONOCIBLE POR SHEETS
     ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d")
-
+    jsonProductos = cargar_precios()
+    
     for producto, cantidad in zip(productos, cantidades):
+        nombre = str(jsonProductos[producto]["nombre"])
         hoja_stock.append_row(
-            [fecha_formateada, vendedor, producto, cantidad, observaciones, ingreso_fecha_hora],
+            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto],
             value_input_option="USER_ENTERED"  # 🟢 Permite que se registre como FECHA
         )
 
@@ -847,7 +849,8 @@ def generar_pdf_pedido(pedido_id):
         print("Error: La cantidad de productos no coincide con la cantidad de cantidades.")
         return "Error en los datos del pedido", 500  # O manejar el error como prefieras
 
-    precios = [precios_productos.get(p.strip(), 0) for p in productos]
+    precios = [precios_productos.get(p.strip(), {}).get("precio", 0) for p in productos]
+
 
     # Asegúrate de que monto sea float (manejo de errores adicional)
     try:
@@ -942,32 +945,46 @@ def ver_precios():
         nuevos_precios = {}
         total = int(request.form.get("total_productos", 0))
 
+        # Obtener IDs existentes si estamos editando productos existentes
         for i in range(1, total + 1):
+            id_existente = request.form.get(f"id_existente_{i}")
             nombre = request.form.get(f"nombre_existente_{i}", "").strip()
             precio = request.form.get(f"precio_existente_{i}")
             eliminar = request.form.get(f"eliminar_{i}")
 
             if nombre and precio and not eliminar:
-                nuevos_precios[nombre] = int(precio)
+                nuevos_precios[id_existente] = {
+                    "nombre": nombre,
+                    "precio": int(precio)
+                }
 
-        # Agregar producto nuevo si lo completaron
+
+        # Agregar producto nuevo si fue completado
         nuevo_nombre = request.form.get("nuevo_nombre", "").strip()
         nuevo_precio = request.form.get("nuevo_precio", "").strip()
-
+        nuevo_id = request.form.get("nuevo_id", "").strip()
         if nuevo_nombre and nuevo_precio:
-            nuevos_precios[nuevo_nombre] = int(nuevo_precio)
+            nuevos_precios[str(nuevo_id)] = {
+                "nombre": nuevo_nombre,
+                "precio": int(nuevo_precio)
+            }
 
         # Guardar en el archivo JSON
         with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(dict(sorted(nuevos_precios.items())), f, indent=4, ensure_ascii=False)
+            json.dump(nuevos_precios, f, indent=4, ensure_ascii=False)
 
         flash("Lista de precios actualizada con éxito")
         return redirect(url_for("ver_precios"))
 
+    # GET: leer y ordenar productos por nombre
     with open(json_path, "r", encoding="utf-8") as f:
-        precios = json.load(f)
+        data = json.load(f)
 
-    return render_template("ver_precios.html", precios=precios)
+    # Ordenar por nombre
+    precios_ordenados = dict(sorted(data.items(), key=lambda x: x[1]["nombre"]))
+
+    return render_template("ver_precios.html", precios=precios_ordenados)
+
 
 
 
@@ -1538,7 +1555,7 @@ def generar_flujo():
         dot_code += '  node [shape=box, style=filled, fillcolor=lightgrey, fontname="Helvetica"];\n'
 
         for i, paso in enumerate(pasos):
-            if paso:
+            if paso and len(paso) > 1:
                 dot_code += f'  n{i} [label="{paso}"];\n'
                 if i > 0:
                     dot_code += f'  n{i-1} -> n{i};\n'

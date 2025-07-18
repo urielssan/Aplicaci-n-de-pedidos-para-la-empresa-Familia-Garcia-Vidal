@@ -1,6 +1,7 @@
 <!-- form_editar_pedido.html -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 </head>
+
 <body>
   {% include 'partials/navbar.html' %}
 
@@ -57,7 +59,7 @@
       <h4>Horario de Entrega:</h4>
       <select name="horario_entrega">
         {% for h in ["09:00 a 12:00", "12:00 a 15:00", "15:00 a 18:00", "18:00 a 21:00"] %}
-        <option value="{{ h }}" {% if pedido['Horario de Entrega'] == h %}selected{% endif %}>{{ h }}</option>
+        <option value="{{ h }}" {% if pedido['Horario de Entrega']==h %}selected{% endif %}>{{ h }}</option>
         {% endfor %}
       </select>
 
@@ -71,14 +73,14 @@
       <h4>Método de Pago:</h4>
       <select name="metodo_pago">
         {% for m in ["Efectivo", "Transferencia", "QR", "Débito", "Crédito", "Modo"] %}
-        <option value="{{ m }}" {% if pedido['Método de Pago'] == m %}selected{% endif %}>{{ m }}</option>
+        <option value="{{ m }}" {% if pedido['Método de Pago']==m %}selected{% endif %}>{{ m }}</option>
         {% endfor %}
       </select>
 
       <h4>Banco:</h4>
       <select name="banco">
         {% for b in ["Payway", "Mercado-Pago", "viumi", "-"] %}
-        <option value="{{ b }}" {% if pedido['Banco'] == b %}selected{% endif %}>{{ b }}</option>
+        <option value="{{ b }}" {% if pedido['Banco']==b %}selected{% endif %}>{{ b }}</option>
         {% endfor %}
       </select>
 
@@ -93,8 +95,8 @@
 
       <h4>¿Pagado?</h4>
       <select name="pagado">
-        <option value="No" {% if pedido['Pagado'] == 'No' %}selected{% endif %}>No</option>
-        <option value="Sí" {% if pedido['Pagado'] == 'Sí' %}selected{% endif %}>Sí</option>
+        <option value="No" {% if pedido['Pagado']=='No' %}selected{% endif %}>No</option>
+        <option value="Sí" {% if pedido['Pagado']=='Sí' %}selected{% endif %}>Sí</option>
       </select>
 
       <h4>Zona de Envío:</h4>
@@ -107,13 +109,13 @@
       <h4>Medio (Pidio por):</h4>
       <select name="pidio">
         {% for p in ["Manychat", "Local", "Tienda Nube", "Local Virtual"] %}
-        <option value="{{ p }}" {% if pedido['Medio'] == p %}selected{% endif %}>{{ p }}</option>
+        <option value="{{ p }}" {% if pedido['Medio']==p %}selected{% endif %}>{{ p }}</option>
         {% endfor %}
       </select>
 
       <h4>Local:</h4>
       <select name="local">
-        <option value="3 de Febrero" {% if pedido['Local'] == '3 de Febrero' %}selected{% endif %}>3 de Febrero</option>
+        <option value="3 de Febrero" {% if pedido['Local']=='3 de Febrero' %}selected{% endif %}>3 de Febrero</option>
       </select>
     </div>
 
@@ -133,7 +135,7 @@
   </form>
 
   <script>
-    const preciosProductos = {{ precios_productos|tojson|safe }};
+    const preciosProductos = {{ precios_productos| tojson | safe }};
   </script>
   <script>
     const productosConCantidad = {{ pedido['__productos'] | tojson | safe }};
@@ -152,9 +154,9 @@
             <label>Producto:</label>
             <select name="productos[]" class="producto-select" required>
               <option value="">Seleccionar producto</option>
-              ${Object.entries(preciosProductos).map(([p, precio]) =>
-                `<option value="${p}" ${p === nombre ? 'selected' : ''}>${p} - $${precio}</option>`
-              ).join('')}
+              ${Object.keys(preciosProductos).map(id =>
+        `<option value="${id}" ${id === nombre ? 'selected' : ''}>${preciosProductos[id].nombre} - $${preciosProductos[id].precio}</option>`
+      ).join('')}
             </select>
           </div>
           <div class="producto-linea">
@@ -174,17 +176,17 @@
       $('.producto-select').select2({ width: "100%" });
     });
   </script>
-<script>
-  function calcularMonto() {
-    let total = 0;
-    document.querySelectorAll('.producto-item').forEach(item => {
-      const select = item.querySelector('select[name="productos[]"]');
-      const input = item.querySelector('input[name="cantidades[]"]');
-      const nombreProducto = select.value;
-      const cantidad = parseFloat(input.value) || 0;
-      const precioUnitario = preciosProductos[nombreProducto] || 0;
-      total += precioUnitario * cantidad;
-    });
+  <script>
+    function calcularMonto() {
+      let total = 0;
+      document.querySelectorAll('.producto-item').forEach(item => {
+        const select = item.querySelector('select[name="productos[]"]');
+        const input = item.querySelector('input[name="cantidades[]"]');
+        const nombreProducto = select.value;
+        const cantidad = parseFloat(input.value) || 0;
+        const precioUnitario = preciosProductos[nombreProducto] ? preciosProductos[nombreProducto].precio : 0;
+        total += precioUnitario * cantidad;
+      });
 
     // Obtener descuento
     const descuentoIndice = parseInt(document.getElementById('descuento').value);
@@ -192,40 +194,41 @@
     const descuentoAplicado = total * (porcentajeDescuento / 100);
 
 
-    // Obtener envío
-    const envio = parseFloat(document.getElementById('zona_envio').value) || 0;
+      // Obtener envío
+      const envio = parseFloat(document.getElementById('zona_envio').value) || 0;
 
-    const totalFinal = total - descuentoAplicado + envio;
+      const totalFinal = total - descuentoAplicado + envio;
 
-    document.getElementById('monto_total').value = totalFinal.toFixed(2);
-  }
-
-  // Escuchar cambios
-  document.addEventListener('input', function (e) {
-    if (
-      e.target.name === 'productos[]' ||
-      e.target.name === 'cantidades[]' ||
-      e.target.name === 'descuentoOn' ||
-      e.target.name === 'zona_envio'
-    ) {
-      calcularMonto();
+      document.getElementById('monto_total').value = totalFinal.toFixed(2);
     }
-  });
 
-  // Calcular al cargar
-  window.onload = () => {
-    const container = document.getElementById('productos-container');
-    productosConCantidad.forEach(([nombre, cantidad]) => {
-      container.innerHTML += generarItemProducto(nombre, cantidad);
+    // Escuchar cambios
+    document.addEventListener('input', function (e) {
+      if (
+        e.target.name === 'productos[]' ||
+        e.target.name === 'cantidades[]' ||
+        e.target.name === 'descuentoOn' ||
+        e.target.name === 'zona_envio'
+      ) {
+        calcularMonto();
+      }
     });
-    calcularMonto();
-  };
-</script>
-<script>
-  document.querySelector('form').addEventListener('submit', function (e) {
-    calcularMonto();  // 🔁 Asegura que el valor actualizado llegue al backend
-  });
-</script>
+
+    // Calcular al cargar
+    window.onload = () => {
+      const container = document.getElementById('productos-container');
+      productosConCantidad.forEach(([nombre, cantidad]) => {
+        container.innerHTML += generarItemProducto(nombre, cantidad);
+      });
+      calcularMonto();
+    };
+  </script>
+  <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+      calcularMonto();  // 🔁 Asegura que el valor actualizado llegue al backend
+    });
+  </script>
 
 </body>
+
 </html>

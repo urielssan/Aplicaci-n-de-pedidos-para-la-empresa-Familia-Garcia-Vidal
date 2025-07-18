@@ -19,7 +19,7 @@
     <script>
 
 
-        const preciosProductos = {{ precios_productos| tojson }};
+        const preciosProductos = {{ precios_productos| tojson}};
         function convertirFecha(fecha) {
             if (!fecha) return ""
             const partes = fecha.split("/")
@@ -32,10 +32,10 @@
             let productos = document.querySelectorAll(".producto-item");
 
             productos.forEach(div => {
-                let producto = div.querySelector("select").value;
-                let cantidad = div.querySelector("input").value;
-                let precioUnitario = preciosProductos[producto] || 0;
-                total += (precioUnitario * cantidad);
+                let productoId = div.querySelector("select").value;
+                let cantidad = parseFloat(div.querySelector("input").value) || 0;
+                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
+                total += precioUnitario * cantidad;
             });
 
             let descuentoOn = document.getElementById("descuentoOn").value;
@@ -59,9 +59,9 @@
     <div class="producto-linea">
         <label>Producto:</label><br>
         <select name="productos[]" class="producto-select" id="${idProducto}" onchange="actualizarSubtotal()">
-            <option value="">Seleccionar producto</option>
-            ${Object.keys(preciosProductos).map(p => `<option value="${p}">${p} - $${preciosProductos[p]}</option>`).join("")}
-        </select>
+    <option value="">Seleccionar producto</option>
+    ${Object.keys(preciosProductos).map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`).join("")}
+</select>
     </div>
     <div class="producto-linea">
         <label>Cantidad:</label><br>
@@ -91,123 +91,123 @@
         <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
         <br>
         <div class="productos">
-                <h4>Vendedor:</h4>
-                <select id="vendedor" name="vendedor" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="Veronica">Veronica</option>
-                    <option value="Silvina">Silvina</option>
-                    <option value="Lautaro">Lautaro</option>
-                    <option value="Laura">Laura</option>
-                    <option value="Lucia">Lucia</option>
-                    <option value="IT">IT-Pruebas</option>
-                </select>
-                <h4>¿Tipo de Pedido?</h4>
-                <select id="estado" name="estado" onchange="cambiarTipoPedido()" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="Inmediato">Inmediato</option>
-                    <option value="Entrega a domicilio">Entrega a domicilio</option>
-                    <option value="Retiro en local">Retiro en local</option>
-                </select>
+            <h4>Vendedor:</h4>
+            <select id="vendedor" name="vendedor" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="Veronica">Veronica</option>
+                <option value="Silvina">Silvina</option>
+                <option value="Lautaro">Lautaro</option>
+                <option value="Laura">Laura</option>
+                <option value="Lucia">Lucia</option>
+                <option value="IT">IT-Pruebas</option>
+            </select>
+            <h4>¿Tipo de Pedido?</h4>
+            <select id="estado" name="estado" onchange="cambiarTipoPedido()" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="Inmediato">Inmediato</option>
+                <option value="Entrega a domicilio">Entrega a domicilio</option>
+                <option value="Retiro en local">Retiro en local</option>
+            </select>
 
-                <h4>Local:</h4><select id="local" name="local">
-                    <option value="3 de Febrero">3 de Febrero</option>
-                </select>
+            <h4>Local:</h4><select id="local" name="local">
+                <option value="3 de Febrero">3 de Febrero</option>
+            </select>
             <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
             <br>
 
-                <h4>Seleccioná un cliente:</h4>
-                <select id="selector_cliente" class="cliente-select">
-                    <option value="">-- Elegir cliente registrado --</option>
-                </select>
+            <h4>Seleccioná un cliente:</h4>
+            <select id="selector_cliente" class="cliente-select">
+                <option value="">-- Elegir cliente registrado --</option>
+            </select>
 
 
-                <h4>Cliente:</h4>
-                <input type="text" id="cliente" name="cliente" required>
+            <h4>Cliente:</h4>
+            <input type="text" id="cliente" name="cliente" required>
 
-                <h4>DNI:</h4>
-                <input type="text" id="dni" name="dni">
+            <h4>DNI:</h4>
+            <input type="text" id="dni" name="dni">
 
-                <h4>Dirección:</h4>
-                <input type="text" id="direccion" name="direccion">
+            <h4>Dirección:</h4>
+            <input type="text" id="direccion" name="direccion">
 
-                <h4>Teléfono:</h4>
-                <input type="text" id="telefono" name="telefono">
+            <h4>Teléfono:</h4>
+            <input type="text" id="telefono" name="telefono">
 
-                <h4>Email:</h4>
-                <input type="email" id="email_cliente" name="email">
+            <h4>Email:</h4>
+            <input type="email" id="email_cliente" name="email">
 
-                <h4>Fecha de Nacimiento:</h4>
-                <input type="date" id="fecha_nacimiento_cliente" name="fecha_nacimiento">
+            <h4>Fecha de Nacimiento:</h4>
+            <input type="date" id="fecha_nacimiento_cliente" name="fecha_nacimiento">
 
-                <h4>Sexo:</h4>
-                <select id="sexo_cliente" name="sexo">
-                    <option value="">-- Seleccionar --</option>
-                    <option value="Femenino" name="Femenino">Femenino</option>
-                    <option value="Masculino" name="Masculino">Masculino</option>
-                    <option value="X" name="X">Otro</option>
-                </select>
+            <h4>Sexo:</h4>
+            <select id="sexo_cliente" name="sexo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Femenino" name="Femenino">Femenino</option>
+                <option value="Masculino" name="Masculino">Masculino</option>
+                <option value="X" name="X">Otro</option>
+            </select>
 
 
-                <h4>¿Por donde pidio?</h4>
-                <select name="pidio" id="pidio" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="Manychat">Manychat</option>
-                    <option value="Local">Local</option>
-                    <option value="Tienda Nube">Tienda Nube</option>
-                    <option value="Local Virtual">Local Virtual</option>
-                </select>
+            <h4>¿Por donde pidio?</h4>
+            <select name="pidio" id="pidio" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="Manychat">Manychat</option>
+                <option value="Local">Local</option>
+                <option value="Tienda Nube">Tienda Nube</option>
+                <option value="Local Virtual">Local Virtual</option>
+            </select>
             <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
             <br>
-                <h4>Fecha de Entrega:</h4>
-                <input type="date" id="fecha_entrega" name="fecha_entrega" required>
-                <h4>Horario de Entrega:</h4><select id="horario_entrega" name="horario_entrega" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="09:00 a 12:00">09 a 12 hrs</option>
-                    <option value="12:00 a 15:00">12 a 15 hrs</option>
-                    <option value="15:00 a 18:00">15 a 18 hrs</option>
-                    <option value="18:00 a 21:00">18 a 21 hrs</option>
-                </select>
+            <h4>Fecha de Entrega:</h4>
+            <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+            <h4>Horario de Entrega:</h4><select id="horario_entrega" name="horario_entrega" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="09:00 a 12:00">09 a 12 hrs</option>
+                <option value="12:00 a 15:00">12 a 15 hrs</option>
+                <option value="15:00 a 18:00">15 a 18 hrs</option>
+                <option value="18:00 a 21:00">18 a 21 hrs</option>
+            </select>
 
-                <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
-                <br>
+            <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+            <br>
 
-                <h4>Método de Pago:</h4>
-                <select name="metodo_pago" id="metodo_pago" required onchange="actualizarSubtotal()" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="Transferencia">Transferencia</option>
-                    <option value="QR">QR</option>
-                    <option value="Débito">Debito</option>
-                    <option value="Crédito">Credito</option>
-                    <option value="Modo">Modo</option>
-
-
-                </select>
-                <h4>Banco:</h4>
-                <select name="banco" id="banco" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="-">-</option>
-                    <option value="Payway">Payway</option>
-                    <option value="Mercado-Pago">Mercado Pago</option>
-                    <option value="viumi">viumi</option>
-                    
-                </select>
+            <h4>Método de Pago:</h4>
+            <select name="metodo_pago" id="metodo_pago" required onchange="actualizarSubtotal()" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="QR">QR</option>
+                <option value="Débito">Debito</option>
+                <option value="Crédito">Credito</option>
+                <option value="Modo">Modo</option>
 
 
-                <h4>¿Con Descuento?</h4>
-                <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="0">No</option>
-                    <option value="1">5%</option>
-                    <option value="2">10%</option>
-                    <option value="3">15%</option>
-                </select>
-                <h4>¿Incluye envío?</h4>
-                <select name="envio" id="envio" onchange="toggleZonaEnvio()" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="No">No</option>
-                    <option value="Sí">Sí</option>
-                </select>
+            </select>
+            <h4>Banco:</h4>
+            <select name="banco" id="banco" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="-">-</option>
+                <option value="Payway">Payway</option>
+                <option value="Mercado-Pago">Mercado Pago</option>
+                <option value="viumi">viumi</option>
+
+            </select>
+
+
+            <h4>¿Con Descuento?</h4>
+            <select name="descuentoOn" id="descuentoOn" required onchange="actualizarSubtotal()" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="0">No</option>
+                <option value="1">5%</option>
+                <option value="2">10%</option>
+                <option value="3">15%</option>
+            </select>
+            <h4>¿Incluye envío?</h4>
+            <select name="envio" id="envio" onchange="toggleZonaEnvio()" required>
+                <option value="">-- Seleccionar --</option>
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
             <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
             <h2 id="subtotal" style="color:var(--color-texto)">Subtotal: $0.00</h2>
             <h2 id="descuento" style="color:var(--color-fondo)">Descuento: $0.00</h2>
@@ -245,7 +245,7 @@
 
             <input style="margin-top: 1em;" type="submit" value="Enviar Pedido">
         </div>
-        
+
     </form>
 
     <script>
@@ -304,9 +304,9 @@
             let productos = document.querySelectorAll(".producto-item");
 
             productos.forEach(div => {
-                let producto = div.querySelector("select").value;
+                let productoId = div.querySelector("select").value;
                 let cantidad = parseFloat(div.querySelector("input").value) || 0;
-                let precioUnitario = preciosProductos[producto] || 0;
+                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
                 total += precioUnitario * cantidad;
             });
 
@@ -367,14 +367,14 @@
                     document.getElementById("fecha_nacimiento_cliente").value = convertirFecha(c.fecha_nacimiento) || ""
                     document.getElementById("sexo_cliente").value = c.sexo || "Masculino"
                 }
-                $('#selector_cliente').on('select2:clear', function () {
-                    document.getElementById("cliente").value = ""
-                    document.getElementById("direccion").value = ""
-                    document.getElementById("telefono").value = ""
-                    document.getElementById("email_cliente").value = ""
-                    document.getElementById("fecha_nacimiento_cliente").value = ""
-                    document.getElementById("sexo_cliente").value = ""
-                })
+            })
+            $('#selector_cliente').on('select2:clear', function () {
+                document.getElementById("cliente").value = ""
+                document.getElementById("direccion").value = ""
+                document.getElementById("telefono").value = ""
+                document.getElementById("email_cliente").value = ""
+                document.getElementById("fecha_nacimiento_cliente").value = ""
+                document.getElementById("sexo_cliente").value = ""
             })
         })
     </script>
