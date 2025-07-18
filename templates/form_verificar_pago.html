@@ -1,0 +1,62 @@
+<!-- form_editar_pedido.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+  {% include 'partials/navbar.html' %}
+<form class="form" action="{{ url_for('actualizar_pago') }}" method="post">
+  <h2 style="color: #5C0029;">Verificación de Pago</h2>
+  <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
+
+  <input type="hidden" name="id" value="{{ pedido['ID'] }}">
+
+  <div class="productos" style="text-align: left;">
+    <p><strong>Vendedor:</strong> {{ pedido['Vendedor'] }}</p>
+    <p><strong>Cliente:</strong> {{ pedido['Cliente'] }}</p>
+    <p><strong>Teléfono:</strong> {{ pedido['Teléfono'] }}</p>
+    <p><strong>Método de Pago:</strong> {{ pedido['Método de Pago'] }}</p>
+    <p><strong>Banco:</strong> {{ pedido['Banco'] }}</p>
+    <p><strong>Medio:</strong> {{ pedido['Medio'] }}</p>
+    <p><strong>Tipo de Pedido:</strong> {{ pedido['Tipo de Pedido'] }}</p>
+    <p><strong>Fecha Entrega:</strong> {{ pedido['Fecha de Entrega'] }} - {{ pedido['Horario de Entrega'] }}</p>
+    <p><strong>Monto:</strong> {{ pedido['Monto'] }}</p>
+  <p><strong>Productos y Cantidades:</strong></p>
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="text-align: left;">Producto</th>
+      <th style="text-align: left;">Cantidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for producto, cantidad in productos_y_cantidades %}
+    <tr>
+      <td>{{ producto }}</td>
+      <td>{{ cantidad }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  </div>
+
+  <h4>¿Pagado?</h4>
+  <select name="pagado" required>
+    <option value="No" {% if pedido['Pagado'] == 'No' %}selected{% endif %}>No</option>
+    <option value="Sí" {% if pedido['Pagado'] == 'Sí' %}selected{% endif %}>Sí</option>
+  </select>
+
+  <br><br>
+  <input type="submit" value="Actualizar Pago">
+</form>
+
+</body>
+</html>

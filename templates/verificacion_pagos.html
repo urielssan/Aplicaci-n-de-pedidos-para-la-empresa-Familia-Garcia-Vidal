@@ -1,0 +1,40 @@
+<!-- form_editar_pedido.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+  {% include 'partials/navbar.html' %}
+<h2>Pedidos Pendientes de Pago</h2>
+<table class="pedidos_table">
+  <tr>
+    <th>ID</th>
+    <th>Cliente</th>
+    <th>Teléfono</th>
+    <th>Método de Pago</th>
+    <th>Monto</th>
+    <th>Acción</th>
+  </tr>
+  {% for p in pedidos %}
+  <tr>
+    <td>{{ p['ID'] }}</td>
+    <td>{{ p['Cliente'] }}</td>
+    <td>{{ p['Teléfono'] }}</td>
+    <td>{{ p['Método de Pago'] }}</td>
+    <td>{{ p['Monto'] }}</td>
+    <td>
+      <h4><a style="color: black;" href="{{ url_for('editar_pago', pedido_id=p['ID']) }}">Verificar Pago</a></h4>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

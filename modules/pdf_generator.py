@@ -24,7 +24,7 @@ def cargar_precios():
         print(f"Error: El archivo JSON en {JSON_PATH} no es válido.")
         return {}
 
-def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones, estado):
+def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones, estado, medio):
     pdf_path = f"orden_pedido_{pedido_id}.pdf"
     LOGO_PATH = Config.LOGO_PATH
 
@@ -46,6 +46,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
     elements.append(Spacer(1, 10))
     elements.append(Paragraph(f"<b>TIPO DE PEDIDO: {estado}</b>", styles["Heading2"]))
     elements.append(Spacer(1, 10))
+    elements.append(Paragraph(f"<b>FUE PEDIDO POR: {medio}</b>", styles["Heading4"]))
     elements.append(Paragraph("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -", styles["Normal"]))
 
     # Sección 3: Tabla de Productos Minimalista
@@ -87,7 +88,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
         precio_envio = int(zona_envio)
     elements.append(Paragraph(f"Descuento: -${descuento:,.2f}", styles["Normal"]))
     elements.append(Spacer(1, 10))
-    elements.append(Paragraph(f"Envio: -${precio_envio:,.2f}", styles["Normal"]))
+    elements.append(Paragraph(f"Envio: +${precio_envio:,.2f}", styles["Normal"]))
     elements.append(Spacer(1, 10))
     elements.append(Paragraph(f"Total: ${total_final:,.2f}", styles["Normal"]))
     elements.append(Spacer(1, 10))
