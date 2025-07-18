@@ -10,7 +10,7 @@
         .contenedor-tabla {
             background-color: #520025;
             padding: 2em;
-            max-width: 2100px;
+            max-width: 2400px;
             margin: auto;
             border-radius: 20px;
             box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
@@ -40,6 +40,7 @@
                         <th>Producto</th>
                         <th>Unidad</th>
                         <th>Categoría</th>
+                        <th>Cantidad</th>
                         <th>Eliminar ❌</th>
                     </tr>
                 </thead>
@@ -47,11 +48,14 @@
                     {% for nombre, datos in materia.items() %}
                     <tr>
                         <td><input type="number" name="id_existente_{{ loop.index }}" value="{{ datos.ID }}"
-                                style="font-size: 1em; width: 40px;"></td>
+                                style="font-size: 1em; width: 50px;" readonly></td>
                         <td><input type="text" name="nombre_existente_{{ loop.index }}" value="{{ nombre }}"></td>
                         <td><input type="text" name="unidad_existente_{{ loop.index }}" value="{{ datos.Unidad }}"></td>
                         <td><input type="text" name="categoria_existente_{{ loop.index }}"
                                 value="{{ datos.Categoria }}"></td>
+                        <td><input type="number" name="cantidad_existente_{{ loop.index }}" value="{{ datos.Cantidad }}"
+                                readonly>
+                        </td>
                         <td><input type="checkbox" name="eliminar_{{ loop.index }}"></td>
                     </tr>
                     {% endfor %}

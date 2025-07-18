@@ -2,26 +2,61 @@
     "Pan de masa madre": {
         "ID": 1,
         "Unidad": "kg",
-        "Categoria": "Insumos secos"
+        "Categoria": "Insumos secos",
+        "Cantidad": 0.0
     },
     "Huevos de campo": {
         "ID": 2,
         "Unidad": "cantidad",
-        "Categoria": "Frescos"
+        "Categoria": "Frescos",
+        "Cantidad": 0.0
     },
     "Cerveza Blond Ale": {
         "ID": 3,
         "Unidad": "cantidad",
-        "Categoria": "Bebidas"
+        "Categoria": "Bebidas",
+        "Cantidad": 0.0
     },
     "Salsas": {
         "ID": 4,
         "Unidad": "cantidad",
-        "Categoria": "Nose"
+        "Categoria": "Nose",
+        "Cantidad": 0.0
     },
-    "Carne de vaca": {
+    "Aguja": {
         "ID": 5,
         "Unidad": "kg",
-        "Categoria": "Carnes"
+        "Categoria": "Carnes",
+        "Cantidad": 112.0
+    },
+    "Vacio": {
+        "ID": 6,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 0.0
+    },
+    "Lomo": {
+        "ID": 7,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 2.0
+    },
+    "Bife angosto": {
+        "ID": 8,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 58.0
+    },
+    "Cuadril": {
+        "ID": 9,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 70.0
+    },
+    "Solomillo": {
+        "ID": 10,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 2.0
     }
 }

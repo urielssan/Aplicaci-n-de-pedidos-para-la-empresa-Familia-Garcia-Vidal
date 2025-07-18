@@ -468,6 +468,38 @@ def enviar_pedido():
 
     precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
 
+     # Cargar materia prima y recetas
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materia_prima = json.load(f)
+
+    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+        recetas_materias = json.load(f)
+
+    # Calcular la cantidad de materia prima necesaria
+    materia_prima_necesaria = {}
+
+    for producto, cantidad in zip(productos, cantidades):
+        recetas = [receta for receta in recetas_materias if str(receta["ID_receta"]) == str(producto)]
+        for receta in recetas:
+            materia = receta["Materia"]
+            cantidad_necesaria = receta["Cantidad"] * cantidad  # Cantidad total necesaria
+            
+            if materia in materia_prima:
+                if materia in materia_prima_necesaria:
+                    materia_prima_necesaria[materia] += cantidad_necesaria
+                else:
+                    materia_prima_necesaria[materia] = cantidad_necesaria
+
+    # Reducir el stock en materia_prima.json
+    for materia, cantidad in materia_prima_necesaria.items():
+        if materia in materia_prima:
+            materia_prima[materia]["Cantidad"] = float(materia_prima[materia]["Cantidad"]) - float(cantidad)
+
+
+    # Guardar los cambios en materia_prima.json
+    with open(os.path.join("modules", "materia_prima.json"), "w", encoding="utf-8") as f:
+        json.dump(materia_prima, f, indent=4, ensure_ascii=False)
+    
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
         "DNI": dni,
@@ -536,6 +568,18 @@ def enviar_pedido():
     }
 
     guardar_en_sheets(datos_pedido, productos, cantidades)
+    sheet = conectar_sheets()
+    hoja_materia = sheet.worksheet("Materia prima ingresos")
+
+
+    for materia, cantidad in materia_prima_necesaria.items():
+        unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
+
+        hoja_materia.append_row(
+            [fecha_entrega, vendedor, materia, unidad, -cantidad, observaciones, fecha_ingreso],
+            value_input_option="USER_ENTERED"
+        )
+
 
     return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado)
  
@@ -651,6 +695,20 @@ def ingresar_materia_prima():
     materia_prima = cargar_materia_prima()
     return render_template("ingresar_materia_prima.html", materia_prima=materia_prima)
 
+@app.route('/ingresar_desposte', methods=["GET"])
+def ingresar_desposte():
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materias_primas = json.load(f)
+    return render_template("ingresar_desposte.html", materias_primas=materias_primas)
+
+@app.route('/crear_receta')
+def crear_receta():
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos = json.load(f)
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materias_primas = json.load(f)
+    return render_template("crear_receta.html", productos=productos, materias_primas=materias_primas)
+
 @app.route('/guardar_stock', methods=["POST"])
 @login_requerido
 def guardar_stock():
@@ -686,14 +744,24 @@ def guardar_stock():
 def guardar_materia_prima():
     sheet = conectar_sheets()
     hoja_materia = sheet.worksheet("Materia prima ingresos")  # ✅ hoja específica
-
-    with open("modules/materia_prima.json", encoding="utf-8") as f:
-        materia_prima_info = json.load(f)
-
+    
     vendedor = request.form["vendedor"]
     productos = request.form.getlist("productos[]")
     cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
     observaciones = request.form.get("observaciones", "")
+
+    with open("modules/materia_prima.json", encoding="utf-8") as f:
+        materia_prima_info = json.load(f)
+
+    for prod, cant in zip(productos, cantidades):
+        cant = float(cant)
+        if prod in materia_prima_info:
+            materia_prima_info[prod]["Cantidad"] = float(materia_prima_info[prod]["Cantidad"]) + cant
+        else:
+            print(f"⚠ Producto no encontrado en JSON: {prod}")
+
+    with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
+        json.dump(materia_prima_info, f, indent=4, ensure_ascii=False)
 
     fecha_str = request.form["fecha"]
     try:
@@ -714,6 +782,107 @@ def guardar_materia_prima():
 
     return redirect(url_for("ingresar_materia_prima"))
 
+@app.route('/guardar_desposte', methods=['POST'])
+def guardar_desposte():
+    sheet = conectar_sheets()
+    hoja_materia = sheet.worksheet("Materia prima ingresos")  # ✅ hoja específica
+
+    tipo = request.form['tipo_animal']
+    peso_animal = float(request.form['peso_animal'])
+    nombres = request.form.getlist('nombres_partes[]')
+    pesos = list(map(float, request.form.getlist('pesos_partes[]')))
+    observaciones = request.form.get("observaciones", "")
+
+    partes = {}
+    for nombre, peso in zip(nombres, pesos):
+        partes[nombre] = partes.get(nombre, 0) + peso
+
+    peso_aprovechado = sum(partes.values())
+
+    # Cargar archivo actual
+    with open("modules/desposte.json", "r", encoding="utf-8") as f:
+        historial = json.load(f)
+
+    next_id = str(max([int(x["id"]) for x in historial], default=0) + 1)
+
+    nuevo_registro = {
+        "id": next_id,
+        "animal": tipo,
+        "peso_total": peso_animal,
+        "peso_aprovechado": peso_aprovechado,
+        "porcentaje_aprovechado": round((peso_aprovechado/peso_animal *100),2),
+        "partes": partes
+    }
+
+    historial.append(nuevo_registro)
+
+    with open("modules/desposte.json", "w", encoding="utf-8") as f:
+        json.dump(historial, f, indent=2, ensure_ascii=False)
+
+    # ACTUALIZAR JSON DE MATERIAS PRIMAS
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        stock = json.load(f)
+
+    for nombre, peso in partes.items():
+        if nombre in stock:
+            stock[nombre]["Cantidad"] = float(stock[nombre]["Cantidad"]) + float(peso)
+        else:
+            print(f"⚠ La parte '{nombre}' no está en el JSON de materias primas.")
+
+    with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
+        json.dump(stock, f, indent=2, ensure_ascii=False)
+
+    fecha_str = request.form["fecha"]
+    try:
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d")
+
+    fecha_formateada = fecha_obj.strftime("%Y-%m-%d")
+    ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    for producto, cantidad in partes.items():
+        unidad = stock.get(producto, {}).get("Unidad", "sin unidad")
+
+        hoja_materia.append_row(
+            [fecha_formateada, "desposte", producto, unidad, cantidad, observaciones, ingreso_fecha_hora],
+            value_input_option="USER_ENTERED"
+        )
+    return redirect(url_for("ver_desposte"))
+
+
+@app.route('/guardar_receta', methods=["POST"])
+def guardar_receta():
+    producto_id = request.form.get("producto_id")
+    materias = request.form.getlist("materias[]")
+    cantidades = list(map(float, request.form.getlist("cantidades[]")))
+
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        stock_info = json.load(f)
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos_info = json.load(f)
+
+    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+        recetas = json.load(f)
+
+    for materia, cantidad in zip(materias, cantidades):
+        if materia not in stock_info:
+            print(f"⚠ No existe la materia prima: {materia}")
+            continue
+        entry = {
+            "ID_receta": int(producto_id),
+            "ID_materia_prima": stock_info[materia]["ID"],
+            "Materia": materia,
+            "Unidad": stock_info[materia]["Unidad"],
+            "Categoria": stock_info[materia]["Categoria"],
+            "Cantidad": cantidad
+        }
+        recetas.append(entry)
+
+    with open("modules/recetas_materias.json", "w", encoding="utf-8") as f:
+        json.dump(recetas, f, indent=4, ensure_ascii=False)
+
+    return redirect(url_for("ver_recetas"))
 
 @app.route('/ver_salida')
 @login_requerido
@@ -1021,13 +1190,15 @@ def ver_materia_prima():
             id_ = request.form.get(f"id_existente_{i}")
             unidad = request.form.get(f"unidad_existente_{i}", "").strip()
             categoria = request.form.get(f"categoria_existente_{i}", "").strip()
+            cantidad = float(request.form.get(f"cantidad_existente_{i}", "").strip())
             eliminar = request.form.get(f"eliminar_{i}")
 
             if nombre and id_ and unidad and categoria and not eliminar:
                 nueva_materia[nombre] = {
                     "ID": int(id_),
                     "Unidad": unidad,
-                    "Categoria": categoria
+                    "Categoria": categoria,
+                    "Cantidad": cantidad
                 }
 
         # Evitar duplicados
@@ -1041,7 +1212,8 @@ def ver_materia_prima():
                 nueva_materia[nuevo_nombre] = {
                     "ID": int(nuevo_id),
                     "Unidad": nuevo_unidad,
-                    "Categoria": nuevo_categoria
+                    "Categoria": nuevo_categoria,
+                    "Cantidad": cantidad
                 }
 
         with open(json_path, "w", encoding="utf-8") as f:
@@ -1058,59 +1230,37 @@ def ver_materia_prima():
 
     return render_template("ver_materia_prima.html", materia=materia_ordenada, siguiente_id=siguiente_id)
 
-@app.route("/ver_recetas", methods=["GET", "POST"])
-@login_requerido
+@app.route('/ver_desposte')
+def ver_desposte():
+    try:
+        with open("modules/desposte.json", "r", encoding="utf-8") as f:
+            historial = json.load(f)
+    except FileNotFoundError:
+        historial = []
+
+    return render_template("ver_desposte.html", historial=historial)
+
+@app.route('/ver_recetas')
 def ver_recetas():
-    path_recetas = "modules/recetas.json"
-    path_materias = "modules/materia_prima.json"
-    path_union = "modules/recetas_materias.json"
+    try:
+        with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+            recetas_raw = json.load(f)
+    except FileNotFoundError:
+        recetas_raw = []
 
-    with open(path_recetas, encoding="utf-8") as f:
-        recetas = json.load(f)
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos_info = json.load(f)
 
-    with open(path_materias, encoding="utf-8") as f:
-        materias_dict = json.load(f)
-        materias_list = [{"ID": v["ID"], "Materia": k, "Unidad": v["Unidad"], "Categoria": v["Categoria"]} for k, v in materias_dict.items()]
+    recetas = {}
 
-    with open(path_union, encoding="utf-8") as f:
-        union = json.load(f)
+    for r in recetas_raw:
+        prod_id = str(r["ID_receta"])
+        if prod_id not in recetas:
+            nombre = productos_info.get(prod_id, {}).get("nombre", "Sin nombre")
+            recetas[prod_id] = {"nombre": nombre, "ingredientes": []}
+        recetas[prod_id]["ingredientes"].append(r)
 
-    if request.method == "POST":
-        accion = request.form.get("accion")
-
-        if accion == "agregar_receta":
-            nueva_receta = {
-                "ID": int(request.form["nueva_id_receta"]),
-                "Producto": request.form["nuevo_producto"].strip()
-            }
-            recetas.append(nueva_receta)
-            with open(path_recetas, "w", encoding="utf-8") as f:
-                json.dump(recetas, f, indent=4, ensure_ascii=False)
-
-        elif accion == "agregar_mp":
-            id_receta = int(request.form["id_receta"])
-            id_mp = int(request.form["id_materia_prima"])
-            cantidad = float(request.form["cantidad"])
-
-            # Buscar materia prima
-            mp_nombre = next((m["Materia"] for m in materias_list if m["ID"] == id_mp), None)
-            datos = materias_dict.get(mp_nombre)
-
-            if datos:
-                union.append({
-                    "ID_receta": id_receta,
-                    "ID_materia_prima": id_mp,
-                    "Materia": mp_nombre,
-                    "Unidad": datos["Unidad"],
-                    "Categoria": datos["Categoria"],
-                    "Cantidad": cantidad
-                })
-                with open(path_union, "w", encoding="utf-8") as f:
-                    json.dump(union, f, indent=4, ensure_ascii=False)
-
-        return redirect(url_for("ver_recetas"))
-
-    return render_template("ver_recetas.html", recetas=recetas, materias_primas=materias_list, union=union)
+    return render_template("ver_recetas.html", recetas=recetas)
 
 
 @app.route('/ver_stock_entrada')

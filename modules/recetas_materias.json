@@ -1,25 +1,5 @@
 [
     {
-        "ID_receta": 1,
-        "ID_materia_prima": 1,
-        "Cantidad": 0.5
-    },
-    {
-        "ID_receta": 1,
-        "ID_materia_prima": 5,
-        "Cantidad": 0.2
-    },
-    {
-        "ID_receta": 2,
-        "ID_materia_prima": 3,
-        "Cantidad": 3
-    },
-    {
-        "ID_receta": 2,
-        "ID_materia_prima": 4,
-        "Cantidad": 0.3
-    },
-    {
         "ID_receta": 2,
         "ID_materia_prima": 2,
         "Materia": "Huevos de campo",
@@ -42,5 +22,45 @@
         "Unidad": "kg",
         "Categoria": "Carnes",
         "Cantidad": 6.0
+    },
+    {
+        "ID_receta": 17,
+        "ID_materia_prima": 8,
+        "Materia": "Bife angosto",
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 1.0
+    },
+    {
+        "ID_receta": 17,
+        "ID_materia_prima": 8,
+        "Materia": "Bife angosto",
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 2.0
+    },
+    {
+        "ID_receta": 17,
+        "ID_materia_prima": 2,
+        "Materia": "Huevos de campo",
+        "Unidad": "cantidad",
+        "Categoria": "Frescos",
+        "Cantidad": 3.0
+    },
+    {
+        "ID_receta": 53,
+        "ID_materia_prima": 5,
+        "Materia": "Aguja",
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 1.0
+    },
+    {
+        "ID_receta": 53,
+        "ID_materia_prima": 8,
+        "Materia": "Bife angosto",
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 1.0
     }
 ]
