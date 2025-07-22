@@ -62,5 +62,29 @@
         "Unidad": "kg",
         "Categoria": "Carnes",
         "Cantidad": 1.0
+    },
+    {
+        "ID_receta": 16,
+        "ID_materia_prima": 25,
+        "Materia": "Aceite de oliva",
+        "Unidad": "cc",
+        "Categoria": "Aceites",
+        "Cantidad": 20.0
+    },
+    {
+        "ID_receta": 16,
+        "ID_materia_prima": 16,
+        "Materia": "Cebolla",
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 0.2
+    },
+    {
+        "ID_receta": 16,
+        "ID_materia_prima": 15,
+        "Materia": "Espinaca cocida",
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 0.4
     }
 ]

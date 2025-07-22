@@ -197,7 +197,7 @@ def login():
             session["rol"] = "cocinero"
             session["usuario"] = usuario
             next_page = request.args.get("next")  # 🔹 Ver si había una página previa
-            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
+            return redirect(next_page or url_for("ingresar_materia_prima"))  # 🔹 Ir a la página previa o index
         else:
             return render_template("login.html", error="Usuario o contraseña incorrectos")
 
@@ -233,7 +233,7 @@ def error_servidor(e):
 
 
 @app.route('/')
-@rol_requerido("admin", "vendedor", "cocinero")
+@rol_requerido("admin", "vendedor")
 def index():
     precios = cargar_precios()
     return render_template("index.html",precios_productos=precios)
@@ -488,39 +488,8 @@ def enviar_pedido():
     precios_productos = cargar_precios()
 
     precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
+    nombres = [precios_productos.get(p, {}).get("nombre", 0) for p in productos]
 
-     # Cargar materia prima y recetas
-    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
-        materia_prima = json.load(f)
-
-    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
-        recetas_materias = json.load(f)
-
-    # Calcular la cantidad de materia prima necesaria
-    materia_prima_necesaria = {}
-
-    for producto, cantidad in zip(productos, cantidades):
-        recetas = [receta for receta in recetas_materias if str(receta["ID_receta"]) == str(producto)]
-        for receta in recetas:
-            materia = receta["Materia"]
-            cantidad_necesaria = receta["Cantidad"] * cantidad  # Cantidad total necesaria
-            
-            if materia in materia_prima:
-                if materia in materia_prima_necesaria:
-                    materia_prima_necesaria[materia] += cantidad_necesaria
-                else:
-                    materia_prima_necesaria[materia] = cantidad_necesaria
-
-    # Reducir el stock en materia_prima.json
-    for materia, cantidad in materia_prima_necesaria.items():
-        if materia in materia_prima:
-            materia_prima[materia]["Cantidad"] = float(materia_prima[materia]["Cantidad"]) - float(cantidad)
-
-
-    # Guardar los cambios en materia_prima.json
-    with open(os.path.join("modules", "materia_prima.json"), "w", encoding="utf-8") as f:
-        json.dump(materia_prima, f, indent=4, ensure_ascii=False)
-    
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
         "DNI": dni,
@@ -588,19 +557,7 @@ def enviar_pedido():
         "Medio": medio
     }
 
-    guardar_en_sheets(datos_pedido, productos, cantidades)
-    sheet = conectar_sheets()
-    hoja_materia = sheet.worksheet("Materia prima ingresos")
-
-
-    for materia, cantidad in materia_prima_necesaria.items():
-        unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
-
-        hoja_materia.append_row(
-            [fecha_entrega, vendedor, materia, unidad, -cantidad, observaciones, fecha_ingreso],
-            value_input_option="USER_ENTERED"
-        )
-
+    guardar_en_sheets(datos_pedido, nombres, cantidades)
 
     return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado,medio)
  
@@ -619,7 +576,7 @@ def actualizar_pedido():
     sheet = conectar_sheets() #Conecta al libro de google
     hoja_pedidos = sheet.worksheet("Pedidos") #En este caso la hoja se llama "Pedidos"
     pedidos = hoja_pedidos.get_all_values() #Obtiene todos los pedidos en forma de lista de listas
-
+    precios = cargar_precios()
     fila_pedido = None
     for i, row in enumerate(pedidos):
         if row[0].strip() == pedido_id:
@@ -665,7 +622,7 @@ def actualizar_pedido():
         {"range": f"S{fila_pedido}", "values": [[request.form["zona_envio"]]]},
         {"range": f"T{fila_pedido}", "values": [[request.form["observaciones"]]]},
         {"range": f"U{fila_pedido}", "values": [[request.form["descuentoOn"]]]},  # Descuento como string
-        {"range": f"V{fila_pedido}", "values": [[fecha_real]]},  # Fecha de ingreso formateada
+        {"range": f"V{fila_pedido}", "values": [[fecha_formateada]]},  # Fecha de ingreso formateada
         {"range": f"W{fila_pedido}", "values": [[request.form["banco"]]]},
         {"range": f"X{fila_pedido}", "values": [[request.form["local"]]]},
         {"range": f"Y{fila_pedido}", "values": [[request.form["pidio"]]]}
@@ -673,8 +630,9 @@ def actualizar_pedido():
 
     if "productos[]" in request.form:
         productos = request.form.getlist("productos[]")
+        nombres = [precios.get(p, {}).get("nombre", 0) for p in productos]
         cantidades = [str(float(cantidad)) for cantidad in request.form.getlist("cantidades[]")] # Conversion a float y luego a string
-        updates.append({"range": f"O{fila_pedido}", "values": [[",".join(productos)]]})
+        updates.append({"range": f"O{fila_pedido}", "values": [[",".join(nombres)]]})
         updates.append({"range": f"P{fila_pedido}", "values": [[",".join(cantidades)]]})
 
     hoja_pedidos.batch_update(updates)
@@ -737,12 +695,16 @@ def crear_receta():
 def guardar_stock():
     sheet = conectar_sheets()
     hoja_stock = sheet.worksheet("Stock")
+    valores = hoja_stock.get_all_values()
+    ultima_fila = valores[-1]
+    encabezados = valores[0]
+    index_id = encabezados.index("ID_lote")
+    id_stock = int(ultima_fila[index_id]) + 1
     precios = cargar_precios()
     vendedor = request.form["vendedor"]
     productos = request.form.getlist("productos[]") #es el ID jejox
     cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
     observaciones = request.form.get("observaciones", "")
-
     fecha_str = request.form["fecha"]
     try:
         fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
@@ -756,10 +718,53 @@ def guardar_stock():
     for producto, cantidad in zip(productos, cantidades):
         nombre = str(jsonProductos[producto]["nombre"])
         hoja_stock.append_row(
-            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto],
+            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto, str(id_stock)],
             value_input_option="USER_ENTERED"  # 🟢 Permite que se registre como FECHA
         )
 
+    # Cargar materia prima y recetas
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materia_prima = json.load(f)
+
+    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+        recetas_materias = json.load(f)
+
+    # Calcular la cantidad de materia prima necesaria
+    materia_prima_necesaria = {}
+
+    for producto, cantidad in zip(productos, cantidades):
+        recetas = [receta for receta in recetas_materias if str(receta["ID_receta"]) == str(producto)]
+        for receta in recetas:
+            materia = receta["Materia"]
+            cantidad_necesaria = receta["Cantidad"] * cantidad  # Cantidad total necesaria
+            
+            if materia in materia_prima:
+                if materia in materia_prima_necesaria:
+                    materia_prima_necesaria[materia] += cantidad_necesaria
+                else:
+                    materia_prima_necesaria[materia] = cantidad_necesaria
+
+    # Reducir el stock en materia_prima.json
+    for materia, cantidad in materia_prima_necesaria.items():
+        if materia in materia_prima:
+            materia_prima[materia]["Cantidad"] = float(materia_prima[materia]["Cantidad"]) - float(cantidad)
+
+
+    # Guardar los cambios en materia_prima.json
+    with open(os.path.join("modules", "materia_prima.json"), "w", encoding="utf-8") as f:
+        json.dump(materia_prima, f, indent=4, ensure_ascii=False)
+    
+    sheet = conectar_sheets()
+    hoja_materia = sheet.worksheet("Materia prima ingresos")
+
+
+    for materia, cantidad in materia_prima_necesaria.items():
+        unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
+
+        hoja_materia.append_row(
+            [fecha_formateada, vendedor, materia, unidad, -cantidad, f"Ajuste de materia prima por lote {id_stock}", ingreso_fecha_hora, id_stock, "-"],
+            value_input_option="USER_ENTERED"
+        )
     return redirect(url_for("ingresar_stock", precios_productos=precios))
 
 @app.route('/guardar_materia_prima', methods=["POST"])
@@ -868,7 +873,7 @@ def guardar_desposte():
         unidad = stock.get(producto, {}).get("Unidad", "sin unidad")
 
         hoja_materia.append_row(
-            [fecha_formateada, "desposte", producto, unidad, cantidad, observaciones, ingreso_fecha_hora],
+            [fecha_formateada, "desposte", producto, unidad, cantidad, observaciones, ingreso_fecha_hora, "-", next_id],
             value_input_option="USER_ENTERED"
         )
     return redirect(url_for("ver_desposte"))
@@ -1555,9 +1560,20 @@ def editar_pedido_form(pedido_id):
     while len(productos) < len(cantidades):
         productos.append("Producto desconocido")
 
-    pedido["__productos"] = list(zip(productos, cantidades))
+    precios = cargar_precios()  # esto devuelve un dict de ID → {nombre, precio}
 
-    precios = cargar_precios()
+    # Invertir precios para buscar ID a partir del nombre
+    nombre_a_id = {v["nombre"]: k for k, v in precios.items()}
+
+    productos_con_ids = []
+    for nombre, cantidad in zip(productos, cantidades):
+        producto_id = nombre_a_id.get(nombre, None)
+        if producto_id:
+            productos_con_ids.append((producto_id, cantidad))
+        else:
+            productos_con_ids.append(("0", cantidad))  # "0" si no se encontró, para que no falle
+
+    pedido["__productos"] = productos_con_ids
     return render_template("form_editar_pedido.html", pedido=pedido, precios_productos=precios)
 
 

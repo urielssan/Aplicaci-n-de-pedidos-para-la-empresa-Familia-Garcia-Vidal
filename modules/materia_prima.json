@@ -7,20 +7,20 @@
     },
     "Huevos de campo": {
         "ID": 2,
-        "Unidad": "cantidad",
+        "Unidad": "unidad",
         "Categoria": "Frescos",
-        "Cantidad": 0.0
+        "Cantidad": 10.0
     },
     "Cerveza Blond Ale": {
         "ID": 3,
-        "Unidad": "cantidad",
+        "Unidad": "unidad",
         "Categoria": "Bebidas",
         "Cantidad": 0.0
     },
-    "Salsas": {
+    "Salsas varias": {
         "ID": 4,
-        "Unidad": "cantidad",
-        "Categoria": "Nose",
+        "Unidad": "cc",
+        "Categoria": "Salsas",
         "Cantidad": 0.0
     },
     "Aguja": {
@@ -45,18 +45,120 @@
         "ID": 8,
         "Unidad": "kg",
         "Categoria": "Carnes",
-        "Cantidad": 58.0
+        "Cantidad": 51.0
     },
     "Cuadril": {
         "ID": 9,
         "Unidad": "kg",
         "Categoria": "Carnes",
-        "Cantidad": 70.0
+        "Cantidad": 99.0
     },
     "Solomillo": {
         "ID": 10,
         "Unidad": "kg",
         "Categoria": "Carnes",
         "Cantidad": 2.0
+    },
+    "Carne picada especial": {
+        "ID": 11,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 21.0
+    },
+    "Pollo entero": {
+        "ID": 12,
+        "Unidad": "unidad",
+        "Categoria": "Carnes",
+        "Cantidad": 15.0
+    },
+    "Muslo de pollo": {
+        "ID": 13,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 12.0
+    },
+    "Pechuga de pollo": {
+        "ID": 14,
+        "Unidad": "kg",
+        "Categoria": "Carnes",
+        "Cantidad": 18.0
+    },
+    "Espinaca cocida": {
+        "ID": 15,
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 5.0
+    },
+    "Cebolla": {
+        "ID": 16,
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 8.0
+    },
+    "Morrón rojo": {
+        "ID": 17,
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 6.0
+    },
+    "Queso mozzarella": {
+        "ID": 18,
+        "Unidad": "kg",
+        "Categoria": "Lácteos",
+        "Cantidad": 10.0
+    },
+    "Queso cremoso": {
+        "ID": 19,
+        "Unidad": "kg",
+        "Categoria": "Lácteos",
+        "Cantidad": 7.0
+    },
+    "Dulce de leche": {
+        "ID": 20,
+        "Unidad": "kg",
+        "Categoria": "Lácteos",
+        "Cantidad": 4.0
+    },
+    "Mascarpone": {
+        "ID": 21,
+        "Unidad": "kg",
+        "Categoria": "Lácteos",
+        "Cantidad": 3.0
+    },
+    "Papas": {
+        "ID": 22,
+        "Unidad": "kg",
+        "Categoria": "Vegetales",
+        "Cantidad": 12.0
+    },
+    "Harina 0000 orgánica": {
+        "ID": 23,
+        "Unidad": "kg",
+        "Categoria": "Insumos secos",
+        "Cantidad": 25.0
+    },
+    "Levadura seca": {
+        "ID": 24,
+        "Unidad": "gr",
+        "Categoria": "Insumos secos",
+        "Cantidad": 300.0
+    },
+    "Aceite de oliva": {
+        "ID": 25,
+        "Unidad": "cc",
+        "Categoria": "Aceites",
+        "Cantidad": 2101.0
+    },
+    "Sal entrefina": {
+        "ID": 26,
+        "Unidad": "kg",
+        "Categoria": "Insumos secos",
+        "Cantidad": 4.0
+    },
+    "Agua filtrada": {
+        "ID": 27,
+        "Unidad": "litros",
+        "Categoria": "Insumos líquidos",
+        "Cantidad": 20.0
     }
 }

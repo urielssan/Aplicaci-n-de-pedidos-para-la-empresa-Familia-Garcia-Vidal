@@ -79,5 +79,29 @@
       "Bife angosto": 30.0,
       "Cuadril": 20.0
     }
+  },
+  {
+    "id": "8",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 40.0,
+    "porcentaje_aprovechado": 40.0,
+    "partes": {
+      "Aguja": 15.0,
+      "Cuadril": 20.0,
+      "Bife angosto": 5.0
+    }
+  },
+  {
+    "id": "9",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 31.0,
+    "porcentaje_aprovechado": 31.0,
+    "partes": {
+      "Bife angosto": 15.0,
+      "Aguja": 7.0,
+      "Cuadril": 9.0
+    }
   }
 ]

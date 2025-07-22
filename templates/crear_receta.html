@@ -58,6 +58,7 @@
 
     <script>
         const materias = {{ materias_primas | tojson }};
+
         function agregarIngrediente() {
             let container = document.getElementById("ingredientes-container");
             let div = document.createElement("div");
@@ -69,20 +70,29 @@
             ).join("");
 
             div.innerHTML = `
-                <br/>
-                <select name="materias[]" class="materia" id="${idRandom}" required style="width:300px;">
-                    <option value="">Materia Prima</option>
-                    ${options}
-                </select>
-                <br/>
-                <br/>
-                Cantidad: <input type="number" name="cantidades[]" step="0.01" min="0.01" required>
-                <button type="button" onclick="this.parentNode.remove()">Borrar</button>
-            `;
+            <br/>
+            <select name="materias[]" class="materia" id="${idRandom}" required style="width:300px;" onchange="actualizarUnidadReceta(this)">
+                <option value="">Materia Prima</option>
+                ${options}
+            </select>
+            <br/>
+            <br/>
+            Cantidad: <input type="number" name="cantidades[]" step="0.01" min="0.01" required>
+            <span class="unidad-texto">(unidad)</span>
+            <button type="button" onclick="this.parentNode.remove()">Borrar</button>
+        `;
             container.appendChild(div);
             $(`#${idRandom}`).select2();
         }
+
+        function actualizarUnidadReceta(selectElement) {
+            const materia = selectElement.value;
+            const unidad = materias[materia]?.Unidad || "unidad";
+            const span = selectElement.parentNode.querySelector(".unidad-texto");
+            span.textContent = `(${unidad})`;
+        }
     </script>
+
 </body>
 
 </html>

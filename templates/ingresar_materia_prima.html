@@ -36,7 +36,7 @@
                 <option value="Laura">Laura</option>
                 <option value="Lucia">Lucia</option>
             </select>
-            <h3>Fecha de Entrega:</h3>
+            <h3>Fecha de Ingreso:</h3>
             <input type="date" id="fecha" name="fecha" required>
         </div>
         <div class="submit">
@@ -57,7 +57,6 @@
             submitBtn.value = "Guardando...";
         });
 
-
         const materiaPrima = {{ materia_prima | tojson }};
 
         function agregarMateriaPrima() {
@@ -67,13 +66,15 @@
             let idMateriaPrima = "MPrima-" + Math.random().toString(36).substr(2, 9);
 
             div.innerHTML = `
-        <select name="productos[]" class="producto-select" id="${idMateriaPrima}">
-            <option value="">Seleccionar producto</option>
-            ${Object.keys(materiaPrima).map(p => `<option value="${p}">${p}</option>`).join("")}
-        </select>
-        Cantidad: <input type="number" name="cantidades[]" min="-1000" step="0.01" value="1" required>
-        <button type="button" onclick="this.parentNode.remove()">X</button>
-    `;
+            <select name="productos[]" class="producto-select" id="${idMateriaPrima}" onchange="actualizarUnidad(this)">
+                <option value="">Seleccionar producto</option>
+                ${Object.keys(materiaPrima).map(p => `<option value="${p}">${p}</option>`).join("")}
+            </select>
+            Cantidad: 
+            <input type="number" name="cantidades[]" min="-1000" step="0.01" value="1" required>
+            <span class="unidad-texto">(unidad)</span>
+            <button type="button" onclick="this.parentNode.remove()">X</button>
+        `;
 
             container.appendChild(div);
 
@@ -84,12 +85,17 @@
             setTimeout(() => {
                 select.select2('open');
                 setTimeout(() => {
-                    // Enfocar el input de búsqueda interno
                     document.querySelector('.select2-container--open .select2-search__field')?.focus();
-                }, 50); // Mini delay para que se haya renderizado el campo
+                }, 50);
             }, 100);
         }
 
+        function actualizarUnidad(selectElement) {
+            const materia = selectElement.value;
+            const unidad = materiaPrima[materia]?.Unidad || "unidad";
+            const span = selectElement.parentNode.querySelector(".unidad-texto");
+            span.textContent = `(${unidad})`;
+        }
 
         document.addEventListener('click', () => {
             setTimeout(() => {
@@ -97,6 +103,7 @@
             }, 50);
         });
     </script>
+
 
 </body>
 
