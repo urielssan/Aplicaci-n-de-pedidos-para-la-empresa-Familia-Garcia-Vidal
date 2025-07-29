@@ -1422,7 +1422,7 @@ def exportar_montos_clientes():
         return None
 
     pedidos_filtrados["Fecha_dt"] = pedidos_filtrados["Fecha de Entrega"].apply(parse_fecha)
-    fecha_limite = datetime.now() - timedelta(days=28)
+    fecha_limite = datetime.now() - timedelta(days=18)
     pedidos_filtrados = pedidos_filtrados[pedidos_filtrados["Fecha_dt"] >= fecha_limite]
 
     # Limpiar y convertir el monto
