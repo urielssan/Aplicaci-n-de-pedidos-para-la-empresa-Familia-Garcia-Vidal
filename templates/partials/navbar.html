@@ -9,10 +9,10 @@
 </head>
 <nav class="navbar">
     <ul>
+
+        {% if session["rol"] in ["admin", "vendedor"] %}
         <li><a href="{{ url_for('index') }}">Formulario</a></li>
-        <li>
-            <a href="{{ url_for('ingresar_stock') }}">Ingresar Stock</a>
-        </li>
+        <li><a href="{{ url_for('ingresar_stock') }}">Ingresar Stock</a></li>
 
         <li class="dropdown">
             <a href="#">Pedidos</a>
@@ -29,10 +29,11 @@
         <li class="dropdown">
             <a href="#">Entradas Stock</a>
             <div class="dropdown-content">
-                <a href="{{ url_for('ver_stock_entrada') }}">Ultimas Entradas Stock</a>
+                <a href="{{ url_for('ver_stock_entrada') }}">Últimas Entradas Stock</a>
                 <a href="{{ url_for('ver_stock_entrada_total') }}">Total Entradas Stock</a>
             </div>
         </li>
+
         <li class="dropdown">
             <a href="#">Stock</a>
             <div class="dropdown-content">
@@ -48,12 +49,9 @@
                 <a href="{{ url_for('ver_stock_etiquetas')}}">Etiquetas y Bolsas</a>
             </div>
         </li>
-        <li>
-            <a href="{{ url_for('ver_precios') }}">Editar Precios</a>
-        </li>
-        <li>
-            <a href="{{ url_for('verificacion_pagos') }}">Verificación de Pagos</a>
-        </li>
+
+        <li><a href="{{ url_for('ver_precios') }}">Editar Precios</a></li>
+        <li><a href="{{ url_for('verificacion_pagos') }}">Verificación de Pagos</a></li>
 
         <li class="dropdown">
             <a href="#">Clientes</a>
@@ -62,6 +60,21 @@
                 <a href="{{ url_for('editar_clientes') }}">Editar Clientes</a>
             </div>
         </li>
+        {% endif %}
+
+        {% if session["rol"] in ["admin", "cocinero"] %}
+        <li><a href="{{ url_for('ingresar_materia_prima') }}">Ingreso materia prima</a></li>
+        <li><a href="{{ url_for('ver_materia_prima') }}">Materia prima</a></li>
+        <li><a href="{{ url_for('ingresar_desposte') }}">Ingresar desposte</a></li>
+        <li><a href="{{ url_for('ver_desposte') }}">Despostes</a></li>
+        <li><a href="{{ url_for('crear_receta') }}">➕ Crear Receta</a></li>
+        <li><a href="{{ url_for('ver_recetas') }}">📖 Ver Recetas</a></li>
+        {% endif %}
+
+        {% if session["rol"] == "admin" %}
+        <li><a href="{{ url_for('generar_flujos') }}">Generar Flujos</a></li>
+
+
         <li class="dropdown">
             <a href="#">Ruleta</a>
             <div class="dropdown-content">
@@ -69,13 +82,10 @@
                 <a href="{{ url_for('sorteo_ruleta') }}">Solo Clientes</a>
             </div>
         </li>
-        <li>
-            <a href="{{ url_for('generar_flujos') }}">Generar Flujos</a>
-        </li>
-        <li>
-            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
-        </li>
+        {% endif %}
+        <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
     </ul>
+
     <img src="{{ url_for('static', filename='images/LOGO.png') }}" alt="Logo" class="logo"
         style="width: 50px; height: 35px;padding: 5px; filter: brightness(0) saturate(100%) invert(14%) sepia(32%) saturate(5635%) hue-rotate(348deg) brightness(92%) contrast(89%);">
 </nav>

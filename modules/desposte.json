@@ -1,0 +1,107 @@
+[
+  {
+    "id": "1",
+    "animal": "Vaca",
+    "peso_total": 200.0,
+    "peso_aprovechado": 9.0,
+    "porcentaje_aprovechado": 4.5,
+    "partes": {
+      "Aguja": 5.0,
+      "Bife angosto": 4.0
+    }
+  },
+  {
+    "id": "2",
+    "animal": "Vaca",
+    "peso_total": 200.0,
+    "peso_aprovechado": 7.0,
+    "porcentaje_aprovechado": 3.5,
+    "partes": {
+      "Aguja": 4.0,
+      "Bife angosto": 3.0
+    }
+  },
+  {
+    "id": "3",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 15.0,
+    "porcentaje_aprovechado": 15,
+    "partes": {
+      "Aguja": 8.0,
+      "Cuadril": 7.0
+    }
+  },
+  {
+    "id": "4",
+    "animal": "Vaca",
+    "peso_total": 200.0,
+    "peso_aprovechado": 45.0,
+    "porcentaje_aprovechado": 22.5,
+    "partes": {
+      "Aguja": 30.0,
+      "Bife angosto": 10.0,
+      "Cuadril": 5.0
+    }
+  },
+  {
+    "id": "5",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 45.0,
+    "porcentaje_aprovechado": 45.0,
+    "partes": {
+      "Aguja": 20.0,
+      "Cuadril": 20.0,
+      "Bife angosto": 5.0
+    }
+  },
+  {
+    "id": "6",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 50.0,
+    "porcentaje_aprovechado": 50.0,
+    "partes": {
+      "Bife angosto": 15.0,
+      "Aguja": 25.0,
+      "Cuadril": 10.0
+    }
+  },
+  {
+    "id": "7",
+    "animal": "Vaca",
+    "peso_total": 200.0,
+    "peso_aprovechado": 80.0,
+    "porcentaje_aprovechado": 40.0,
+    "partes": {
+      "Aguja": 30.0,
+      "Bife angosto": 30.0,
+      "Cuadril": 20.0
+    }
+  },
+  {
+    "id": "8",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 40.0,
+    "porcentaje_aprovechado": 40.0,
+    "partes": {
+      "Aguja": 15.0,
+      "Cuadril": 20.0,
+      "Bife angosto": 5.0
+    }
+  },
+  {
+    "id": "9",
+    "animal": "Vaca",
+    "peso_total": 100.0,
+    "peso_aprovechado": 31.0,
+    "porcentaje_aprovechado": 31.0,
+    "partes": {
+      "Bife angosto": 15.0,
+      "Aguja": 7.0,
+      "Cuadril": 9.0
+    }
+  }
+]

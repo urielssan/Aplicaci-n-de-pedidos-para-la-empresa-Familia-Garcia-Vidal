@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ingreso de Stock</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
+    <!-- Agregar jQuery y Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+</head>
+
+<body>
+    <!-- 🔹 Navbar -->
+    {% include 'partials/navbar.html' %}
+
+
+
+    <form action="{{ url_for('guardar_desposte') }}" method="POST">
+        <h3>Tipo de animal:</h3>
+        <select name="tipo_animal" required>
+            <option value="Vaca">Vaca</option>
+            <option value="Cordero">Cordero</option>
+            <option value="Cerdo">Cerdo</option>
+        </select>
+        <h3>Fecha de Entrega:</h3>
+        <input type="date" id="fecha" name="fecha" required>
+
+        <h3>Peso del animal completo (kg):</h3>
+        <input type="number" name="peso_animal" required step="0.01" min="0.01">
+
+        <h3>Partes obtenidas:</h3>
+        <div id="materias-primas-container"></div>
+        <button type="button" onclick="agregarParte()">+ Agregar Parte</button>
+        <h3>Observaciones:</h3>
+        <input type="text" name="observaciones">
+        <br><br>
+        <input type="submit" value="Guardar Desposte">
+    </form>
+
+    <script>
+        const materiasPrimas = {{ materias_primas | tojson }};
+
+        function agregarParte() {
+            let container = document.getElementById("materias-primas-container");
+            let div = document.createElement("div");
+            div.classList.add("materia-prima-item");
+
+            const idHtml = "mp-" + Math.random().toString(36).substring(2, 8);
+
+            div.innerHTML = `
+            <select name="nombres_partes[]" id="${idHtml}" class="materia-select" required style="width: 250px;">
+                <option value="">Seleccionar parte</option>
+                ${Object.entries(materiasPrimas).map(([nombre, info]) => `
+                    <option value="${nombre}">${info.ID} - ${nombre}</option>
+                `).join("")}
+            </select>
+
+            <input type="number" name="pesos_partes[]" placeholder="Peso (kg)" step="0.01" min="0" required style="width: 100px;">
+            <button type="button" onclick="this.parentNode.remove()">X</button>
+        `;
+
+            container.appendChild(div);
+
+            // Activar Select2 con búsqueda por ID o nombre
+            const $select = $(`#${idHtml}`);
+            $select.select2({
+                matcher: function (params, data) {
+                    if ($.trim(params.term) === '') return data;
+
+                    const term = params.term.toLowerCase();
+                    const text = data.text.toLowerCase();
+                    const id = data.id?.toLowerCase() || '';
+
+                    if (text.includes(term) || id.includes(term)) {
+                        return data;
+                    }
+                    return null;
+                }
+            });
+
+            setTimeout(() => {
+                $select.select2('open');
+                setTimeout(() => {
+                    document.querySelector('.select2-container--open .select2-search__field')?.focus();
+                }, 50);
+            }, 100);
+        }
+
+        document.addEventListener('click', () => {
+            setTimeout(() => {
+                document.querySelector('.select2-container--open .select2-search__field')?.focus();
+            }, 50);
+        });
+    </script>
+
+
+
+
+
+</body>
+
+</html>

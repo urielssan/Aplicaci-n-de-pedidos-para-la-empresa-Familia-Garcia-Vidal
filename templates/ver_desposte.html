@@ -37,32 +37,42 @@
 
 <body>
     {% include 'partials/navbar.html' %}
-    <h2>Listado de Recetas</h2>
-    {% for id, receta in recetas.items() %}
-    <div class="contenedor-tabla">
-        <h3 style="color: white">{{ id }} - {{ receta.nombre }}</h3>
-        <table class="pedidos_table">
-            <thead>
-                <tr>
-                    <th>Materia Prima</th>
-                    <th>Unidad</th>
-                    <th>Categoría</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ingr in receta.ingredientes %}
-                <tr>
-                    <td>{{ ingr.Materia }}</td>
-                    <td>{{ ingr.Unidad }}</td>
-                    <td>{{ ingr.Categoria }}</td>
-                    <td>{{ ingr.Cantidad }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endfor %}
+
+    <h1>Historial de Desposte</h1>
+    {% if historial %}
+    <table class="pedidos_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Animal</th>
+                <th>Peso Total</th>
+                <th>Peso Aprovechado</th>
+                <th>Porcentaje Aprovechado</th>
+                <th>Partes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in historial %}
+            <tr>
+                <td>{{ d.id }}</td>
+                <td>{{ d.animal }}</td>
+                <td>{{ d.peso_total }} kg</td>
+                <td>{{ d.peso_aprovechado }} kg</td>
+                <td>{{(d.peso_aprovechado / d.peso_total * 100) | round(2)}}%</td>
+                <td>
+                    <ul>
+                        {% for nombre, peso in d.partes.items() %}
+                        <li>{{ nombre }}: {{ peso }} kg</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay despostes registrados.</p>
+    {% endif %}
 </body>
 
 </html>

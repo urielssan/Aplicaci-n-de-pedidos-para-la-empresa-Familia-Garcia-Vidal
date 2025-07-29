@@ -27,6 +27,10 @@ app.secret_key = "clave_secreta"
 #Datos de autenticación
 USUARIO_ADMIN = "admin"
 CONTRASEÑA_ADMIN = "admin123"
+USUARIO_VENDEDOR = "vendedor"
+CONTRASEÑA_VENDEDOR = "vendedor123"
+USUARIO_COCINERO = "cocinero"
+CONTRASEÑA_COCINERO = "cocinero123"
 
 
 # Configuraciones
@@ -178,11 +182,22 @@ def login():
         usuario = request.form["usuario"]
         contraseña = request.form["contraseña"]
 
+       # Según el usuario, asignamos un rol
         if usuario == USUARIO_ADMIN and contraseña == CONTRASEÑA_ADMIN:
+            session["rol"] = "admin"
             session["usuario"] = usuario
             next_page = request.args.get("next")  # 🔹 Ver si había una página previa
             return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
-
+        elif usuario == USUARIO_VENDEDOR and contraseña == CONTRASEÑA_VENDEDOR:
+            session["rol"] = "vendedor"
+            session["usuario"] = usuario
+            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
+            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
+        elif usuario == USUARIO_COCINERO and contraseña == CONTRASEÑA_COCINERO:
+            session["rol"] = "cocinero"
+            session["usuario"] = usuario
+            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
+            return redirect(next_page or url_for("ingresar_materia_prima"))  # 🔹 Ir a la página previa o index
         else:
             return render_template("login.html", error="Usuario o contraseña incorrectos")
 
@@ -192,12 +207,18 @@ def login():
 
 # 🔹 Decorador para proteger rutas
 
-def login_requerido(f):
-    @wraps(f)
-    def decorador(*args, **kwargs):
-        if "usuario" not in session:
-            return redirect(url_for("login"))  # 🔹 Redirigir a login si no está autenticado
-        return f(*args, **kwargs)
+def rol_requerido(*roles):
+    def decorador(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if "usuario" not in session:
+                flash("Tenés que iniciar sesión primero.", "error")
+                return redirect(url_for("login"))
+            if session.get("rol") not in roles:
+                flash("No tenés permisos para acceder a esta página.", "error")
+                return redirect(url_for("index"))
+            return func(*args, **kwargs)
+        return wrapper
     return decorador
 
 
@@ -212,13 +233,13 @@ def error_servidor(e):
 
 
 @app.route('/')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def index():
     precios = cargar_precios()
     return render_template("index.html",precios_productos=precios)
 
 @app.route('/ver_pedidos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_pedidos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -266,7 +287,7 @@ def ver_pedidos():
 
 
 @app.route('/ver_delivery')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_delivery():
     """Trae los pedidos de Google Sheets y los muestra en una tabla,
     formateando la columna de Productos con sus cantidades (int si es entero, sino float)."""
@@ -315,7 +336,7 @@ def ver_delivery():
 
 
 @app.route('/ver_delivery_hoy')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_delivery_hoy():
     """Trae los pedidos de Google Sheets y los muestra en una tabla,
     formateando la columna de Productos con sus cantidades (int si es entero, sino float)."""
@@ -364,7 +385,7 @@ def ver_delivery_hoy():
 
 
 @app.route('/ver_retiro_en_local')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_retiro_en_local():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -383,7 +404,7 @@ def ver_retiro_en_local():
 
 
 @app.route('/ver_retiro_en_local_hoy')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_retiro_en_local_hoy():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -426,7 +447,7 @@ def obtener_productos_pedido(pedido_id):
 
 
 @app.route('/enviar_pedido', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def enviar_pedido():
     df_pedidos = pd.read_excel(FILE_PATH, sheet_name="Pedidos", engine="openpyxl")
     try:
@@ -467,6 +488,7 @@ def enviar_pedido():
     precios_productos = cargar_precios()
 
     precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
+    nombres = [precios_productos.get(p, {}).get("nombre", 0) for p in productos]
 
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
@@ -535,7 +557,7 @@ def enviar_pedido():
         "Medio": medio
     }
 
-    guardar_en_sheets(datos_pedido, productos, cantidades)
+    guardar_en_sheets(datos_pedido, nombres, cantidades)
 
     return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado,medio)
  
@@ -554,7 +576,7 @@ def actualizar_pedido():
     sheet = conectar_sheets() #Conecta al libro de google
     hoja_pedidos = sheet.worksheet("Pedidos") #En este caso la hoja se llama "Pedidos"
     pedidos = hoja_pedidos.get_all_values() #Obtiene todos los pedidos en forma de lista de listas
-
+    precios = cargar_precios()
     fila_pedido = None
     for i, row in enumerate(pedidos):
         if row[0].strip() == pedido_id:
@@ -600,7 +622,7 @@ def actualizar_pedido():
         {"range": f"S{fila_pedido}", "values": [[request.form["zona_envio"]]]},
         {"range": f"T{fila_pedido}", "values": [[request.form["observaciones"]]]},
         {"range": f"U{fila_pedido}", "values": [[request.form["descuentoOn"]]]},  # Descuento como string
-        {"range": f"V{fila_pedido}", "values": [[fecha_real]]},  # Fecha de ingreso formateada
+        {"range": f"V{fila_pedido}", "values": [[fecha_formateada]]},  # Fecha de ingreso formateada
         {"range": f"W{fila_pedido}", "values": [[request.form["banco"]]]},
         {"range": f"X{fila_pedido}", "values": [[request.form["local"]]]},
         {"range": f"Y{fila_pedido}", "values": [[request.form["pidio"]]]}
@@ -608,8 +630,9 @@ def actualizar_pedido():
 
     if "productos[]" in request.form:
         productos = request.form.getlist("productos[]")
+        nombres = [precios.get(p, {}).get("nombre", 0) for p in productos]
         cantidades = [str(float(cantidad)) for cantidad in request.form.getlist("cantidades[]")] # Conversion a float y luego a string
-        updates.append({"range": f"O{fila_pedido}", "values": [[",".join(productos)]]})
+        updates.append({"range": f"O{fila_pedido}", "values": [[",".join(nombres)]]})
         updates.append({"range": f"P{fila_pedido}", "values": [[",".join(cantidades)]]})
 
     hoja_pedidos.batch_update(updates)
@@ -640,28 +663,48 @@ def eliminar_pedido(pedido_id):
         return f"Error interno del servidor: {e}", 500
 
 @app.route('/ingresar_stock')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ingresar_stock():
     precios = cargar_precios()
     return render_template("ingresar_stock.html",precios_productos = precios)
 
 @app.route('/ingresar_materia_prima')
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def ingresar_materia_prima():
     materia_prima = cargar_materia_prima()
     return render_template("ingresar_materia_prima.html", materia_prima=materia_prima)
 
+@app.route('/ingresar_desposte', methods=["GET"])
+@rol_requerido("admin", "cocinero")
+def ingresar_desposte():
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materias_primas = json.load(f)
+    return render_template("ingresar_desposte.html", materias_primas=materias_primas)
+
+@app.route('/crear_receta')
+@rol_requerido("admin", "cocinero")
+def crear_receta():
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos = json.load(f)
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materias_primas = json.load(f)
+    return render_template("crear_receta.html", productos=productos, materias_primas=materias_primas)
+
 @app.route('/guardar_stock', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def guardar_stock():
     sheet = conectar_sheets()
     hoja_stock = sheet.worksheet("Stock")
+    valores = hoja_stock.get_all_values()
+    ultima_fila = valores[-1]
+    encabezados = valores[0]
+    index_id = encabezados.index("ID_lote")
+    id_stock = int(ultima_fila[index_id]) + 1
     precios = cargar_precios()
     vendedor = request.form["vendedor"]
     productos = request.form.getlist("productos[]") #es el ID jejox
     cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
     observaciones = request.form.get("observaciones", "")
-
     fecha_str = request.form["fecha"]
     try:
         fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
@@ -675,25 +718,78 @@ def guardar_stock():
     for producto, cantidad in zip(productos, cantidades):
         nombre = str(jsonProductos[producto]["nombre"])
         hoja_stock.append_row(
-            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto],
+            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto, str(id_stock)],
             value_input_option="USER_ENTERED"  # 🟢 Permite que se registre como FECHA
         )
 
+    # Cargar materia prima y recetas
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        materia_prima = json.load(f)
+
+    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+        recetas_materias = json.load(f)
+
+    # Calcular la cantidad de materia prima necesaria
+    materia_prima_necesaria = {}
+
+    for producto, cantidad in zip(productos, cantidades):
+        recetas = [receta for receta in recetas_materias if str(receta["ID_receta"]) == str(producto)]
+        for receta in recetas:
+            materia = receta["Materia"]
+            cantidad_necesaria = receta["Cantidad"] * cantidad  # Cantidad total necesaria
+            
+            if materia in materia_prima:
+                if materia in materia_prima_necesaria:
+                    materia_prima_necesaria[materia] += cantidad_necesaria
+                else:
+                    materia_prima_necesaria[materia] = cantidad_necesaria
+
+    # Reducir el stock en materia_prima.json
+    for materia, cantidad in materia_prima_necesaria.items():
+        if materia in materia_prima:
+            materia_prima[materia]["Cantidad"] = float(materia_prima[materia]["Cantidad"]) - float(cantidad)
+
+
+    # Guardar los cambios en materia_prima.json
+    with open(os.path.join("modules", "materia_prima.json"), "w", encoding="utf-8") as f:
+        json.dump(materia_prima, f, indent=4, ensure_ascii=False)
+    
+    sheet = conectar_sheets()
+    hoja_materia = sheet.worksheet("Materia prima ingresos")
+
+
+    for materia, cantidad in materia_prima_necesaria.items():
+        unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
+
+        hoja_materia.append_row(
+            [fecha_formateada, vendedor, materia, unidad, -cantidad, f"Ajuste de materia prima por lote {id_stock}", ingreso_fecha_hora, id_stock, "-"],
+            value_input_option="USER_ENTERED"
+        )
     return redirect(url_for("ingresar_stock", precios_productos=precios))
 
 @app.route('/guardar_materia_prima', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def guardar_materia_prima():
     sheet = conectar_sheets()
     hoja_materia = sheet.worksheet("Materia prima ingresos")  # ✅ hoja específica
-
-    with open("modules/materia_prima.json", encoding="utf-8") as f:
-        materia_prima_info = json.load(f)
-
+    
     vendedor = request.form["vendedor"]
     productos = request.form.getlist("productos[]")
     cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
     observaciones = request.form.get("observaciones", "")
+
+    with open("modules/materia_prima.json", encoding="utf-8") as f:
+        materia_prima_info = json.load(f)
+
+    for prod, cant in zip(productos, cantidades):
+        cant = float(cant)
+        if prod in materia_prima_info:
+            materia_prima_info[prod]["Cantidad"] = float(materia_prima_info[prod]["Cantidad"]) + cant
+        else:
+            print(f"⚠ Producto no encontrado en JSON: {prod}")
+
+    with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
+        json.dump(materia_prima_info, f, indent=4, ensure_ascii=False)
 
     fecha_str = request.form["fecha"]
     try:
@@ -714,9 +810,110 @@ def guardar_materia_prima():
 
     return redirect(url_for("ingresar_materia_prima"))
 
+@app.route('/guardar_desposte', methods=['POST'])
+def guardar_desposte():
+    sheet = conectar_sheets()
+    hoja_materia = sheet.worksheet("Materia prima ingresos")  # ✅ hoja específica
+
+    tipo = request.form['tipo_animal']
+    peso_animal = float(request.form['peso_animal'])
+    nombres = request.form.getlist('nombres_partes[]')
+    pesos = list(map(float, request.form.getlist('pesos_partes[]')))
+    observaciones = request.form.get("observaciones", "")
+
+    partes = {}
+    for nombre, peso in zip(nombres, pesos):
+        partes[nombre] = partes.get(nombre, 0) + peso
+
+    peso_aprovechado = sum(partes.values())
+
+    # Cargar archivo actual
+    with open("modules/desposte.json", "r", encoding="utf-8") as f:
+        historial = json.load(f)
+
+    next_id = str(max([int(x["id"]) for x in historial], default=0) + 1)
+
+    nuevo_registro = {
+        "id": next_id,
+        "animal": tipo,
+        "peso_total": peso_animal,
+        "peso_aprovechado": peso_aprovechado,
+        "porcentaje_aprovechado": round((peso_aprovechado/peso_animal *100),2),
+        "partes": partes
+    }
+
+    historial.append(nuevo_registro)
+
+    with open("modules/desposte.json", "w", encoding="utf-8") as f:
+        json.dump(historial, f, indent=2, ensure_ascii=False)
+
+    # ACTUALIZAR JSON DE MATERIAS PRIMAS
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        stock = json.load(f)
+
+    for nombre, peso in partes.items():
+        if nombre in stock:
+            stock[nombre]["Cantidad"] = float(stock[nombre]["Cantidad"]) + float(peso)
+        else:
+            print(f"⚠ La parte '{nombre}' no está en el JSON de materias primas.")
+
+    with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
+        json.dump(stock, f, indent=2, ensure_ascii=False)
+
+    fecha_str = request.form["fecha"]
+    try:
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d")
+
+    fecha_formateada = fecha_obj.strftime("%Y-%m-%d")
+    ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    for producto, cantidad in partes.items():
+        unidad = stock.get(producto, {}).get("Unidad", "sin unidad")
+
+        hoja_materia.append_row(
+            [fecha_formateada, "desposte", producto, unidad, cantidad, observaciones, ingreso_fecha_hora, "-", next_id],
+            value_input_option="USER_ENTERED"
+        )
+    return redirect(url_for("ver_desposte"))
+
+
+@app.route('/guardar_receta', methods=["POST"])
+def guardar_receta():
+    producto_id = request.form.get("producto_id")
+    materias = request.form.getlist("materias[]")
+    cantidades = list(map(float, request.form.getlist("cantidades[]")))
+
+    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+        stock_info = json.load(f)
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos_info = json.load(f)
+
+    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+        recetas = json.load(f)
+
+    for materia, cantidad in zip(materias, cantidades):
+        if materia not in stock_info:
+            print(f"⚠ No existe la materia prima: {materia}")
+            continue
+        entry = {
+            "ID_receta": int(producto_id),
+            "ID_materia_prima": stock_info[materia]["ID"],
+            "Materia": materia,
+            "Unidad": stock_info[materia]["Unidad"],
+            "Categoria": stock_info[materia]["Categoria"],
+            "Cantidad": cantidad
+        }
+        recetas.append(entry)
+
+    with open("modules/recetas_materias.json", "w", encoding="utf-8") as f:
+        json.dump(recetas, f, indent=4, ensure_ascii=False)
+
+    return redirect(url_for("ver_recetas"))
 
 @app.route('/ver_salida')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_caja_salida():
     
     return render_template("caja_salida.html")
@@ -725,7 +922,7 @@ def ver_caja_salida():
 from datetime import datetime
 
 @app.route('/caja_salida', methods=["POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def caja_salida():
     sheet = conectar_sheets()
     hoja_caja_salida = sheet.worksheet("Salida Caja")
@@ -748,7 +945,7 @@ def caja_salida():
 
 
 @app.route('/ver_salidas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_salidas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -765,7 +962,7 @@ def ver_salidas():
 
 
 @app.route('/pedido/<pedido_id>')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def detalle_pedido(pedido_id):
     """Muestra la página de detalle de un pedido específico, uniendo productos y cantidades,
     enviándolos como listas."""
@@ -887,7 +1084,7 @@ def generar_pdf_pedido(pedido_id):
 
 
 @app.route('/editar_pedido/pedido_id')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def detalle_editar_pedido(pedido_id):
     sheet = conectar_sheets()
     hoja_pedidos = sheet.worksheet("Pedidos")  # Asegúrate del nombre de tu hoja
@@ -937,7 +1134,7 @@ def detalle_editar_pedido(pedido_id):
 
 
 @app.route("/ver_precios", methods=["GET", "POST"])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_precios():
     json_path = os.path.join("modules", "precios_productos.json")
 
@@ -990,7 +1187,7 @@ def ver_precios():
 
 
 @app.route('/ver_stock')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1008,7 +1205,7 @@ def ver_stock():
     return render_template("stock_nuevo.html", stock=datos_stock)
 
 @app.route("/ver_materia_prima", methods=["GET", "POST"])
-@login_requerido
+@rol_requerido("admin", "cocinero")
 def ver_materia_prima():
     json_path = os.path.join("modules", "materia_prima.json")
 
@@ -1021,13 +1218,15 @@ def ver_materia_prima():
             id_ = request.form.get(f"id_existente_{i}")
             unidad = request.form.get(f"unidad_existente_{i}", "").strip()
             categoria = request.form.get(f"categoria_existente_{i}", "").strip()
+            cantidad = float(request.form.get(f"cantidad_existente_{i}", "").strip())
             eliminar = request.form.get(f"eliminar_{i}")
 
             if nombre and id_ and unidad and categoria and not eliminar:
                 nueva_materia[nombre] = {
                     "ID": int(id_),
                     "Unidad": unidad,
-                    "Categoria": categoria
+                    "Categoria": categoria,
+                    "Cantidad": cantidad
                 }
 
         # Evitar duplicados
@@ -1041,7 +1240,8 @@ def ver_materia_prima():
                 nueva_materia[nuevo_nombre] = {
                     "ID": int(nuevo_id),
                     "Unidad": nuevo_unidad,
-                    "Categoria": nuevo_categoria
+                    "Categoria": nuevo_categoria,
+                    "Cantidad": cantidad
                 }
 
         with open(json_path, "w", encoding="utf-8") as f:
@@ -1058,63 +1258,41 @@ def ver_materia_prima():
 
     return render_template("ver_materia_prima.html", materia=materia_ordenada, siguiente_id=siguiente_id)
 
-@app.route("/ver_recetas", methods=["GET", "POST"])
-@login_requerido
+@app.route('/ver_desposte')
+def ver_desposte():
+    try:
+        with open("modules/desposte.json", "r", encoding="utf-8") as f:
+            historial = json.load(f)
+    except FileNotFoundError:
+        historial = []
+
+    return render_template("ver_desposte.html", historial=historial)
+
+@app.route('/ver_recetas')
 def ver_recetas():
-    path_recetas = "modules/recetas.json"
-    path_materias = "modules/materia_prima.json"
-    path_union = "modules/recetas_materias.json"
+    try:
+        with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+            recetas_raw = json.load(f)
+    except FileNotFoundError:
+        recetas_raw = []
 
-    with open(path_recetas, encoding="utf-8") as f:
-        recetas = json.load(f)
+    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
+        productos_info = json.load(f)
 
-    with open(path_materias, encoding="utf-8") as f:
-        materias_dict = json.load(f)
-        materias_list = [{"ID": v["ID"], "Materia": k, "Unidad": v["Unidad"], "Categoria": v["Categoria"]} for k, v in materias_dict.items()]
+    recetas = {}
 
-    with open(path_union, encoding="utf-8") as f:
-        union = json.load(f)
+    for r in recetas_raw:
+        prod_id = str(r["ID_receta"])
+        if prod_id not in recetas:
+            nombre = productos_info.get(prod_id, {}).get("nombre", "Sin nombre")
+            recetas[prod_id] = {"nombre": nombre, "ingredientes": []}
+        recetas[prod_id]["ingredientes"].append(r)
 
-    if request.method == "POST":
-        accion = request.form.get("accion")
-
-        if accion == "agregar_receta":
-            nueva_receta = {
-                "ID": int(request.form["nueva_id_receta"]),
-                "Producto": request.form["nuevo_producto"].strip()
-            }
-            recetas.append(nueva_receta)
-            with open(path_recetas, "w", encoding="utf-8") as f:
-                json.dump(recetas, f, indent=4, ensure_ascii=False)
-
-        elif accion == "agregar_mp":
-            id_receta = int(request.form["id_receta"])
-            id_mp = int(request.form["id_materia_prima"])
-            cantidad = float(request.form["cantidad"])
-
-            # Buscar materia prima
-            mp_nombre = next((m["Materia"] for m in materias_list if m["ID"] == id_mp), None)
-            datos = materias_dict.get(mp_nombre)
-
-            if datos:
-                union.append({
-                    "ID_receta": id_receta,
-                    "ID_materia_prima": id_mp,
-                    "Materia": mp_nombre,
-                    "Unidad": datos["Unidad"],
-                    "Categoria": datos["Categoria"],
-                    "Cantidad": cantidad
-                })
-                with open(path_union, "w", encoding="utf-8") as f:
-                    json.dump(union, f, indent=4, ensure_ascii=False)
-
-        return redirect(url_for("ver_recetas"))
-
-    return render_template("ver_recetas.html", recetas=recetas, materias_primas=materias_list, union=union)
+    return render_template("ver_recetas.html", recetas=recetas)
 
 
 @app.route('/ver_stock_entrada')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_entrada():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1132,7 +1310,7 @@ def ver_stock_entrada():
     return render_template("entrada_stock.html", stock=datos_stock)
 
 @app.route('/ver_stock_entrada_total')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_entrada_total():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1151,7 +1329,7 @@ def ver_stock_entrada_total():
 
 
 @app.route('/ver_stock/milanesas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_milanesas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1169,7 +1347,7 @@ def ver_stock_milanesas():
     return render_template("vista_stock_milanesas.html", stock=datos_stock)
 
 @app.route('/ver_stock/frescos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_frescos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1187,7 +1365,7 @@ def ver_stock_frescos():
     return render_template("vista_stock_frescos.html", stock=datos_stock)
 
 @app.route('/ver_stock/bebidas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_bebidas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1205,7 +1383,7 @@ def ver_stock_bebidas():
     return render_template("vista_stock_bebidas.html", stock=datos_stock)
 
 @app.route('/ver_stock/desmechados')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_desmechados():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1223,7 +1401,7 @@ def ver_stock_desmechados():
     return render_template("vista_stock_desmechados.html", stock=datos_stock)
 
 @app.route('/ver_stock/empanadas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_empanadas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1241,7 +1419,7 @@ def ver_stock_empanadas():
     return render_template("vista_stock_empanadas.html", stock=datos_stock)
 
 @app.route('/ver_stock/hamburguesas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_carnes():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1259,7 +1437,7 @@ def ver_stock_carnes():
     return render_template("vista_stock_carnes.html", stock=datos_stock)
 
 @app.route('/ver_stock/nuevo')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_nuevo():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1277,7 +1455,7 @@ def ver_stock_nuevo():
     return render_template("stock_nuevo.html", stock=datos_stock)
 
 @app.route('/ver_stock/pizzas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_pizzas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1295,7 +1473,7 @@ def ver_stock_pizzas():
     return render_template("vista_stock_pizzas.html", stock=datos_stock)
 
 @app.route('/ver_stock/etiquetas')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_etiquetas():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1313,7 +1491,7 @@ def ver_stock_etiquetas():
     return render_template("vista_stock_etiquetas.html", stock=datos_stock)
 
 @app.route('/ver_stock/promos')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_stock_promos():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1331,7 +1509,7 @@ def ver_stock_promos():
     return render_template("vista_stock_promos.html", stock=datos_stock)
 
 @app.route('/caja_diaria')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def ver_caja_diaria():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
@@ -1350,7 +1528,7 @@ def ver_caja_diaria():
 
 
 @app.route("/editar_pedido_form/<pedido_id>")
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_pedido_form(pedido_id):
     sheet = conectar_sheets()
     hoja = sheet.worksheet("Pedidos")
@@ -1382,15 +1560,26 @@ def editar_pedido_form(pedido_id):
     while len(productos) < len(cantidades):
         productos.append("Producto desconocido")
 
-    pedido["__productos"] = list(zip(productos, cantidades))
+    precios = cargar_precios()  # esto devuelve un dict de ID → {nombre, precio}
 
-    precios = cargar_precios()
+    # Invertir precios para buscar ID a partir del nombre
+    nombre_a_id = {v["nombre"]: k for k, v in precios.items()}
+
+    productos_con_ids = []
+    for nombre, cantidad in zip(productos, cantidades):
+        producto_id = nombre_a_id.get(nombre, None)
+        if producto_id:
+            productos_con_ids.append((producto_id, cantidad))
+        else:
+            productos_con_ids.append(("0", cantidad))  # "0" si no se encontró, para que no falle
+
+    pedido["__productos"] = productos_con_ids
     return render_template("form_editar_pedido.html", pedido=pedido, precios_productos=precios)
 
 
 
 @app.route('/exportar_montos_clientes')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def exportar_montos_clientes():
     import pandas as pd
     from datetime import datetime, timedelta
@@ -1469,7 +1658,7 @@ def exportar_montos_clientes():
 
 
 @app.route('/sorteo_ruleta')
-@login_requerido
+@rol_requerido("admin")
 def sorteo_ruleta():
     import pandas as pd
     try:
@@ -1482,7 +1671,7 @@ def sorteo_ruleta():
 
 
 @app.route('/sorteo_ruleta_todos')
-@login_requerido
+@rol_requerido("admin")
 def sorteo_ruleta_todos():
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
@@ -1497,14 +1686,14 @@ def sorteo_ruleta_todos():
 # http://localhost:5000/exportar_montos_clientes
 
 @app.route('/editar_clientes')
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_clientes():
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
     return render_template('editar_clientes.html', clientes=clientes)
 
 @app.route('/editar_cliente/<dni>', methods=['GET', 'POST'])
-@login_requerido
+@rol_requerido("admin", "vendedor")
 def editar_cliente(dni):
     with open('modules/clientes.json', 'r', encoding='utf-8') as f:
         clientes = json.load(f)
@@ -1600,12 +1789,13 @@ def generar_flujo():
     return response
 
 @app.route('/generar_flujos')
-@login_requerido
+@rol_requerido("admin")
 def generar_flujos():
     return render_template('generar_flujo.html')
 
 
 @app.route('/verificacion_pagos')
+@rol_requerido("admin", "vendedor")
 def verificacion_pagos():
     sheet = conectar_sheets()
     hoja = sheet.worksheet("Pedidos")
