@@ -2,172 +2,177 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ruleta de Sorteo</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
+  <title>Sorteo FGV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
   <style>
-    body {
+    .main {
       background-color: #5C0029;
-      font-family: 'Exo 2', sans-serif;
-      color: white;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
     }
-    #ruleta-container {
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 40px;
+    }
+
+    #slot-container {
       position: relative;
-      display: inline-block;
+      width: 500px;
+      height: 450px; /* 5 nombres de 60px */
+      overflow: hidden;
+      border: 5px solid #282828;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
     }
-    canvas {
-      background-color: white;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      display: block;
-      margin: 0 auto;
+
+    #slot {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      transition: top 4s cubic-bezier(0.1, 0.7, 0.1, 1);
     }
-    /* Flecha: la cara chica (punta) apunta a la rueda */
+
+    .nombre {
+      height: 60px;
+      line-height: 60px;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #5C0029;
+      border-bottom: #000000 2px ;
+    }
+
     .flecha {
       position: absolute;
-      left: 50%;
-      top: 10px; /* justo debajo del canvas de 500px de alto */
-      transform: translateX(-50%);
+      top: 20px;
+      left: 10%;
+      transform: translateX(-50%) rotate(270deg);
       width: 0;
       height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-top: 32px solid #5C0029; /* color dorado, ahora apunta hacia abajo */
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 20px solid #5C0029;
       z-index: 2;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
     }
+
     #spin {
-      margin-top: 30px;
+      margin-top: 20px;
       padding: 14px 30px;
       font-size: 1.2em;
       border: none;
       border-radius: 20px;
-      background: linear-gradient(90deg, #77966D, #5C0029);
-      color: white;
+      background: white;
+      color: #5C0029;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
+
+    #spin:hover {
+      background: #e8e8e8;
+    }
+
     #ganador {
-      font-size: 2.5em;
-      margin-top: 20px;
-      color: #FFE873;
+      font-size: 2em;
+      margin-top: 30px;
+      color: #ffffff;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
+    
   {% include 'partials/navbar.html' %}
-  <h2>🎉 Ruleta de Sorteo 🎉</h2>
-  <div id="ruleta-container">
-    <canvas id="canvas" width="500" height="500"></canvas>
+
+
+
+<div class="main">
+  <h1>Sorteo</h1>
+  <div id="slot-container">
     <div class="flecha"></div>
+    <div id="slot"></div>
   </div>
-  <br>
-  <input type="button" value="¡GIRAR!" id="spin">
+
+  <button id="spin">¡GIRAR!</button>
   <div id="ganador"></div>
-
+</div>
   <script>
-    // Variables dinámicas desde Flask/Jinja
-    const participantes = {{ participantes|tojson }};
-    const total = participantes.reduce((a, b) => a + b.Porcentaje, 0)
-    const canvas = document.getElementById("canvas")
-    const ctx = canvas.getContext("2d")
-    const centerX = canvas.width / 2
-    const centerY = canvas.height / 2
-    const outsideRadius = 200
-    const insideRadius = 80
-    const textRadius = 140
+  const participantes = {{ participantes|tojson }};
+  const slot = document.getElementById("slot");
+  const ganadorDiv = document.getElementById("ganador");
+  const VISIBLE = 100;
+  const GANADOR_INDEX = Math.floor(VISIBLE / 2);
+  const REPETICIONES = 150;
 
-    // Función para obtener la parte más corta del nombre (primer nombre o palabra más corta)
-    function nombreCorto(nombre) {
-      if (!nombre) return '';
-      return nombre.split(' ')[0];
+  // Devuelve el nombre completo
+  function mostrarNombre(nombre) {
+    return nombre || '';
+  }
+
+  function cargarNombres(ganaNombre = null) {
+    let contenido = "";
+    for (let i = 0; i < REPETICIONES; i++) {
+      const nombre = participantes[Math.floor(Math.random() * participantes.length)].Nombre;
+      contenido += `<div class="nombre">${mostrarNombre(nombre)}</div>`;
     }
-
-    let startAngle = 0
-    let spinTimeout = null
-    let spinAngleStart = 0
-    let spinTime = 0
-    let spinTimeTotal = 0
-
-    function drawRoulette() {
-      ctx.clearRect(0, 0, 500, 500)
-      let angle = startAngle
-
-      participantes.forEach((p, i) => {
-        const sliceAngle = (p.Porcentaje / total) * 2 * Math.PI
-        ctx.beginPath()
-        ctx.fillStyle = `hsl(${i * 360 / participantes.length}, 70%, 75%)`
-        ctx.moveTo(centerX, centerY)
-        ctx.arc(centerX, centerY, outsideRadius, angle, angle + sliceAngle, false)
-        ctx.lineTo(centerX, centerY)
-        ctx.fill()
-        ctx.stroke()
-
-        ctx.save()
-        ctx.fillStyle = "#000"
-        ctx.font = "bold 18px 'Exo 2', Arial"
-        ctx.translate(centerX + Math.cos(angle + sliceAngle / 2) * textRadius,
-                      centerY + Math.sin(angle + sliceAngle / 2) * textRadius)
-        ctx.rotate(angle + sliceAngle / 2)
-        // Solo muestra el nombre corto
-        let nombre_corto = nombreCorto(p.Nombre);
-        ctx.fillText(nombre_corto, -ctx.measureText(nombre_corto).width / 2, 0)
-        ctx.restore()
-
-        angle += sliceAngle
-      })
-    }
-
-    function spin() {
-      spinAngleStart = Math.random() * 10 + 10
-      spinTime = 0
-      spinTimeTotal = Math.random() * 3000 + 6000 // más vueltas
-      document.getElementById('ganador').innerText = ''
-      rotateWheel()
-    }
-
-    function rotateWheel() {
-      spinTime += 30
-      if (spinTime >= spinTimeTotal) {
-        stopRotateWheel()
-        return
-      }
-      const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal)
-      startAngle += (spinAngle * Math.PI / 180)
-      drawRoulette()
-      spinTimeout = setTimeout(rotateWheel, 30)
-    }
-
-    function stopRotateWheel() {
-      clearTimeout(spinTimeout)
-      const degrees = startAngle * 180 / Math.PI + 90
-      let angulo = (360 - degrees % 360) % 360
-
-      let acumulado = 0
-      let ganador = ""
-      for (let i = 0; i < participantes.length; i++) {
-        const porcentaje = participantes[i].Porcentaje
-        const grados = (porcentaje / total) * 360
-        if (angulo >= acumulado && angulo < acumulado + grados) {
-          ganador = participantes[i].Nombre
-          break
+    let nombresFinales = [];
+    if (ganaNombre) {
+      let otros = participantes.filter(p => p.Nombre !== ganaNombre);
+      for (let i = 0; i < VISIBLE; i++) {
+        if (i === GANADOR_INDEX) {
+          nombresFinales.push(ganaNombre);
+        } else {
+          const idx = Math.floor(Math.random() * otros.length);
+          nombresFinales.push(otros[idx]?.Nombre || ganaNombre);
         }
-        acumulado += grados
       }
-
-      document.getElementById('ganador').innerText = "🎊 ¡Ganó " + ganador + "! 🎊"
+    } else {
+      for (let i = 0; i < VISIBLE; i++) {
+        const nombre = participantes[Math.floor(Math.random() * participantes.length)].Nombre;
+        nombresFinales.push(nombre);
+      }
     }
-
-    function easeOut(t, b, c, d) {
-      const ts = (t /= d) * t
-      const tc = ts * t
-      return b + c * (tc + -3 * ts + 3 * t)
+    for (let nombre of nombresFinales) {
+      contenido += `<div class="nombre">${mostrarNombre(nombre)}</div>`;
     }
+    slot.innerHTML = contenido;
+  }
 
-    document.getElementById("spin").addEventListener("click", spin)
-    drawRoulette()
-  </script>
+  function girar() {
+    const ganadorObj = participantes[Math.floor(Math.random() * participantes.length)];
+    const nombreGanador = ganadorObj.Nombre;
+    cargarNombres(nombreGanador);
+
+    const totalNombres = slot.children.length;
+    const desplazamiento = (totalNombres - VISIBLE + GANADOR_INDEX) * 60;
+
+    slot.style.transition = "top 16s cubic-bezier(0.1, 0.7, 0.1, 1)";
+    slot.style.top = `-${desplazamiento}px`;
+
+    setTimeout(() => {
+      ganadorDiv.innerText = `Ganó ${nombreGanador}`;
+    }, 16400);
+  }
+
+  document.getElementById("spin").addEventListener("click", () => {
+    slot.style.transition = "none";
+    slot.style.top = "0px";
+    ganadorDiv.innerText = "";
+    setTimeout(girar, 100);
+  });
+
+  cargarNombres();
+</script>
 </body>
 </html>
+

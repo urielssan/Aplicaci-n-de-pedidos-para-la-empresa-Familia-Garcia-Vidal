@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Enviar campaña</title>
+  <!-- ✅ CSS de Quill -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <style>
+    :root{
+      --color-fondo: #5C0029; 
+      --color-textos: #030303;
+      --color-links: #fcfcfc;
+      --color-bordes: #5C0029;
+      --color-hover:#972c2c;
+      --color-fondo-formulario:#F2E9E4;
+      --color-titulos:#F2E9E4;
+      --color-bordes-inputs:#5C0029;
+      --color-fondo-navbar-hover: #C9ADA7;
+      --color-fondo-navbar: #F2E9E4;
+      --color-links-navbar: #000000;
+      --color-fondo-tablas: #ffffff;
+    }
+
+    body {
+      margin: 0 auto;
+      text-align: center;
+      font-family: "montserrat","Exo 2", serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      background-color: var(--color-fondo);
+      color: var(--color-textos);
+    }
+
+    h2 {
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-style: normal;
+      color: var(--color-titulos);
+      margin: 2rem 0;
+    }
+
+    form {
+      width: 60%;
+      max-width: 800px;
+      padding: 30px;
+      margin: 2rem auto;
+      background: var(--color-fondo-formulario);
+      border: 1px solid var(--color-bordes);
+      border-radius: 15px;
+      box-shadow: 0px 0px 10px var(--color-bordes);
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--color-textos);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--color-bordes-inputs);
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:hover {
+      border: 1px solid var(--color-fondo);
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--color-fondo);
+      outline: none;
+      box-shadow: 0 0 5px rgba(92, 0, 41, 0.3);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 1rem;
+      background: var(--color-bordes-inputs);
+      color: var(--color-links);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: var(--color-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Estilos para mensajes flash */
+    .flash-message {
+      padding: 1rem;
+      margin: 1rem auto;
+      border-radius: 5px;
+      font-weight: 500;
+      max-width: 60%;
+    }
+
+    .flash-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .flash-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .flash-warning {
+      background-color: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    /* Estilos para el editor Quill */
+    #editor {
+      border: 1px solid var(--color-bordes-inputs);
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+    }
+
+    .ql-toolbar {
+      border-top: 1px solid var(--color-bordes-inputs);
+      border-left: 1px solid var(--color-bordes-inputs);
+      border-right: 1px solid var(--color-bordes-inputs);
+      border-bottom: none;
+      background-color: var(--color-fondo-tablas);
+    }
+
+    .ql-container {
+      border-bottom: 1px solid var(--color-bordes-inputs);
+      border-left: 1px solid var(--color-bordes-inputs);
+      border-right: 1px solid var(--color-bordes-inputs);
+      border-top: none;
+      background-color: var(--color-fondo-tablas);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      form {
+        width: 90%;
+        padding: 20px;
+      }
+      
+      .flash-message {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+<img src="{{ url_for('static', filename='images/ico-dorado.ico') }}" alt="Logo" style="width: 100px; height: auto; margin-top:40px;;">
+  <h1 style="color: var(--color-titulos);">Enviar campaña de correos</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash-message flash-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endwith %}
+
+  <form method="POST" onsubmit="return prepararMensaje()">
+    <label for="asunto">Asunto:</label>
+    <input type="text" name="asunto" id="asunto" required>
+
+    <label for="editor">Mensaje personalizado (usá {{nombre}}):</label>
+    <div id="editor" style="height: 300px;"></div>
+    <input type="hidden" name="mensaje" id="mensaje">
+
+    <button type="submit">Enviar mails</button>
+  </form>
+
+  <!-- ✅ Scripts de Quill -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script>
+const quill = new Quill('#editor', {
+  theme: 'snow',
+  modules: {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['link', 'image'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['clean']
+      ],
+      handlers: {
+  image: function () {
+    const url = prompt('Pegá la URL de la imagen:');
+    if (url) {
+      let ancho = prompt('Ancho en píxeles (ej: 400):', '400');
+
+      if (!ancho || isNaN(ancho)) {
+        alert('Poné un número válido');
+        return;
+      }
+
+      const width = `${ancho}px`;
+      const range = this.quill.getSelection();
+      
+      // Insertamos la imagen normalmente
+      this.quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
+
+      // Buscamos la última imagen insertada y le aplicamos el estilo
+      setTimeout(() => {
+        const imgs = document.querySelectorAll('.ql-editor img');
+        const lastImg = imgs[imgs.length - 1];
+        if (lastImg) {
+          lastImg.style.width = width;
+          lastImg.style.height = 'auto';
+        }
+      }, 10);
+    }
+  }
+}
+
+    }
+  }
+});
+
+
+    function prepararMensaje() {
+      const html = quill.root.innerHTML;
+      document.getElementById('mensaje').value = html;
+      return true;
+    }
+  </script>
+</body>
+</html>

@@ -13,10 +13,13 @@ from graphviz import Digraph
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
-
+import csv
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import smtplib
 
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
@@ -41,6 +44,56 @@ init_excel()
 
 # Ruta al archivo JSON (asegúrate de que la ruta sea correcta)
 JSON_PATH = Path("modules/precios_productos.json")
+
+
+
+
+SMTP_SERVER = "mail.garciavidal.com"
+SMTP_PORT = 465  # Puerto SSL
+USERNAME = "familia@garciavidal.com"
+PASSWORD = "%g2r2i2%"  # entre comillas
+REPLY_TO = "noreply@garciavidal.com"
+
+
+@app.route("/emails", methods=["GET", "POST"])
+def enviar_emails():
+    if request.method == "POST":
+        asunto = request.form.get("asunto")
+        cuerpo = request.form.get("mensaje")
+
+        csv_path = os.path.join("data", "CRM - Email-marketing.csv")
+        enviados = []
+
+        try:
+            with open(csv_path, newline='', encoding="utf-8") as csvfile:
+                reader = csv.DictReader(csvfile)
+                for fila in reader:
+                    email = fila["mail"]
+                    nombre = fila["nombre"]
+                    cuerpo_personalizado = cuerpo.replace("{{nombre}}", nombre)
+
+                    mensaje = MIMEMultipart()
+                    mensaje["From"] = USERNAME
+                    mensaje["To"] = email
+                    mensaje["Subject"] = asunto
+                    mensaje["Reply-To"] = REPLY_TO
+                    mensaje.attach(MIMEText(cuerpo_personalizado, "html"))
+
+                    try:
+                        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+                            server.login(USERNAME, PASSWORD)
+                            server.sendmail(USERNAME, email, mensaje.as_string())
+                            enviados.append(email)
+                    except Exception as e:
+                        flash(f"❌ Error con {email}: {str(e)}", "danger")
+
+            flash(f"✅ Se enviaron {len(enviados)} correos.", "success")
+        except FileNotFoundError:
+            flash("❌ No se encontró el archivo CRM - Email-marketing.csv en /data", "danger")
+
+        return redirect(url_for("enviar_emails"))
+
+    return render_template("emails.html")
 
 def cargar_precios():
     """Carga los precios de los productos desde el archivo JSON."""
