@@ -9,7 +9,7 @@
         "ID": 2,
         "Unidad": "unidad",
         "Categoria": "Frescos",
-        "Cantidad": 10.0
+        "Cantidad": -8.0
     },
     "Cerveza Blond Ale": {
         "ID": 3,
@@ -27,7 +27,7 @@
         "ID": 5,
         "Unidad": "kg",
         "Categoria": "Carnes",
-        "Cantidad": 112.0
+        "Cantidad": 109.0
     },
     "Vacio": {
         "ID": 6,
@@ -45,7 +45,7 @@
         "ID": 8,
         "Unidad": "kg",
         "Categoria": "Carnes",
-        "Cantidad": 51.0
+        "Cantidad": 48.0
     },
     "Cuadril": {
         "ID": 9,
@@ -147,7 +147,7 @@
         "ID": 25,
         "Unidad": "cc",
         "Categoria": "Aceites",
-        "Cantidad": 2101.0
+        "Cantidad": 2102.0
     },
     "Sal entrefina": {
         "ID": 26,

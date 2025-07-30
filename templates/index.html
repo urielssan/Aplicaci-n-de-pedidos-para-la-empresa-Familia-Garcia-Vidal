@@ -71,9 +71,19 @@
 `;
             container.appendChild(div);
 
-            // Aplicar Select2 al nuevo producto agregado
-            $(`#${idProducto}`).select2();
+            // Aplicar Select2 al nuevo producto agregado y abrirlo automáticamente
+            $(`#${idProducto}`).select2().select2('open');
+            // Abre el select y enfoca el campo de búsqueda
+            setTimeout(() => {
+                document.querySelector('.select2-container--open .select2-search__field')?.focus();
+            }, 100);
+
         }
+        document.addEventListener('click', () => {
+            setTimeout(() => {
+                document.querySelector('.select2-container--open .select2-search__field')?.focus();
+            }, 50);
+        });
     </script>
 
 </head>

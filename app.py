@@ -715,11 +715,79 @@ def eliminar_pedido(pedido_id):
         print(f"Error interno al eliminar: {e}")
         return f"Error interno del servidor: {e}", 500
 
-@app.route('/ingresar_stock')
+@app.route('/ingresar_stock', methods=["GET", "POST"])
 @rol_requerido("admin", "vendedor")
 def ingresar_stock():
     precios = cargar_precios()
-    return render_template("ingresar_stock.html",precios_productos = precios)
+
+    if request.method == "POST":
+        sheet = conectar_sheets()
+        hoja_stock = sheet.worksheet("Stock")
+        valores = hoja_stock.get_all_values()
+        ultima_fila = valores[-1]
+        encabezados = valores[0]
+        index_id = encabezados.index("ID_lote")
+        id_stock = int(ultima_fila[index_id]) + 1
+
+        vendedor = request.form["vendedor"]
+        productos = request.form.getlist("productos[]")  # es el ID
+        cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
+        observaciones = request.form.get("observaciones", "")
+        fecha_str = request.form["fecha"]
+
+        try:
+            fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d")
+
+        fecha_formateada = fecha_obj.strftime("%Y-%m-%d")
+        ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d")
+
+        jsonProductos = cargar_precios()
+
+        for producto, cantidad in zip(productos, cantidades):
+            nombre = str(jsonProductos[producto]["nombre"])
+            hoja_stock.append_row(
+                [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto, str(id_stock)],
+                value_input_option="USER_ENTERED"
+            )
+
+        # Ajustar materia prima
+        with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
+            materia_prima = json.load(f)
+
+        with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
+            recetas_materias = json.load(f)
+
+        materia_prima_necesaria = {}
+        for producto, cantidad in zip(productos, cantidades):
+            recetas = [r for r in recetas_materias if str(r["ID_receta"]) == str(producto)]
+            for receta in recetas:
+                materia = receta["Materia"]
+                cantidad_necesaria = receta["Cantidad"] * cantidad
+                materia_prima_necesaria[materia] = materia_prima_necesaria.get(materia, 0) + cantidad_necesaria
+
+        for materia, cantidad in materia_prima_necesaria.items():
+            if materia in materia_prima:
+                materia_prima[materia]["Cantidad"] -= cantidad
+
+        with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
+            json.dump(materia_prima, f, indent=4, ensure_ascii=False)
+
+        hoja_materia = sheet.worksheet("Materia prima ingresos")
+        for materia, cantidad in materia_prima_necesaria.items():
+            unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
+            hoja_materia.append_row(
+                [fecha_formateada, vendedor, materia, unidad, -cantidad, f"Ajuste de materia prima por lote {id_stock}", ingreso_fecha_hora, id_stock, "-"],
+                value_input_option="USER_ENTERED"
+            )
+
+        flash("Stock guardado correctamente.", "success")
+        return redirect(url_for("ingresar_stock"))
+
+    # GET: mostrar formulario
+    return render_template("ingresar_stock.html", precios_productos=precios)
+
 
 @app.route('/ingresar_materia_prima')
 @rol_requerido("admin", "cocinero")
@@ -743,82 +811,6 @@ def crear_receta():
         materias_primas = json.load(f)
     return render_template("crear_receta.html", productos=productos, materias_primas=materias_primas)
 
-@app.route('/guardar_stock', methods=["POST"])
-@rol_requerido("admin", "vendedor")
-def guardar_stock():
-    sheet = conectar_sheets()
-    hoja_stock = sheet.worksheet("Stock")
-    valores = hoja_stock.get_all_values()
-    ultima_fila = valores[-1]
-    encabezados = valores[0]
-    index_id = encabezados.index("ID_lote")
-    id_stock = int(ultima_fila[index_id]) + 1
-    precios = cargar_precios()
-    vendedor = request.form["vendedor"]
-    productos = request.form.getlist("productos[]") #es el ID jejox
-    cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
-    observaciones = request.form.get("observaciones", "")
-    fecha_str = request.form["fecha"]
-    try:
-        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
-    except ValueError:
-        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d")
-
-    fecha_formateada = fecha_obj.strftime("%Y-%m-%d")  # 🟢 FORMATO RECONOCIBLE POR SHEETS
-    ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d")
-    jsonProductos = cargar_precios()
-    
-    for producto, cantidad in zip(productos, cantidades):
-        nombre = str(jsonProductos[producto]["nombre"])
-        hoja_stock.append_row(
-            [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto, str(id_stock)],
-            value_input_option="USER_ENTERED"  # 🟢 Permite que se registre como FECHA
-        )
-
-    # Cargar materia prima y recetas
-    with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
-        materia_prima = json.load(f)
-
-    with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
-        recetas_materias = json.load(f)
-
-    # Calcular la cantidad de materia prima necesaria
-    materia_prima_necesaria = {}
-
-    for producto, cantidad in zip(productos, cantidades):
-        recetas = [receta for receta in recetas_materias if str(receta["ID_receta"]) == str(producto)]
-        for receta in recetas:
-            materia = receta["Materia"]
-            cantidad_necesaria = receta["Cantidad"] * cantidad  # Cantidad total necesaria
-            
-            if materia in materia_prima:
-                if materia in materia_prima_necesaria:
-                    materia_prima_necesaria[materia] += cantidad_necesaria
-                else:
-                    materia_prima_necesaria[materia] = cantidad_necesaria
-
-    # Reducir el stock en materia_prima.json
-    for materia, cantidad in materia_prima_necesaria.items():
-        if materia in materia_prima:
-            materia_prima[materia]["Cantidad"] = float(materia_prima[materia]["Cantidad"]) - float(cantidad)
-
-
-    # Guardar los cambios en materia_prima.json
-    with open(os.path.join("modules", "materia_prima.json"), "w", encoding="utf-8") as f:
-        json.dump(materia_prima, f, indent=4, ensure_ascii=False)
-    
-    sheet = conectar_sheets()
-    hoja_materia = sheet.worksheet("Materia prima ingresos")
-
-
-    for materia, cantidad in materia_prima_necesaria.items():
-        unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
-
-        hoja_materia.append_row(
-            [fecha_formateada, vendedor, materia, unidad, -cantidad, f"Ajuste de materia prima por lote {id_stock}", ingreso_fecha_hora, id_stock, "-"],
-            value_input_option="USER_ENTERED"
-        )
-    return redirect(url_for("ingresar_stock", precios_productos=precios))
 
 @app.route('/guardar_materia_prima', methods=["POST"])
 @rol_requerido("admin", "cocinero")
@@ -940,12 +932,14 @@ def guardar_receta():
 
     with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
         stock_info = json.load(f)
-    with open("modules/precios_productos.json", "r", encoding="utf-8") as f:
-        productos_info = json.load(f)
 
     with open("modules/recetas_materias.json", "r", encoding="utf-8") as f:
         recetas = json.load(f)
 
+    # Eliminar recetas existentes con ese ID_receta
+    recetas = [r for r in recetas if str(r["ID_receta"]) != str(producto_id)]
+
+    # Agregar nuevas entradas
     for materia, cantidad in zip(materias, cantidades):
         if materia not in stock_info:
             print(f"⚠ No existe la materia prima: {materia}")
@@ -964,6 +958,7 @@ def guardar_receta():
         json.dump(recetas, f, indent=4, ensure_ascii=False)
 
     return redirect(url_for("ver_recetas"))
+
 
 @app.route('/ver_salida')
 @rol_requerido("admin", "vendedor")
@@ -1074,7 +1069,13 @@ def generar_pdf_pedido(pedido_id):
     pedidos = hoja.get_all_records()
     precios_productos = cargar_precios()
 
-    pedido = next((p for p in pedidos if int(p["ID"]) == pedido_id), None)
+    for pedido_individual in pedidos:
+        try:
+            if int(pedido_individual["ID"] == pedido_id):
+                pedido = pedido_individual
+        except: 
+            print("Hay filas vacias, arreglar.")
+
     if not pedido:
         return "Pedido no encontrado", 404
 
