@@ -19,6 +19,14 @@
         "nombre": "Alitas de Pollo (4u)",
         "precio": 4000
     },
+    "89": {
+        "nombre": "Alitas de Regalo",
+        "precio": 0
+    },
+    "90": {
+        "nombre": "Arvejas (300g)",
+        "precio": 3300
+    },
     "5": {
         "nombre": "BBQ Casera (100cc)",
         "precio": 1500
@@ -394,5 +402,9 @@
     "87": {
         "nombre": "Vino Rosado (750ml)",
         "precio": 8000
+    },
+    "91": {
+        "nombre": "Choclos (300g)",
+        "precio": 3300
     }
 }

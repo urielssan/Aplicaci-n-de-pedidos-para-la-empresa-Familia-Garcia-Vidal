@@ -24,30 +24,6 @@
         "Cantidad": 6.0
     },
     {
-        "ID_receta": 17,
-        "ID_materia_prima": 8,
-        "Materia": "Bife angosto",
-        "Unidad": "kg",
-        "Categoria": "Carnes",
-        "Cantidad": 1.0
-    },
-    {
-        "ID_receta": 17,
-        "ID_materia_prima": 8,
-        "Materia": "Bife angosto",
-        "Unidad": "kg",
-        "Categoria": "Carnes",
-        "Cantidad": 2.0
-    },
-    {
-        "ID_receta": 17,
-        "ID_materia_prima": 2,
-        "Materia": "Huevos de campo",
-        "Unidad": "cantidad",
-        "Categoria": "Frescos",
-        "Cantidad": 3.0
-    },
-    {
         "ID_receta": 53,
         "ID_materia_prima": 5,
         "Materia": "Aguja",
@@ -86,5 +62,13 @@
         "Unidad": "kg",
         "Categoria": "Vegetales",
         "Cantidad": 0.4
+    },
+    {
+        "ID_receta": 17,
+        "ID_materia_prima": 25,
+        "Materia": "Aceite de oliva",
+        "Unidad": "cc",
+        "Categoria": "Aceites",
+        "Cantidad": 10.0
     }
 ]
