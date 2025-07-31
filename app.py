@@ -61,7 +61,7 @@ def enviar_emails():
         asunto = request.form.get("asunto")
         cuerpo = request.form.get("mensaje")
 
-        csv_path = os.path.join("data", "pruebas.csv")
+        csv_path = os.path.join("data", "CRM - Email-marketing.csv")
         enviados = []
 
         try:
