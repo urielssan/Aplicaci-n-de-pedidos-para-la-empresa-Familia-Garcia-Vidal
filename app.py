@@ -111,6 +111,10 @@ def cargar_precios():
 
 JSON_PATH_MPrima = Path("modules/materia_prima.json")
 
+def cargar_precios_por_nombre():
+    precios = cargar_precios()
+    return {v["nombre"]: v["precio"] for v in precios.values()}
+
 def cargar_materia_prima():
     """Carga los precios de los productos desde el archivo JSON."""
     try:
@@ -1100,8 +1104,8 @@ def generar_pdf_pedido(pedido_id):
         print("Error: La cantidad de productos no coincide con la cantidad de cantidades.")
         return "Error en los datos del pedido", 500  # O manejar el error como prefieras
 
-    precios = [precios_productos.get(p.strip(), {}).get("precio", 0) for p in productos]
-
+    precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
+    nombres = [precios_productos.get(p, {}).get("nombre", 0) for p in productos]
 
     # Asegúrate de que monto sea float (manejo de errores adicional)
     try:

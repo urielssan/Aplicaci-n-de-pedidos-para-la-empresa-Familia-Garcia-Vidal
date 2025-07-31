@@ -23,6 +23,9 @@ def cargar_precios():
     except json.JSONDecodeError:
         print(f"Error: El archivo JSON en {JSON_PATH} no es válido.")
         return {}
+def cargar_precios_por_nombre():
+    precios = cargar_precios()
+    return {v["nombre"]: v["precio"] for v in precios.values()}
 
 def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, total_final, pagado, productos, cantidades, precios, direccion, telefono, observaciones, estado, medio):
     pdf_path = f"orden_pedido_{pedido_id}.pdf"
@@ -140,10 +143,12 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
 
 
 def generar_pdf_detalles_pedido(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, monto, zona_envio, descuento, pagado, productos, cantidades, precios, direccion, telefono, observaciones):
+    precios_por_nombre = cargar_precios_por_nombre()
     pdf_path = f"orden_pedido_{pedido_id}.pdf"
     LOGO_PATH = Config.LOGO_PATH
     total_final = 0
     for precio in precios:
+        print(precio)
         total_final += precio
     doc = SimpleDocTemplate(pdf_path, pagesize=(250 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
     elements = []
@@ -166,10 +171,14 @@ def generar_pdf_detalles_pedido(pedido_id, cliente, fecha_entrega, horario_entre
     # Sección 3: Tabla de Productos Minimalista
     total_precio = 0
     table_data = [["Producto", "Cant.", "P. Unit", "Total"]]
-    for producto, cantidad, precio in zip(productos, cantidades, precios):
-        total_precio = (total_precio + precio * float(cantidad)) 
-        table_data.append([producto, f"{cantidad}x", f"${precio:,.2f}", f"${total_precio:,.2f}"])
 
+    for producto, cantidad in zip(productos, cantidades):
+        precio_unit = precios_por_nombre.get(producto, 0)
+        total_item = precio_unit * float(cantidad)
+        total_precio += total_item
+        table_data.append([
+            producto, f"{cantidad}x", f"${precio_unit:,.2f}", f"${total_item:,.2f}"
+        ])
     table = Table(table_data, colWidths=[80 * mm, 25 * mm, 25 * mm, 25 * mm], hAlign='CENTER')
     table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
