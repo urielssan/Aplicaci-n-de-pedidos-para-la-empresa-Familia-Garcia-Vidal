@@ -61,7 +61,7 @@ def obtener_o_crear_hoja(sheet, nombre_hoja, columnas=None):
             hoja.append_row(columnas)  # Agregar encabezados
     return hoja
 
-def guardar_en_sheets(datos, productos, cantidades):
+def guardar_en_sheets(datos, productos, cantidades, ids):
     """Guarda los datos en las hojas de Google Sheets"""
     sheet = conectar_sheets()
     # Obtener o crear hojas
@@ -82,7 +82,7 @@ def guardar_en_sheets(datos, productos, cantidades):
     hoja_pedidos.append_row(fila)
 
     # 🔹 Agregar cada producto vendido en la hoja "Productos Vendidos"
-    for producto, cantidad in zip(productos, cantidades):
+    for producto, cantidad, id_producto in zip(productos, cantidades, ids):
         hoja_productos.append_row([
             datos["ID"], datos["Fecha de Entrega"], datos["Monto"], 
             datos["Método de Pago"], datos["Vendedor"], datos["Cliente"], producto, int(cantidad), nombre_a_id.get(producto)

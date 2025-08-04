@@ -623,7 +623,7 @@ def enviar_pedido():
         "Medio": medio
     }
 
-    guardar_en_sheets(datos_pedido, nombres, cantidades)
+    guardar_en_sheets(datos_pedido, nombres, cantidades, productos)
 
     return generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago, zona_envio, monto, descuento, monto, pagado, productos, cantidades, precios, direccion, telefono, observaciones,estado,medio)
  
