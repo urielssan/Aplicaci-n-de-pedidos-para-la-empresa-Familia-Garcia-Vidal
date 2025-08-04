@@ -133,9 +133,7 @@ def cargar_materia_prima():
 @app.route('/ingresar_pedido')
 def ingresar_pedido():
     precios = cargar_precios()
-    
     return render_template('ingresar_pedido.html', precios_productos= precios)
-
 
 @app.route('/clientes', methods=['GET'])
 def obtener_clientes():
@@ -536,8 +534,7 @@ def enviar_pedido():
     zona_envio = request.form.get("zona_envio") if envio == "Sí" else "Sin envío"
     monto = float(request.form["monto"])
     pagado = request.form["pagado"] #Si o No
-    productos = request.form.getlist("productos[]")
-    cantidades = [float(c) for c in request.form.getlist("cantidades[]")]#convierte todas las cantidades a float
+    productos_raw = request.form.getlist("productos[]")
     observaciones = request.form["observaciones"]
     estado = request.form["estado"]
     fecha_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -545,9 +542,20 @@ def enviar_pedido():
     medio = request.form["pidio"]
     precios_productos = cargar_precios()
 
+    from collections import defaultdict
+    productos_agrupados = defaultdict(float)
+    
+    # Contar cuántas veces aparece cada producto
+    for producto in productos_raw:
+        if producto.strip():  # Solo productos no vacíos
+            productos_agrupados[producto] += 1
+
+    # Convertir a listas finales (productos únicos con cantidades sumadas)
+    productos = list(productos_agrupados.keys())
+    cantidades = list(productos_agrupados.values())
+
     precios = [precios_productos.get(p, {}).get("precio", 0) for p in productos]
     nombres = [precios_productos.get(p, {}).get("nombre", 0) for p in productos]
-
     nuevo_pedido = pd.DataFrame([{
         "ID": pedido_id,
         "DNI": dni,

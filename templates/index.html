@@ -33,7 +33,7 @@
 
             productos.forEach(div => {
                 let productoId = div.querySelector("select").value;
-                let cantidad = parseFloat(div.querySelector("input").value) || 0;
+                let cantidad = 1
                 let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
                 total += precioUnitario * cantidad;
             });
@@ -65,7 +65,7 @@
     </div>
     <div class="producto-linea">
         <label>Cantidad:</label><br>
-        <input id="cantidad_producto" type="number" name="cantidades[]" min="0.001" step="0.001" value="1" required oninput="actualizarSubtotal()">
+        <input name="cantidades[]" value="1" readonly disabled>
     </div>
     <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
 `;
@@ -315,7 +315,7 @@
 
             productos.forEach(div => {
                 let productoId = div.querySelector("select").value;
-                let cantidad = parseFloat(div.querySelector("input").value) || 0;
+                let cantidad = 1
                 let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
                 total += precioUnitario * cantidad;
             });

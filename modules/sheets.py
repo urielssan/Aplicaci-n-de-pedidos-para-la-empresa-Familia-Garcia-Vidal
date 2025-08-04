@@ -1,5 +1,22 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import json
+from pathlib import Path
+
+JSON_PATH = Path("modules/precios_productos.json")
+def cargar_precios():
+    """Carga los precios de los productos desde el archivo JSON."""
+    try:
+        with open(JSON_PATH, 'r') as f:
+            data = json.load(f)
+
+            return dict(sorted(data.items(), key=lambda item: item[1]["nombre"]))
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo JSON en {JSON_PATH}")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error: El archivo JSON en {JSON_PATH} no es válido.")
+        return {}
 
 # Definir los permisos (alcances) para Google Sheets y Google Drive
 SCOPES = [
@@ -54,7 +71,8 @@ def guardar_en_sheets(datos, productos, cantidades):
     # Concatenamos productos y cantidades en un solo string
     productos_str = ", ".join(productos)
     cantidades_str = ", ".join(map(str, cantidades))
-
+    productos_json = cargar_precios()
+    nombre_a_id = {datos["nombre"]: id_producto for id_producto, datos in productos_json.items()}
     # Crear fila de datos ordenada
     fila = [
         datos["ID"],datos["DNI"], datos["Vendedor"], datos["Cliente"], datos["Dirección"], datos["Teléfono"],datos.get("Email", ""), datos.get("Fecha de Nacimiento", ""),datos.get("Sexo", ""), datos["Fecha de Entrega"], datos["Horario de Entrega"], datos["Método de Pago"], datos["Monto"], datos["Pagado"], productos_str, cantidades_str, datos["Estado"], datos["Envio"],datos["Zona de Envio"], datos["Observaciones"], datos["Descuento"], datos["Fecha de Ingreso"], datos["Banco"], datos["Local"], datos["Medio"]
@@ -67,7 +85,7 @@ def guardar_en_sheets(datos, productos, cantidades):
     for producto, cantidad in zip(productos, cantidades):
         hoja_productos.append_row([
             datos["ID"], datos["Fecha de Entrega"], datos["Monto"], 
-            datos["Método de Pago"], datos["Vendedor"], datos["Cliente"], producto, int(cantidad)
+            datos["Método de Pago"], datos["Vendedor"], datos["Cliente"], producto, int(cantidad), nombre_a_id.get(producto)
         ])
 
     print("✅ Pedido guardado en Google Sheets")
