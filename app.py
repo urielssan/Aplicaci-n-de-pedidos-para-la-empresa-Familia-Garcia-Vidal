@@ -20,6 +20,7 @@ from reportlab.lib.utils import ImageReader
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
+import time
 
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
@@ -48,12 +49,11 @@ JSON_PATH = Path("modules/precios_productos.json")
 
 
 
-SMTP_SERVER = "mail.garciavidal.com"
+SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465  # Puerto SSL
-USERNAME = "familia@garciavidal.com"
-PASSWORD = "%g2r2i2%"  # entre comillas
+USERNAME = "ai.marketing@garciavidal.com"
+PASSWORD = "lfapgwfkophomnow"  # entre comillas
 REPLY_TO = "noreply@garciavidal.com"
-
 
 @app.route("/emails", methods=["GET", "POST"])
 def enviar_emails():
@@ -86,6 +86,7 @@ def enviar_emails():
                             enviados.append(email)
                     except Exception as e:
                         flash(f"❌ Error con {email}: {str(e)}", "danger")
+                    time.sleep(60)
 
             flash(f"✅ Se enviaron {len(enviados)} correos.", "success")
         except FileNotFoundError:
