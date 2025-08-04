@@ -1507,19 +1507,26 @@ def ver_stock_carnes():
 @rol_requerido("admin", "vendedor")
 def ver_stock_nuevo():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
-    sheet = conectar_sheets()
-    hoja_pedidos = sheet.worksheet("Nuevo Stock")  # Asegurate de que el nombre coincida con el de la hoja en Google Sheets
 
-    stock = hoja_pedidos.get_all_values()  # Obtiene todos los pedidos en forma de lista de listas
+    sheet = conectar_sheets()
+    hoja_pedidos = sheet.worksheet("Nuevo Stock")
+
+    stock = hoja_pedidos.get_all_values()
 
     if not stock:
         return render_template("stock_nuevo.html", stock=[])
 
-    # Convertimos los datos en una lista de diccionarios
-    headers = stock[0]  # La primera fila son los encabezados
-    datos_stock = [dict(zip(headers, row)) for row in stock[1:]]  # Excluimos la primera fila
+    headers = stock[0]
+    datos_stock = [dict(zip(headers, row)) for row in stock[1:]]
 
-    return render_template("stock_nuevo.html", stock=datos_stock)
+    # 🔍 Filtrar solo los visibles
+    stock_visible = [
+        fila for fila in datos_stock
+        if fila.get("Visible", "").strip().lower() != "no"
+    ]
+
+    return render_template("stock_nuevo.html", stock=stock_visible)
+
 
 @app.route('/ver_stock/pizzas')
 @rol_requerido("admin", "vendedor")
