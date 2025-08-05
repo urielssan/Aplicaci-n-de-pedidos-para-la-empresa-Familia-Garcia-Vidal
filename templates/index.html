@@ -53,31 +53,48 @@
             let container = document.getElementById("productos-container");
             let div = document.createElement("div");
             div.classList.add("producto-item");
-            let idProducto = "producto-" + Math.random().toString(36).substr(2, 9); // Genera un ID único
+            let idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
 
             div.innerHTML = `
-    <div class="producto-linea">
-        <label>Producto:</label><br>
-        <select name="productos[]" class="producto-select" id="${idProducto}" onchange="actualizarSubtotal()">
-    <option value="">Seleccionar producto</option>
-    ${Object.keys(preciosProductos).map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`).join("")}
-</select>
-    </div>
-    <div class="producto-linea">
-        <label>Cantidad:</label><br>
-        <input name="cantidades[]" value="1" readonly disabled>
-    </div>
-    <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
+<div class="producto-linea">
+    <label>Producto:</label><br>
+    <select name="productos[]" class="producto-select" id="${idProducto}">
+        <option value="">Seleccionar producto</option>
+        ${Object.keys(preciosProductos).map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`).join("")}
+    </select>
+</div>
+<div class="producto-linea">
+    <label>Cantidad:</label><br>
+    <input name="cantidades[]" value="1" class="cantidad-input">
+</div>
+<button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
 `;
+
             container.appendChild(div);
 
-            // Aplicar Select2 al nuevo producto agregado y abrirlo automáticamente
-            $(`#${idProducto}`).select2().select2('open');
-            // Abre el select y enfoca el campo de búsqueda
+            // Inicializar select2
+            const $select = $(`#${idProducto}`);
+            $select.select2().select2('open');
+
+            // Detectar selección de producto
+            $select.on('change', function () {
+                const selectedId = this.value;
+                const nombreProducto = preciosProductos[selectedId]?.nombre?.toLowerCase() || "";
+                const cantidadInput = div.querySelector(".cantidad-input");
+
+                if (nombreProducto.includes("empa")) {
+                    cantidadInput.readOnly = false;
+                } else {
+                    cantidadInput.readOnly = true;
+                }
+
+                actualizarSubtotal();
+            });
+
+            // Enfocar input de búsqueda
             setTimeout(() => {
                 document.querySelector('.select2-container--open .select2-search__field')?.focus();
             }, 100);
-
         }
         document.addEventListener('click', () => {
             setTimeout(() => {

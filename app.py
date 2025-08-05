@@ -535,6 +535,7 @@ def enviar_pedido():
     monto = float(request.form["monto"])
     pagado = request.form["pagado"] #Si o No
     productos_raw = request.form.getlist("productos[]")
+    cantidades_raw = request.form.getlist("cantidades[]")
     observaciones = request.form["observaciones"]
     estado = request.form["estado"]
     fecha_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -546,9 +547,9 @@ def enviar_pedido():
     productos_agrupados = defaultdict(float)
     
     # Contar cuántas veces aparece cada producto
-    for producto in productos_raw:
+    for producto, cantidad in zip(productos_raw, cantidades_raw):
         if producto.strip():  # Solo productos no vacíos
-            productos_agrupados[producto] += 1
+            productos_agrupados[producto] += float(cantidad)
 
     # Convertir a listas finales (productos únicos con cantidades sumadas)
     productos = list(productos_agrupados.keys())
