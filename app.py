@@ -703,6 +703,41 @@ def actualizar_pedido():
 
     hoja_pedidos.batch_update(updates)
 
+    # 🔽 NUEVO BLOQUE: actualizar hoja Productos Vendidos
+    COLUMNS_PRODUCTOS = ["ID Venta", "Fecha de Entrega", "Monto", "Vendedor", "Método de Pago", "Cliente", "Producto", "Cantidad", "ID Producto"]
+    hoja_productos = obtener_o_crear_hoja(sheet, "Productos Vendidos", COLUMNS_PRODUCTOS)
+    productos_vendidos = hoja_productos.get_all_values()
+
+    # Encontrar y borrar filas que coincidan con el ID de venta
+    filas_a_borrar = []
+    for i, row in enumerate(productos_vendidos[1:], start=2):  # Empezar desde fila 2 por encabezados
+        if row[0].strip() == pedido_id:
+            filas_a_borrar.append(i)
+
+    # Borrar desde la última a la primera para que no se desplacen
+    for fila in reversed(filas_a_borrar):
+        hoja_productos.delete_rows(fila)
+
+    # Volver a cargar productos actuales en la hoja
+    if productos:
+        nuevas_filas = []
+        for i in range(len(productos)):
+            id_prod = productos[i]
+            nombre = precios.get(id_prod, {}).get("nombre", "")
+            cantidad = cantidades[i]
+            nuevas_filas.append([
+                pedido_id,
+                fecha_formateada,
+                monto_formateado,
+                request.form["vendedor"],
+                request.form["metodo_pago"],
+                request.form["cliente"],
+                nombre,
+                cantidad,
+                id_prod
+            ])
+        hoja_productos.append_rows(nuevas_filas, value_input_option="USER_ENTERED")
+
     return redirect(url_for("editar_pedidos"))
 
 @app.route("/eliminar_pedido/<pedido_id>", methods=["POST"])
