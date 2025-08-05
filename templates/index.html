@@ -32,75 +32,92 @@
             let productos = document.querySelectorAll(".producto-item");
 
             productos.forEach(div => {
-                let productoId = div.querySelector("select").value;
-                let cantidad = 1
-                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
+                let productoId   = div.querySelector("select").value;
+            // 1️⃣ Buscamos el input y tomamos su valor
+                let cantidadInput = div.querySelector(".cantidad-input");
+                // 2️⃣ Convertimos a entero (o float si lo preferís)
+                let cantidad = parseInt(cantidadInput.value, 10) || 1;
+
+                let precioUnitario = preciosProductos[productoId]?.precio || 0;
                 total += precioUnitario * cantidad;
             });
 
+
             let descuentoOn = document.getElementById("descuentoOn").value;
-            let descuento = descuentoOn === "1" ? 0.05 : 0;
+            let descuento = 0;
+            if (descuentoOn === "1") descuento = 0.05; // 5%
+            else if (descuentoOn === "2") descuento = 0.10; // 10%
+            else if (descuentoOn === "3") descuento = 0.15; // 15%
+            
 
             let totalConDescuento = total - (total * descuento);
 
             document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
             document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento * total).toFixed(2)}` : `Descuento: $0.00`;
             document.getElementById("monto").value = totalConDescuento.toFixed(2);
+            document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
         }
 
 
         function agregarProducto() {
-            let container = document.getElementById("productos-container");
-            let div = document.createElement("div");
-            div.classList.add("producto-item");
-            let idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
+    const container = document.getElementById("productos-container");
+    // Creo el div con select y cantidad
+    const div = document.createElement("div");
+    div.classList.add("producto-item");
+    const idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
 
-            div.innerHTML = `
-<div class="producto-linea">
-    <label>Producto:</label><br>
-    <select name="productos[]" class="producto-select" id="${idProducto}">
-        <option value="">Seleccionar producto</option>
-        ${Object.keys(preciosProductos).map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`).join("")}
-    </select>
-</div>
-<div class="producto-linea">
-    <label>Cantidad:</label><br>
-    <input name="cantidades[]" value="1" class="cantidad-input">
-</div>
-<button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
-`;
+    div.innerHTML = `
+        <div class="producto-linea">
+            <label>Producto:</label><br>
+            <select name="productos[]" class="producto-select" id="${idProducto}">
+                <option value="">Seleccionar producto</option>
+                ${Object.keys(preciosProductos)
+                    .map(id => `<option value="${id}">${preciosProductos[id].nombre} - $${preciosProductos[id].precio} - ID: #${id}</option>`)
+                    .join("")}
+            </select>
+        </div>
+        <div class="producto-linea">
+            <label>Cantidad:</label><br>
+            <input name="cantidades[]" value="1" class="cantidad-input" readonly>
+        </div>
+        <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
+    `;
+    container.appendChild(div);
 
-            container.appendChild(div);
+    // Inicializo select2 para el nuevo select
+    const $select = $(`#${idProducto}`);
+    $select.select2().select2('open');
 
-            // Inicializar select2
-            const $select = $(`#${idProducto}`);
-            $select.select2().select2('open');
+    // Cuando cambie el producto, habilito o no el input de cantidad
+    $select.on('change', function () {
+        const selectedId = this.value;
+        const nombre = preciosProductos[selectedId]?.nombre?.toLowerCase() || "";
+        const cantidadInput = div.querySelector(".cantidad-input");
 
-            // Detectar selección de producto
-            $select.on('change', function () {
-                const selectedId = this.value;
-                const nombreProducto = preciosProductos[selectedId]?.nombre?.toLowerCase() || "";
-                const cantidadInput = div.querySelector(".cantidad-input");
-
-                if (nombreProducto.includes("empa")) {
-                    cantidadInput.readOnly = false;
-                } else {
-                    cantidadInput.readOnly = true;
-                }
-
-                actualizarSubtotal();
-            });
-
-            // Enfocar input de búsqueda
-            setTimeout(() => {
-                document.querySelector('.select2-container--open .select2-search__field')?.focus();
-            }, 100);
+        if (nombre.includes("empa")) {
+            // empanadas: podés cambiar cantidad
+            cantidadInput.readOnly = false;
+        } else {
+            // otros productos: siempre 1
+            cantidadInput.readOnly = true;
+            cantidadInput.value = 1;
         }
-        document.addEventListener('click', () => {
-            setTimeout(() => {
-                document.querySelector('.select2-container--open .select2-search__field')?.focus();
-            }, 50);
-        });
+        actualizarSubtotal();
+    });
+
+    // Cada vez que movés la cantidad, recalculamos
+    const cantidadInput = div.querySelector(".cantidad-input");
+    cantidadInput.addEventListener("input", actualizarSubtotal);
+
+    // Foco en el buscador de select2
+    setTimeout(() => {
+        document.querySelector('.select2-container--open .select2-search__field')?.focus();
+    }, 100);
+
+    // Recalculo subtotal al agregar
+    actualizarSubtotal();
+}
+
     </script>
 
 </head>
@@ -242,7 +259,7 @@
             <hr style="background-color: black; height: 1px; border: none;">
             <h2 id="monto-visual" style="color: #77966D; text-decoration: underline;">Monto Final: $0.00</h2>
             <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
-            <input type="number" name="monto" id="monto" style="display: none;" required readonly>
+            <input type="number" name="monto" id="monto"  required readonly>
             <h4>¿Pagado?</h4>
             <select id="pagado" name="pagado" required>
                 <option value="">-- Seleccionar --</option>
@@ -326,37 +343,6 @@
         document.getElementById("zona_envio").addEventListener("change", actualizarSubtotal);
         document.getElementById("envio").addEventListener("change", actualizarSubtotal);
 
-        function actualizarSubtotal() {
-            let total = 0;
-            let productos = document.querySelectorAll(".producto-item");
-
-            productos.forEach(div => {
-                let productoId = div.querySelector("select").value;
-                let cantidad = 1
-                let precioUnitario = preciosProductos[productoId] ? preciosProductos[productoId].precio : 0;
-                total += precioUnitario * cantidad;
-            });
-
-            let descuentoOn = document.getElementById("descuentoOn").value;
-            let descuento = descuentoOn === "1" ? 0.05 :
-                descuentoOn === "2" ? 0.10 :
-                    descuentoOn === "3" ? 0.15 :
-                        0; // Default value if descuentoOn is not "1", "2", or "3"
-            let totalConDescuento = total - (total * descuento);
-
-            // Sumar costo de envío si corresponde
-            const envio = document.getElementById("envio").value;
-            if (envio === "Sí") {
-                let zona = document.getElementById("zona_envio").value;
-                let costoEnvio = parseInt(zona.replace(/\D/g, "")) || 0; // Extraer números del string
-                totalConDescuento += costoEnvio;
-            }
-
-            document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
-            document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento * total).toFixed(2)}` : `Descuento: $0.00`;
-            document.getElementById("monto").value = totalConDescuento.toFixed(2);
-            document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
-        }
 
         // Volver a aplicar el cálculo al cargar la página
         document.addEventListener("DOMContentLoaded", actualizarSubtotal);
