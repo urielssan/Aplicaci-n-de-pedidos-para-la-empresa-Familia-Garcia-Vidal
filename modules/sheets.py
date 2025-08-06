@@ -84,8 +84,8 @@ def guardar_en_sheets(datos, productos, cantidades):
     # 🔹 Agregar cada producto vendido en la hoja "Productos Vendidos"
     for producto, cantidad in zip(productos, cantidades):
         hoja_productos.append_row([
-            datos["ID"], datos["Fecha de Entrega"], datos["Monto"], 
-            datos["Método de Pago"], datos["Vendedor"], datos["Cliente"], producto, int(cantidad), nombre_a_id.get(producto)
+            datos["ID"], datos["Fecha de Entrega"], datos["Monto"], datos["Vendedor"],
+            datos["Método de Pago"], datos["Cliente"], producto, int(cantidad), nombre_a_id.get(producto)
         ], value_input_option="USER_ENTERED")
 
 

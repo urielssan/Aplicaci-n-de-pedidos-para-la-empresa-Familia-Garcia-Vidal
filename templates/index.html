@@ -32,8 +32,8 @@
             let productos = document.querySelectorAll(".producto-item");
 
             productos.forEach(div => {
-                let productoId   = div.querySelector("select").value;
-            // 1️⃣ Buscamos el input y tomamos su valor
+                let productoId = div.querySelector("select").value;
+                // 1️⃣ Buscamos el input y tomamos su valor
                 let cantidadInput = div.querySelector(".cantidad-input");
                 // 2️⃣ Convertimos a entero (o float si lo preferís)
                 let cantidad = parseInt(cantidadInput.value, 10) || 1;
@@ -48,7 +48,7 @@
             if (descuentoOn === "1") descuento = 0.05; // 5%
             else if (descuentoOn === "2") descuento = 0.10; // 10%
             else if (descuentoOn === "3") descuento = 0.15; // 15%
-            
+
 
             let totalConDescuento = total - (total * descuento);
             
@@ -71,13 +71,13 @@
 
 
         function agregarProducto() {
-    const container = document.getElementById("productos-container");
-    // Creo el div con select y cantidad
-    const div = document.createElement("div");
-    div.classList.add("producto-item");
-    const idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
+            const container = document.getElementById("productos-container");
+            // Creo el div con select y cantidad
+            const div = document.createElement("div");
+            div.classList.add("producto-item");
+            const idProducto = "producto-" + Math.random().toString(36).substr(2, 9);
 
-    div.innerHTML = `
+            div.innerHTML = `
         <div class="producto-linea">
             <label>Producto:</label><br>
             <select name="productos[]" class="producto-select" id="${idProducto}">
@@ -93,41 +93,41 @@
         </div>
         <button type="button" onclick="this.parentNode.remove(); actualizarSubtotal()">X</button>
     `;
-    container.appendChild(div);
+            container.appendChild(div);
 
-    // Inicializo select2 para el nuevo select
-    const $select = $(`#${idProducto}`);
-    $select.select2().select2('open');
+            // Inicializo select2 para el nuevo select
+            const $select = $(`#${idProducto}`);
+            $select.select2().select2('open');
 
-    // Cuando cambie el producto, habilito o no el input de cantidad
-    $select.on('change', function () {
-        const selectedId = this.value;
-        const nombre = preciosProductos[selectedId]?.nombre?.toLowerCase() || "";
-        const cantidadInput = div.querySelector(".cantidad-input");
+            // Cuando cambie el producto, habilito o no el input de cantidad
+            $select.on('change', function () {
+                const selectedId = this.value;
+                const nombre = preciosProductos[selectedId]?.nombre?.toLowerCase() || "";
+                const cantidadInput = div.querySelector(".cantidad-input");
+                const nombreLower = nombre.toLowerCase();
+                if (nombre.includes("empa") || nombre.includes("hebras") || nombre.includes("mignon")) {
+                    // empanadas: podés cambiar cantidad
+                    cantidadInput.readOnly = false;
+                } else {
+                    // otros productos: siempre 1
+                    cantidadInput.readOnly = true;
+                    cantidadInput.value = 1;
+                }
+                actualizarSubtotal();
+            });
 
-        if (nombre.includes("empa")) {
-            // empanadas: podés cambiar cantidad
-            cantidadInput.readOnly = false;
-        } else {
-            // otros productos: siempre 1
-            cantidadInput.readOnly = true;
-            cantidadInput.value = 1;
+            // Cada vez que movés la cantidad, recalculamos
+            const cantidadInput = div.querySelector(".cantidad-input");
+            cantidadInput.addEventListener("input", actualizarSubtotal);
+
+            // Foco en el buscador de select2
+            setTimeout(() => {
+                document.querySelector('.select2-container--open .select2-search__field')?.focus();
+            }, 100);
+
+            // Recalculo subtotal al agregar
+            actualizarSubtotal();
         }
-        actualizarSubtotal();
-    });
-
-    // Cada vez que movés la cantidad, recalculamos
-    const cantidadInput = div.querySelector(".cantidad-input");
-    cantidadInput.addEventListener("input", actualizarSubtotal);
-
-    // Foco en el buscador de select2
-    setTimeout(() => {
-        document.querySelector('.select2-container--open .select2-search__field')?.focus();
-    }, 100);
-
-    // Recalculo subtotal al agregar
-    actualizarSubtotal();
-}
 
     </script>
 
@@ -271,7 +271,7 @@
             <hr style="background-color: black; height: 1px; border: none;">
             <h2 id="monto-visual" style="color: #77966D; text-decoration: underline;">Monto Final: $0.00</h2>
             <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
-            <input type="number" name="monto" id="monto"  required readonly>
+            <input type="number" name="monto" id="monto" required readonly>
             <h4>¿Pagado?</h4>
             <select id="pagado" name="pagado" required>
                 <option value="">-- Seleccionar --</option>
