@@ -51,11 +51,22 @@
             
 
             let totalConDescuento = total - (total * descuento);
+            
+            // Agregar costo de envío si aplica
+            let costoEnvio = 0;
+            const envio = document.getElementById("envio").value;
+            if (envio === "Sí") {
+                const zonaEnvio = document.getElementById("zona_envio").value;
+                costoEnvio = parseFloat(zonaEnvio) || 0;
+            }
+            
+            let totalFinal = totalConDescuento + costoEnvio;
 
             document.getElementById("subtotal").innerText = `Subtotal: $${total.toFixed(2)}`;
             document.getElementById("descuento").innerText = descuento > 0 ? `Descuento: -$${(descuento * total).toFixed(2)}` : `Descuento: $0.00`;
-            document.getElementById("monto").value = totalConDescuento.toFixed(2);
-            document.getElementById("monto-visual").innerText = `Monto Final: $${totalConDescuento.toFixed(2)}`;
+            document.getElementById("envio-visual").innerText = `Envío: $${costoEnvio.toFixed(2)}`;
+            document.getElementById("monto").value = totalFinal.toFixed(2);
+            document.getElementById("monto-visual").innerText = `Monto Final: $${totalFinal.toFixed(2)}`;
         }
 
 
@@ -255,6 +266,7 @@
             <hr style="background-color: black; height: 1px; border: none;margin: 1em 0em;">
             <h2 id="subtotal" style="color:var(--color-texto)">Subtotal: $0.00</h2>
             <h2 id="descuento" style="color:var(--color-fondo)">Descuento: $0.00</h2>
+            <h2 id="envio-visual" style="color:var(--color-fondo)">Envío: $0.00</h2>
 
             <hr style="background-color: black; height: 1px; border: none;">
             <h2 id="monto-visual" style="color: #77966D; text-decoration: underline;">Monto Final: $0.00</h2>
