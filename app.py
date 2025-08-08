@@ -1,3 +1,12 @@
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_MAIN_FREE"] = "1"  # para liberar recursos después de usar
+
+# También podes probar con
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify, send_file, make_response
 import pandas as pd
 from modules.utils import  init_excel
@@ -7,7 +16,6 @@ from functools import wraps
 from datetime import datetime
 import json
 from pathlib import Path
-import os
 import zipfile
 from graphviz import Digraph
 import gspread
