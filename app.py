@@ -746,6 +746,18 @@ def eliminar_pedido(pedido_id):
     sheet = conectar_sheets()
     hoja_pedidos = sheet.worksheet("Pedidos")
     pedidos = hoja_pedidos.get_all_values()
+    COLUMNS_PRODUCTOS = ["ID Venta", "Fecha de Entrega", "Monto", "Vendedor", "Método de Pago", "Cliente", "Producto", "Cantidad", "ID Producto"]
+    hoja_productos = obtener_o_crear_hoja(sheet, "Productos Vendidos", COLUMNS_PRODUCTOS)
+    productos_vendidos = hoja_productos.get_all_values()
+
+    # Encontrar y borrar filas que coincidan con el ID de venta
+    filas_a_borrar = []
+    for i, row in enumerate(productos_vendidos[1:], start=2):  # Empezar desde fila 2 por encabezados
+        if row[0].strip() == pedido_id:
+            filas_a_borrar.append(i)
+
+    for fila in reversed(filas_a_borrar):
+        hoja_productos.delete_rows(fila)
 
     try:
         fila_a_eliminar = None
