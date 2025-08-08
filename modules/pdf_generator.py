@@ -32,7 +32,7 @@ def generar_pdf(pedido_id, cliente, fecha_entrega, horario_entrega, metodo_pago,
     LOGO_PATH = Config.LOGO_PATH
 
     productosJSON = cargar_precios()
-    doc = SimpleDocTemplate(pdf_path, pagesize=(150 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
+    doc = SimpleDocTemplate(pdf_path, pagesize=(210 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
     elements = []
     styles = getSampleStyleSheet()
     styles["Normal"].fontSize = 10
@@ -150,7 +150,7 @@ def generar_pdf_detalles_pedido(pedido_id, cliente, fecha_entrega, horario_entre
     for precio in precios:
         print(precio)
         total_final += precio
-    doc = SimpleDocTemplate(pdf_path, pagesize=(250 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
+    doc = SimpleDocTemplate(pdf_path, pagesize=(210 * mm, 250 * mm), leftMargin=5 * mm, rightMargin=5 * mm, topMargin=10 * mm, bottomMargin=5 * mm)
     elements = []
     styles = getSampleStyleSheet()
     styles["Normal"].fontSize = 10

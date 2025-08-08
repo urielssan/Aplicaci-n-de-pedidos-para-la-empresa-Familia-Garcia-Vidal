@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Enviar campaña</title>
   <!-- ✅ CSS de Quill -->
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+  <!-- Google Fonts: Dancing Script -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --color-fondo: #5C0029; 
+    :root {
+      --color-fondo: #5C0029;
       --color-textos: #030303;
       --color-links: #fcfcfc;
       --color-bordes: #5C0029;
-      --color-hover:#972c2c;
-      --color-fondo-formulario:#F2E9E4;
-      --color-titulos:#F2E9E4;
-      --color-bordes-inputs:#5C0029;
+      --color-hover: #972c2c;
+      --color-fondo-formulario: #F2E9E4;
+      --color-titulos: #F2E9E4;
+      --color-bordes-inputs: #5C0029;
       --color-fondo-navbar-hover: #C9ADA7;
       --color-fondo-navbar: #F2E9E4;
       --color-links-navbar: #000000;
@@ -24,7 +26,7 @@
     body {
       margin: 0 auto;
       text-align: center;
-      font-family: "montserrat","Exo 2", serif;
+      font-family: "montserrat", "Exo 2", serif;
       font-optical-sizing: auto;
       font-style: normal;
       background-color: var(--color-fondo);
@@ -146,13 +148,75 @@
       background-color: var(--color-fondo-tablas);
     }
 
+    /* Interlineado */
+    .ql-editor {
+      line-height: 1.5;
+      min-height: 200px;
+    }
+
+    .ql-editor p {
+      margin: 0.2em 0;
+    }
+
+    /* Botón LH */
+    #line-height-button {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 3px 8px;
+      margin: 0 2px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      position: relative;
+    }
+
+    /* Menú desplegable line-height */
+    #line-height-picker {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 4px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      width: 140px;
+    }
+
+    #line-height-picker button {
+      background: none;
+      border: none;
+      padding: 6px 15px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    #line-height-picker button:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Fuentes en selector */
+    .ql-font-dancing-script {
+      font-family: 'Dancing Script', cursive;
+    }
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="dancing-script"]::before,
+    .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="dancing-script"]::before {
+      content: '𝓓';
+      font-family: 'Dancing Script', cursive;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       form {
         width: 90%;
         padding: 20px;
       }
-      
+
       .flash-message {
         max-width: 90%;
       }
@@ -160,8 +224,12 @@
   </style>
 </head>
 <body>
-<img src="{{ url_for('static', filename='images/ico-dorado.ico') }}" alt="Logo" style="width: 100px; height: auto; margin-top:40px;;">
-  <h1 style="color: var(--color-titulos);">Enviar campaña de correos</h1>
+  <img
+    src="{{ url_for('static', filename='images/ico-dorado.ico') }}"
+    alt="Logo"
+    style="width: 100px; height: auto; margin-top: 40px"
+  />
+  <h1 style="color: var(--color-titulos)">Enviar campaña de correos</h1>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}
@@ -173,11 +241,11 @@
 
   <form method="POST" onsubmit="return prepararMensaje()">
     <label for="asunto">Asunto:</label>
-    <input type="text" name="asunto" id="asunto" required>
+    <input type="text" name="asunto" id="asunto" required />
 
     <label for="editor">Mensaje personalizado (usá {{nombre}}):</label>
-    <div id="editor" style="height: 300px;"></div>
-    <input type="hidden" name="mensaje" id="mensaje">
+    <div id="editor" style="height: 300px"></div>
+    <input type="hidden" name="mensaje" id="mensaje" />
 
     <button type="submit">Enviar mails</button>
   </form>
@@ -185,54 +253,132 @@
   <!-- ✅ Scripts de Quill -->
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
   <script>
-const quill = new Quill('#editor', {
-  theme: 'snow',
-  modules: {
-    toolbar: {
-      container: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline'],
-        ['link', 'image'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['clean']
-      ],
-      handlers: {
-  image: function () {
-    const url = prompt('Pegá la URL de la imagen:');
-    if (url) {
-      let ancho = prompt('Ancho en píxeles (ej: 400):', '400');
+    // Registrar formato personalizado para line-height
+    const Block = Quill.import('blots/block');
 
-      if (!ancho || isNaN(ancho)) {
-        alert('Poné un número válido');
-        return;
-      }
-
-      const width = `${ancho}px`;
-      const range = this.quill.getSelection();
-      
-      // Insertamos la imagen normalmente
-      this.quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
-
-      // Buscamos la última imagen insertada y le aplicamos el estilo
-      setTimeout(() => {
-        const imgs = document.querySelectorAll('.ql-editor img');
-        const lastImg = imgs[imgs.length - 1];
-        if (lastImg) {
-          lastImg.style.width = width;
-          lastImg.style.height = 'auto';
+    class LineHeightStyle extends Block {
+      static create(value) {
+        let node = super.create();
+        if (value) {
+          node.style.lineHeight = value;
         }
-      }, 10);
+        return node;
+      }
+      static formats(node) {
+        return node.style.lineHeight || '';
+      }
+      format(name, value) {
+        if (name === 'line-height' && value) {
+          this.domNode.style.lineHeight = value;
+        } else {
+          super.format(name, value);
+        }
+      }
     }
-  }
-}
 
-    }
-  }
-});
+    LineHeightStyle.blotName = 'line-height';
+    LineHeightStyle.tagName = 'p';
 
+    Quill.register(LineHeightStyle, true);
 
+    // Registrar fuentes personalizadas
+    var Font = Quill.import('formats/font');
+    Font.whitelist = ['sans-serif', 'serif', 'dancing-script'];
+    Quill.register(Font, true);
+
+    // Inicializar Quill con toolbar que incluye selector de fuentes y botones estándar
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: {
+          container: [
+            [{ font: Font.whitelist }],
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['link', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['clean'],
+          ],
+          handlers: {
+            image: function () {
+              const url = prompt('Pegá la URL de la imagen:');
+              if (url) {
+                let ancho = prompt('Ancho en píxeles (ej: 400):', '400');
+                if (!ancho || isNaN(ancho)) {
+                  alert('Poné un número válido');
+                  return;
+                }
+                const width = `${ancho}px`;
+                const range = this.quill.getSelection();
+                this.quill.insertEmbed(range.index, 'image', url, Quill.sources.USER);
+                setTimeout(() => {
+                  const imgs = document.querySelectorAll('.ql-editor img');
+                  const lastImg = imgs[imgs.length - 1];
+                  if (lastImg) {
+                    lastImg.style.width = width;
+                    lastImg.style.height = 'auto';
+                  }
+                }, 10);
+              }
+            },
+          },
+        },
+      },
+    });
+
+    // Crear botón LH con menú desplegable para interlineado
+    const toolbarElement = document.querySelector('.ql-toolbar');
+    const lineHeightButton = document.createElement('button');
+    lineHeightButton.id = 'line-height-button';
+    lineHeightButton.type = 'button';
+    lineHeightButton.title = 'Interlineado';
+    lineHeightButton.textContent = 'LH';
+
+    const picker = document.createElement('div');
+    picker.id = 'line-height-picker';
+
+    const options = [
+      { label: '1 - Simple', value: '1' },
+      { label: '1.2 - Compacto', value: '1.2' },
+      { label: '1.5 - Normal', value: '1.5' },
+      { label: '2 - Espaciado', value: '2' },
+      { label: '2.5 - Muy espaciado', value: '2.5' },
+      { label: '3 - Extra espaciado', value: '3' },
+    ];
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => {
+        const range = quill.getSelection();
+        if (range) {
+          const length = range.length === 0 ? 1 : range.length;
+          quill.formatLine(range.index, length, 'line-height', opt.value);
+        }
+        picker.style.display = 'none';
+      });
+      picker.appendChild(btn);
+    });
+
+    lineHeightButton.appendChild(picker);
+
+    lineHeightButton.addEventListener('click', e => {
+      e.stopPropagation();
+      picker.style.display = picker.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', () => {
+      picker.style.display = 'none';
+    });
+
+    toolbarElement.appendChild(lineHeightButton);
+
+    // Preparar mensaje para envío con reemplazo clase por style inline cursiva
     function prepararMensaje() {
-      const html = quill.root.innerHTML;
+      let html = quill.root.innerHTML;
+      // Reemplazamos la clase de dancing-script por estilo inline con cursiva
+      html = html.replace(/class="ql-font-dancing-script"/g, 'style="font-family: cursive; font-style: italic;"');
       document.getElementById('mensaje').value = html;
       return true;
     }
