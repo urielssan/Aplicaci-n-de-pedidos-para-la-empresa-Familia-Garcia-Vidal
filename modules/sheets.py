@@ -62,31 +62,71 @@ def obtener_o_crear_hoja(sheet, nombre_hoja, columnas=None):
     return hoja
 
 def guardar_en_sheets(datos, productos, cantidades):
-    """Guarda los datos en las hojas de Google Sheets"""
-    sheet = conectar_sheets()
-    # Obtener o crear hojas
-    hoja_pedidos = obtener_o_crear_hoja(sheet, "Pedidos", COLUMNS_PEDIDOS)
+    """Guarda los datos en las hojas de Google Sheets en un solo batch"""
+    sheet = conectar_sheets()  # Spreadsheet
+    hoja_pedidos = obtener_o_crear_hoja(sheet, "Pedidos", COLUMNS_PEDIDOS)          # Worksheet
     hoja_productos = obtener_o_crear_hoja(sheet, "Productos Vendidos", COLUMNS_PRODUCTOS)
 
-    # Concatenamos productos y cantidades en un solo string
+    # Normalizar cantidades a int
+    cantidades_int = [int(c) for c in cantidades]
+
+    # Strings combinados (por compatibilidad con tu esquema actual)
     productos_str = ", ".join(productos)
-    cantidades_str = ", ".join(map(str, cantidades))
+    cantidades_str = ", ".join(map(str, cantidades_int))
+
+    # Mapeo nombre -> id producto
     productos_json = cargar_precios()
-    nombre_a_id = {datos["nombre"]: id_producto for id_producto, datos in productos_json.items()}
-    # Crear fila de datos ordenada
-    fila = [
-        datos["ID"],datos["DNI"], datos["Vendedor"], datos["Cliente"], datos["Dirección"], datos["Teléfono"],datos.get("Email", ""), datos.get("Fecha de Nacimiento", ""),datos.get("Sexo", ""), datos["Fecha de Entrega"], datos["Horario de Entrega"], datos["Método de Pago"], datos["Monto"], datos["Pagado"], productos_str, cantidades_str, datos["Estado"], datos["Envio"],datos["Zona de Envio"], datos["Observaciones"], datos["Descuento"], datos["Fecha de Ingreso"], datos["Banco"], datos["Local"], datos["Medio"]
+    nombre_a_id = {v["nombre"]: k for k, v in productos_json.items()}
+
+    # Fila para "Pedidos" (mantenemos el orden de columnas actual)
+    fila_pedido = [
+        datos["ID"], datos["DNI"], datos["Vendedor"], datos["Cliente"], datos["Dirección"], datos["Teléfono"],
+        datos.get("Email", ""), datos.get("Fecha de Nacimiento", ""), datos.get("Sexo", ""),
+        datos["Fecha de Entrega"], datos["Horario de Entrega"], datos["Método de Pago"],
+        datos["Monto"], datos["Pagado"], productos_str, cantidades_str, datos["Estado"],
+        datos["Envio"], datos["Zona de Envio"], datos["Observaciones"], datos["Descuento"],
+        datos["Fecha de Ingreso"], datos["Banco"], datos["Local"], datos["Medio"]
     ]
 
-    # 🔹 Agregar la fila en la hoja "Pedidos"
-    hoja_pedidos.append_row(fila)
+    # Filas para "Productos Vendidos"
+    filas_productos = []
+    for producto, cantidad in zip(productos, cantidades_int):
+        filas_productos.append([
+            datos["ID"],                   # A: ID Pedido
+            datos["Fecha de Entrega"],     # B
+            datos["Monto"],                # C
+            datos["Vendedor"],             # D (tu orden original tenía Vendedor antes que Método)
+            datos["Método de Pago"],       # E
+            datos["Cliente"],              # F
+            producto,                      # G
+            cantidad,                      # H
+            nombre_a_id.get(producto)      # I (ID producto si existe)
+        ])
 
-    # 🔹 Agregar cada producto vendido en la hoja "Productos Vendidos"
-    for producto, cantidad in zip(productos, cantidades):
-        hoja_productos.append_row([
-            datos["ID"], datos["Fecha de Entrega"], datos["Monto"], datos["Vendedor"],
-            datos["Método de Pago"], datos["Cliente"], producto, int(cantidad), nombre_a_id.get(producto)
-        ], value_input_option="USER_ENTERED")
+    # Calcular próxima fila libre de cada hoja (simple y efectivo)
+    prox_fila_pedidos = len(hoja_pedidos.get_all_values()) + 1
+    prox_fila_productos = len(hoja_productos.get_all_values()) + 1
 
+    # Rango inicial (empieza en A{fila} y se expande según la cantidad de columnas provistas)
+    rango_pedidos = f"{hoja_pedidos.title}!A{prox_fila_pedidos}"
+    rango_productos = f"{hoja_productos.title}!A{prox_fila_productos}"
 
-    print("✅ Pedido guardado en Google Sheets")
+    # Un solo batch para escribir todo
+    body = {
+        "valueInputOption": "USER_ENTERED",
+        "data": [
+            {
+                "range": rango_pedidos,
+                "majorDimension": "ROWS",
+                "values": [fila_pedido]
+            },
+            {
+                "range": rango_productos,
+                "majorDimension": "ROWS",
+                "values": filas_productos
+            }
+        ]
+    }
+
+    # Importante: esto es sobre el Spreadsheet (no Worksheet)
+    sheet.values_batch_update(body)

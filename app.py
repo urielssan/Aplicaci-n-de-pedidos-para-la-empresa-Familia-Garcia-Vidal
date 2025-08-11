@@ -733,7 +733,7 @@ def actualizar_pedido():
         for i in range(len(productos)):
             id_prod = productos[i]
             nombre = precios.get(id_prod, {}).get("nombre", "")
-            cantidad = cantidades[i]
+            cantidad = int(float(cantidades[i]))
             nuevas_filas.append([
                 pedido_id,
                 fecha_formateada,
