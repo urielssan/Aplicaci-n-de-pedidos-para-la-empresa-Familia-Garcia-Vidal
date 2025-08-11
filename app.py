@@ -791,19 +791,22 @@ def ingresar_stock():
 
     if request.method == "POST":
         sheet = conectar_sheets()
+
+        # ====== Hoja Stock ======
         hoja_stock = sheet.worksheet("Stock")
-        valores = hoja_stock.get_all_values()
-        ultima_fila = valores[-1]
-        encabezados = valores[0]
+        valores_stock = hoja_stock.get_all_values()
+        encabezados = valores_stock[0]
+        ultima_fila = valores_stock[-1]
         index_id = encabezados.index("ID_lote")
         id_stock = int(ultima_fila[index_id]) + 1
 
         vendedor = request.form["vendedor"]
-        productos = request.form.getlist("productos[]")  # es el ID
+        productos = request.form.getlist("productos[]")  # IDs de producto
         cantidades = [float(c) for c in request.form.getlist("cantidades[]")]
         observaciones = request.form.get("observaciones", "")
         fecha_str = request.form["fecha"]
 
+        # Parse de fecha flexible
         try:
             fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
         except ValueError:
@@ -812,16 +815,25 @@ def ingresar_stock():
         fecha_formateada = fecha_obj.strftime("%Y-%m-%d")
         ingreso_fecha_hora = datetime.now().strftime("%Y-%m-%d")
 
+        # Nombres de productos por ID
         jsonProductos = cargar_precios()
 
+        # --- PREPARAR FILAS PARA "Stock" ---
+        filas_stock = []
         for producto, cantidad in zip(productos, cantidades):
             nombre = str(jsonProductos[producto]["nombre"])
-            hoja_stock.append_row(
-                [fecha_formateada, vendedor, nombre, cantidad, observaciones, ingreso_fecha_hora, producto, str(id_stock)],
-                value_input_option="USER_ENTERED"
-            )
+            filas_stock.append([
+                fecha_formateada,           # Fecha
+                vendedor,                   # Vendedor
+                nombre,                     # Producto (nombre)
+                cantidad,                   # Cantidad
+                observaciones,              # Observaciones
+                ingreso_fecha_hora,         # Fecha de ingreso (hoy)
+                producto,                   # ID de producto
+                str(id_stock)               # ID_lote
+            ])
 
-        # Ajustar materia prima
+        # ====== Ajuste de Materia Prima (JSON) ======
         with open("modules/materia_prima.json", "r", encoding="utf-8") as f:
             materia_prima = json.load(f)
 
@@ -836,25 +848,63 @@ def ingresar_stock():
                 cantidad_necesaria = receta["Cantidad"] * cantidad
                 materia_prima_necesaria[materia] = materia_prima_necesaria.get(materia, 0) + cantidad_necesaria
 
-        for materia, cantidad in materia_prima_necesaria.items():
+        # Descontar del JSON de materia prima
+        for materia, cant in materia_prima_necesaria.items():
             if materia in materia_prima:
-                materia_prima[materia]["Cantidad"] -= cantidad
+                materia_prima[materia]["Cantidad"] -= cant
 
         with open("modules/materia_prima.json", "w", encoding="utf-8") as f:
             json.dump(materia_prima, f, indent=4, ensure_ascii=False)
 
+        # ====== Hoja "Materia prima ingresos" (registro del ajuste) ======
         hoja_materia = sheet.worksheet("Materia prima ingresos")
-        for materia, cantidad in materia_prima_necesaria.items():
+        valores_materia = hoja_materia.get_all_values()
+
+        filas_materia = []
+        for materia, cant in materia_prima_necesaria.items():
             unidad = materia_prima.get(materia, {}).get("Unidad", "sin unidad")
-            hoja_materia.append_row(
-                [fecha_formateada, vendedor, materia, unidad, -cantidad, f"Ajuste de materia prima por lote {id_stock}", ingreso_fecha_hora, id_stock, "-"],
-                value_input_option="USER_ENTERED"
-            )
+            filas_materia.append([
+                fecha_formateada,           # Fecha
+                vendedor,                   # Vendedor
+                materia,                    # Materia prima
+                unidad,                     # Unidad
+                -cant,                      # Cantidad (negativo por ajuste)
+                f"Ajuste de materia prima por lote {id_stock}",  # Observación
+                ingreso_fecha_hora,         # Fecha de ingreso (hoy)
+                id_stock,                   # ID_lote
+                "-"                         # Extra / placeholder
+            ])
+
+        # ====== ARMAR UN SOLO BATCH ======
+        data_ranges = []
+
+        # Próximas filas disponibles
+        start_row_stock = len(valores_stock) + 1  # después de la última con datos
+        rango_stock = f"{hoja_stock.title}!A{start_row_stock}"
+        data_ranges.append({
+            "range": rango_stock,
+            "majorDimension": "ROWS",
+            "values": filas_stock
+        })
+
+        if filas_materia:
+            start_row_materia = len(valores_materia) + 1
+            rango_materia = f"{hoja_materia.title}!A{start_row_materia}"
+            data_ranges.append({
+                "range": rango_materia,
+                "majorDimension": "ROWS",
+                "values": filas_materia
+            })
+
+        body = {
+            "valueInputOption": "USER_ENTERED",
+            "data": data_ranges
+        }
+
+        # 🎯 Una sola llamada a la API para escribir todo
+        sheet.values_batch_update(body)
 
         flash("Stock guardado correctamente.", "success")
-        return redirect(url_for("ingresar_stock"))
-
-    # GET: mostrar formulario
     return render_template("ingresar_stock.html", precios_productos=precios)
 
 
