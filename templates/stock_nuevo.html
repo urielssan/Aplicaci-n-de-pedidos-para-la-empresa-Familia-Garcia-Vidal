@@ -48,7 +48,7 @@
                 <td>{{ stock["Stock final del día"]}}</td>
                 <td>{{ stock["Salidas futuras"]}}</td>
                 <td style="background-color: 
-                    {% if stock['Stock disponible']|float < 0 %}
+                    {% if stock['Stock disponible']|float < 1 %}
                         #ff6961
                     {% elif stock['Stock disponible']|float < stock['Stock minimo']|float %}
                         #fff176
