@@ -235,14 +235,12 @@
         <form id="editForm" action="{{ url_for('actualizar_pedido') }}" method="POST">
             <input type="hidden" id="id" name="id">
 
-            <p>Vendedor:</p>
-            <select id="vendedor" name="vendedor" required>
-                <option value="Veronica">Veronica</option>
-                <option value="Silvina">Silvina</option>
-                <option value="Lautaro">Lautaro</option>
-                <option value="Laura">Laura</option>
-                <option value="Lucia">Lucia</option>
-            </select>
+            {% if session.get("usuario") %}
+            <div class="tag-vendedor">
+                <h1>Vendedor: {{ session.get("usuario") }}</h1>
+            </div>
+            <input type="hidden" name="vendedor" value="{{ session['usuario'] }}">
+            {% endif %}
 
             <label for="cliente">Cliente:</label>
             <input type="text" id="cliente" name="cliente">

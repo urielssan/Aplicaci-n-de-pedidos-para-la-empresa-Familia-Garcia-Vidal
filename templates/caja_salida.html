@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Salidas de Caja</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="icon" href="../static/images/ico-dorado.ico" type="image/x-icon">
     <!-- Agregar jQuery y Select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -14,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 </head>
+
 <body>
     <!-- 🔹 Navbar -->
     {% include 'partials/navbar.html' %}
@@ -27,14 +30,12 @@
             <p>Fecha de Salida:</p>
             <input type="date" id="fecha" name="fecha" required>
 
-            <p>Vendedor:</p>
-            <select id="vendedor" name="vendedor" required>
-                <option value="Veronica">Veronica</option>
-                <option value="Silvina">Silvina</option>
-                <option value="Lautaro">Lautaro</option>
-                <option value="Laura">Laura</option>
-                <option value="Lucia">Lucia</option>
-            </select>
+            {% if session.get("usuario") %}
+            <div class="tag-vendedor">
+                <h1>Vendedor: {{ session.get("usuario") }}</h1>
+            </div>
+            <input type="hidden" name="vendedor" value="{{ session['usuario'] }}">
+            {% endif %}
 
             <p>Detalle:</p>
             <input type="text" name="detalle" id="detalle" required>
@@ -52,15 +53,16 @@
         </div>
     </form>
 
-<script>
-    document.querySelector('.form').addEventListener('submit', function() {
-        const submitBtn = document.querySelector('input[type="submit"]');
-        submitBtn.disabled = true;            
-        submitBtn.value = "Guardando...";
-    });
+    <script>
+        document.querySelector('.form').addEventListener('submit', function () {
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.value = "Guardando...";
+        });
 
 
-</script>
+    </script>
 
 </body>
+
 </html>

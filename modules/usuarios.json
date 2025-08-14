@@ -1,0 +1,30 @@
+{
+    "Usuarioit": {
+        "password": "olaborow",
+        "rol": "admin"
+    },
+    "Veronica": {
+        "password": "tereture",
+        "rol": "vendedor"
+    },
+    "Silvina": {
+        "password": "naintoli",
+        "rol": "vendedor"
+    },
+    "Lucia_Furlan": {
+        "password": "rediveri",
+        "rol": "vendedor"
+    },
+    "Lucia_Garcia_Vidal": {
+        "password": "conousta",
+        "rol": "admin"
+    },
+    "Georgina": {
+        "password": "mptisfid",
+        "rol": "vendedor"
+    },
+    "David": {
+        "password": "ricantre",
+        "rol": "cocinero"
+    }
+}

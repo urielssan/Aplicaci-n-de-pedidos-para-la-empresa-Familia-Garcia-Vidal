@@ -21,12 +21,12 @@
     <input type="hidden" name="id" value="{{ pedido['ID'] }}">
 
     <div class="productos">
-      <h4>Vendedor:</h4>
-      <select name="vendedor" required>
-        {% for v in ["Veronica", "Silvina", "Lautaro", "Laura", "Lucia", "IT"] %}
-        <option value="{{ v }}" {% if pedido['Vendedor'] == v %}selected{% endif %}>{{ v }}</option>
-        {% endfor %}
-      </select>
+      {% if session.get("usuario") %}
+      <div class="tag-vendedor">
+        <h1>Vendedor: {{ session.get("usuario") }}</h1>
+      </div>
+      <input type="hidden" name="vendedor" value="{{ session['usuario'] }}">
+      {% endif %}
 
       <h4>Cliente:</h4>
       <input type="text" name="cliente" value="{{ pedido['Cliente'] }}">
@@ -49,7 +49,7 @@
       <select name="sexo_cliente">
         <option value="">--</option>
         {% for s in ["Femenino", "Masculino", "X"] %}
-        <option value="{{ s }}" {% if pedido['Sexo'] == s %}selected{% endif %}>{{ s }}</option>
+        <option value="{{ s }}" {% if pedido['Sexo']==s %}selected{% endif %}>{{ s }}</option>
         {% endfor %}
       </select>
 
@@ -66,7 +66,7 @@
       <h4>Tipo de Pedido:</h4>
       <select name="estado">
         {% for e in ["Inmediato", "Entrega a domicilio", "Retiro en local"] %}
-        <option value="{{ e }}" {% if pedido['Tipo de Pedido'] == e %}selected{% endif %}>{{ e }}</option>
+        <option value="{{ e }}" {% if pedido['Tipo de Pedido']==e %}selected{% endif %}>{{ e }}</option>
         {% endfor %}
       </select>
 
@@ -84,13 +84,13 @@
         {% endfor %}
       </select>
 
-        <h4>Descuento:</h4>
-        <select name="descuentoOn" id="descuento">
-        <option value="0" {% if pedido['Descuento'] == '0' %}selected{% endif %}>Sin descuento</option>
-        <option value="1" {% if pedido['Descuento'] == '1' %}selected{% endif %}>5%</option>
-        <option value="2" {% if pedido['Descuento'] == '2' %}selected{% endif %}>10%</option>
-        <option value="3" {% if pedido['Descuento'] == '3' %}selected{% endif %}>15%</option>
-        </select>
+      <h4>Descuento:</h4>
+      <select name="descuentoOn" id="descuento">
+        <option value="0" {% if pedido['Descuento']=='0' %}selected{% endif %}>Sin descuento</option>
+        <option value="1" {% if pedido['Descuento']=='1' %}selected{% endif %}>5%</option>
+        <option value="2" {% if pedido['Descuento']=='2' %}selected{% endif %}>10%</option>
+        <option value="3" {% if pedido['Descuento']=='3' %}selected{% endif %}>15%</option>
+      </select>
 
 
       <h4>¿Pagado?</h4>
@@ -102,7 +102,7 @@
       <h4>Zona de Envío:</h4>
       <select name="zona_envio" id="zona_envio">
         {% for z in ["0", "2500", "3500", "4500", "5500", "6500"] %}
-        <option value="{{ z }}" {% if pedido['Costo Envio a Domicilio'] == z %}selected{% endif %}>${{ z }}</option>
+        <option value="{{ z }}" {% if pedido['Costo Envio a Domicilio']==z %}selected{% endif %}>${{ z }}</option>
         {% endfor %}
       </select>
 
@@ -188,10 +188,10 @@
         total += precioUnitario * cantidad;
       });
 
-    // Obtener descuento
-    const descuentoIndice = parseInt(document.getElementById('descuento').value);
-    const porcentajeDescuento = { 0: 0, 1: 5, 2: 10, 3: 15 }[descuentoIndice] || 0;
-    const descuentoAplicado = total * (porcentajeDescuento / 100);
+      // Obtener descuento
+      const descuentoIndice = parseInt(document.getElementById('descuento').value);
+      const porcentajeDescuento = { 0: 0, 1: 5, 2: 10, 3: 15 }[descuentoIndice] || 0;
+      const descuentoAplicado = total * (porcentajeDescuento / 100);
 
 
       // Obtener envío

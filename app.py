@@ -242,26 +242,21 @@ def limpiar_json():
     
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    with open("modules/usuarios.json", "r", encoding="utf-8") as f:
+        usuarios = json.load(f)
     if request.method == "POST":
         usuario = request.form["usuario"]
         contraseña = request.form["contraseña"]
-
+        data = usuarios.get(usuario)
        # Según el usuario, asignamos un rol
-        if usuario == USUARIO_ADMIN and contraseña == CONTRASEÑA_ADMIN:
-            session["rol"] = "admin"
+        if data and contraseña == data.get("password"):
+            session["rol"] = data.get("rol")
             session["usuario"] = usuario
             next_page = request.args.get("next")  # 🔹 Ver si había una página previa
-            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
-        elif usuario == USUARIO_VENDEDOR and contraseña == CONTRASEÑA_VENDEDOR:
-            session["rol"] = "vendedor"
-            session["usuario"] = usuario
-            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
-            return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
-        elif usuario == USUARIO_COCINERO and contraseña == CONTRASEÑA_COCINERO:
-            session["rol"] = "cocinero"
-            session["usuario"] = usuario
-            next_page = request.args.get("next")  # 🔹 Ver si había una página previa
-            return redirect(next_page or url_for("ingresar_materia_prima"))  # 🔹 Ir a la página previa o index
+            if session["rol"] == "cocinero":
+                return redirect(next_page or url_for("ingresar_materia_prima"))  # 🔹 Ir a la página previa o index
+            else:
+                return redirect(next_page or url_for("index"))  # 🔹 Ir a la página previa o index
         else:
             return render_template("login.html", error="Usuario o contraseña incorrectos")
 

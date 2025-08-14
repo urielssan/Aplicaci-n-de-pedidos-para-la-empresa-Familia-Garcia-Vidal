@@ -29,14 +29,12 @@
 
         <hr style="background-color: black; height: 1px; border: none; margin: 1em 0px ;">
         <div class="productos">
-            <h3>Recibio:</h3>
-            <select id="vendedor" name="vendedor" required>
-                <option value="Veronica">Veronica</option>
-                <option value="Silvina">Silvina</option>
-                <option value="Lautaro">Lautaro</option>
-                <option value="Laura">Laura</option>
-                <option value="Lucia">Lucia</option>
-            </select>
+            {% if session.get("usuario") %}
+            <div class="tag-vendedor">
+                <h1>Recibio: {{ session.get("usuario") }}</h1>
+            </div>
+            <input type="hidden" name="vendedor" value="{{ session['usuario'] }}">
+            {% endif %}
             <h3>Fecha de Entrega:</h3>
             <input type="date" id="fecha" name="fecha" required>
         </div>
