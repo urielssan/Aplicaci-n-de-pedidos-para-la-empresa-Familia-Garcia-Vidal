@@ -46,7 +46,7 @@
                 <a href="{{ url_for('ver_stock_pizzas')}}">Pizzas y Panificados</a>
                 <a href="{{ url_for('ver_stock_promos')}}">Platos elaborados</a>
                 <a href="{{ url_for('ver_stock_bebidas')}}">Bebidas</a>
-                <a href="{{ url_for('ver_stock_etiquetas')}}">Etiquetas y Bolsas</a>
+                <a href="{{ url_for('ver_stock_almacen')}}">Almacen</a>
             </div>
         </li>
 
@@ -62,7 +62,7 @@
         </li>
         {% endif %}
 
-        {% if session["rol"] in ["admin", "cocinero"] %}
+        {% if session["rol"] in ["cocinero"] %}
         <li><a href="{{ url_for('ingresar_materia_prima') }}">Ingreso materia prima</a></li>
         <li><a href="{{ url_for('ver_materia_prima') }}">Materia prima</a></li>
         <li><a href="{{ url_for('ingresar_desposte') }}">Ingresar desposte</a></li>

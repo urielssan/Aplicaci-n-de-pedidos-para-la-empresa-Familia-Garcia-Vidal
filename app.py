@@ -1647,23 +1647,23 @@ def ver_stock_pizzas():
 
     return render_template("vista_stock_pizzas.html", stock=datos_stock)
 
-@app.route('/ver_stock/etiquetas')
+@app.route('/ver_stock/almacen')
 @rol_requerido("admin", "vendedor")
-def ver_stock_etiquetas():
+def ver_stock_almacen():
     """Trae los pedidos de Google Sheets y los muestra en una tabla."""
     sheet = conectar_sheets()
-    hoja_pedidos = sheet.worksheet("Etiquetas")  # Asegurate de que el nombre coincida con el de la hoja en Google Sheets
+    hoja_pedidos = sheet.worksheet("Almacen")  # Asegurate de que el nombre coincida con el de la hoja en Google Sheets
 
     stock = hoja_pedidos.get_all_values()  # Obtiene todos los pedidos en forma de lista de listas
 
     if not stock:
-        return render_template("vista_stock_etiquetas.html", stock=[])
+        return render_template("vista_stock_almacen.html", stock=[])
 
     # Convertimos los datos en una lista de diccionarios
     headers = stock[0]  # La primera fila son los encabezados
     datos_stock = [dict(zip(headers, row)) for row in stock[1:]]  # Excluimos la primera fila
 
-    return render_template("vista_stock_etiquetas.html", stock=datos_stock)
+    return render_template("vista_stock_almacen.html", stock=datos_stock)
 
 @app.route('/ver_stock/promos')
 @rol_requerido("admin", "vendedor")
