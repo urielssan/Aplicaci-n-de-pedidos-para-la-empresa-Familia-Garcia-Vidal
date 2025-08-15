@@ -762,6 +762,7 @@ def eliminar_pedido(pedido_id):
     for fila in reversed(filas_a_borrar):
         hoja_productos.delete_rows(fila)
 
+    print(f"{session['usuario']} elimino el pedido {pedido_id}")
     try:
         fila_a_eliminar = None
         for i, row in enumerate(pedidos):
