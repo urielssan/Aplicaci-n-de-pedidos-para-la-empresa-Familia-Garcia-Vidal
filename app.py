@@ -1859,6 +1859,37 @@ def sorteo_ruleta_todos():
             participantes.append({"Nombre": nombre, "Porcentaje": porcentaje})
     return render_template("ruleta_todos.html", participantes=participantes)
 
+@app.route('/sorteo_ruleta_nautico')
+@rol_requerido("admin")
+def sorteo_ruleta_nautico():
+    # 1. Autenticación con Google Sheets
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+    client = gspread.authorize(creds)
+
+    # 2. Abrimos el sheet
+    spreadsheet = client.open("Navegando en los Cuarenta Bramadores by Paula Cavicchia (respuestas)")
+    sheet = spreadsheet.worksheet("Respuestas de formulario 1")
+
+    data = sheet.get_all_records(expected_headers=[
+        "Marca temporal", "Nombre", "Apellido", "D.N.I.", "Celular", "Correo electrónico", "Instagram", "Club "
+    ])
+
+    df_clientes = pd.DataFrame(data)
+    participantes = []
+
+    # 🔹 Verificamos que el DataFrame no esté vacío
+    if not df_clientes.empty:
+        porcentaje = round(100 / len(df_clientes), 2)
+
+        # Recorremos filas
+        for _, row in df_clientes.iterrows():
+            nombre = f"{row.get('Nombre','').strip().capitalize()} {row.get('Apellido','').strip().capitalize()}".strip()
+            participantes.append({"Nombre": nombre, "Porcentaje": porcentaje})
+
+    return render_template("ruleta_nautico.html", participantes=participantes)
+
+
 # http://localhost:5000/exportar_montos_clientes
 
 @app.route('/editar_clientes')
