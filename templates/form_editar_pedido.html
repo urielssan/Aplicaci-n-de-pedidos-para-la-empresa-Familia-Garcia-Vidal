@@ -136,74 +136,76 @@
 
   <script>
     const preciosProductos = {{ precios_productos| tojson | safe }};
-  </script>
-  <script>
     const productosConCantidad = {{ pedido['__productos'] | tojson | safe }};
+  </script>
 
-    window.onload = () => {
-      const container = document.getElementById('productos-container');
-      productosConCantidad.forEach(([nombre, cantidad]) => {
-        container.innerHTML += generarItemProducto(nombre, cantidad);
-      });
-    };
-
+  <script>
     function generarItemProducto(nombre = '', cantidad = 1) {
       return `
-        <div class="producto-item">
-          <div class="producto-linea">
-            <label>Producto:</label>
-            <select name="productos[]" class="producto-select" required>
-              <option value="">Seleccionar producto</option>
-              ${Object.keys(preciosProductos).map(id =>
-        `<option value="${id}" ${id === nombre ? 'selected' : ''}>${preciosProductos[id].nombre} - $${preciosProductos[id].precio}</option>`
-      ).join('')}
-            </select>
-          </div>
-          <div class="producto-linea">
-            <label>Cantidad:</label>
-            <input type="number" name="cantidades[]" min="0.001" step="0.001" value="${cantidad}" required>
-          </div>
-          <button type="button" onclick="this.parentNode.remove()">❌</button>
-        </div>`;
+      <div class="producto-item">
+        <div class="producto-linea">
+          <label>Producto:</label>
+          <select name="productos[]" class="producto-select" required>
+            <option value="">Seleccionar producto</option>
+            ${Object.keys(preciosProductos).map(id =>
+        `<option value="${id}" ${id === nombre ? 'selected' : ''}>
+                  ${preciosProductos[id].nombre} - $${preciosProductos[id].precio}
+                </option>`
+      ).join('')
+        }
+          </select>
+        </div>
+        <div class="producto-linea">
+          <label>Cantidad:</label>
+          <input type="number" name="cantidades[]" min="0.001" step="0.001" value="${cantidad}" required>
+        </div>
+        <button type="button" class="btn-remove">❌</button>
+      </div>`;
     }
 
-    function agregarProducto() {
-      document.getElementById('productos-container').innerHTML += generarItemProducto();
-      $('.producto-select').select2({ width: "100%" });
+    function inicializarSelect2En(elem) {
+      // Solo el select recién agregado
+      const sel = elem.querySelector('.producto-select');
+      if (sel && !sel.classList.contains('select2-initialized')) {
+        $(sel).select2({ width: "100%" });
+        sel.classList.add('select2-initialized');
+      }
     }
 
-    $(document).ready(function () {
-      $('.producto-select').select2({ width: "100%" });
-    });
-  </script>
-  <script>
+    function agregarProducto(nombre = '', cantidad = 1) {
+      const container = document.getElementById('productos-container');
+      // Agregar sin reconstruir lo existente
+      container.insertAdjacentHTML('beforeend', generarItemProducto(nombre, cantidad));
+      // Inicializar select2 SOLO en el último agregado
+      inicializarSelect2En(container.lastElementChild);
+      calcularMonto();
+    }
+
     function calcularMonto() {
       let total = 0;
       document.querySelectorAll('.producto-item').forEach(item => {
         const select = item.querySelector('select[name="productos[]"]');
         const input = item.querySelector('input[name="cantidades[]"]');
-        const nombreProducto = select.value;
-        const cantidad = parseFloat(input.value) || 0;
-        const precioUnitario = preciosProductos[nombreProducto] ? preciosProductos[nombreProducto].precio : 0;
+        const nombreProducto = select?.value || '';
+        const cantidad = parseFloat(input?.value) || 0;
+        const precioUnitario = preciosProductos[nombreProducto]?.precio || 0;
         total += precioUnitario * cantidad;
       });
 
-      // Obtener descuento
+      // Descuento
       const descuentoIndice = parseInt(document.getElementById('descuento').value);
       const porcentajeDescuento = { 0: 0, 1: 5, 2: 10, 3: 15 }[descuentoIndice] || 0;
       const descuentoAplicado = total * (porcentajeDescuento / 100);
 
-
-      // Obtener envío
+      // Envío
       const envio = parseFloat(document.getElementById('zona_envio').value) || 0;
 
       const totalFinal = total - descuentoAplicado + envio;
-
       document.getElementById('monto_total').value = totalFinal.toFixed(2);
     }
 
-    // Escuchar cambios
-    document.addEventListener('input', function (e) {
+    // Delegación de eventos para inputs/selects y botón borrar
+    document.addEventListener('input', (e) => {
       if (
         e.target.name === 'productos[]' ||
         e.target.name === 'cantidades[]' ||
@@ -214,20 +216,35 @@
       }
     });
 
-    // Calcular al cargar
-    window.onload = () => {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-remove')) {
+        const item = e.target.closest('.producto-item');
+        if (item) item.remove();
+        calcularMonto();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('productos-container');
+
+      // Poblar productos existentes sin innerHTML +=
       productosConCantidad.forEach(([nombre, cantidad]) => {
-        container.innerHTML += generarItemProducto(nombre, cantidad);
+        container.insertAdjacentHTML('beforeend', generarItemProducto(nombre, cantidad));
+        inicializarSelect2En(container.lastElementChild);
       });
+
+      // Si el template ya viene con algún producto vacío, inicializá Select2:
+      container.querySelectorAll('.producto-item').forEach(inicializarSelect2En);
+
       calcularMonto();
-    };
-  </script>
-  <script>
-    document.querySelector('form').addEventListener('submit', function (e) {
-      calcularMonto();  // 🔁 Asegura que el valor actualizado llegue al backend
+    });
+
+    // Asegurar monto antes de enviar
+    document.addEventListener('submit', () => {
+      calcularMonto();
     });
   </script>
+
 
 </body>
 
