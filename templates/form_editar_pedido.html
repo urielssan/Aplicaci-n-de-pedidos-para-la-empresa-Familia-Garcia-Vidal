@@ -227,17 +227,37 @@
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('productos-container');
 
-      // Poblar productos existentes sin innerHTML +=
-      productosConCantidad.forEach(([nombre, cantidad]) => {
-        container.insertAdjacentHTML('beforeend', generarItemProducto(nombre, cantidad));
-        inicializarSelect2En(container.lastElementChild);
+      // Poblar productos existentes SIN usar lastElementChild directo
+      productosConCantidad.forEach(([nombre, cantidad], i) => {
+        const html = generarItemProducto(nombre, cantidad);
+
+        // 1) Convertir a fragmento y quedarnos con el .producto-item
+        const frag = document.createRange().createContextualFragment(html);
+        const item = frag.querySelector('.producto-item');
+        if (!item) {
+          console.warn('El template no incluye .producto-item; índice:', i);
+          return;
+        }
+
+        // 2) Adjuntar el item ya resuelto
+        container.appendChild(item);
+
+        // 3) Inicializar Select2 (SIEMPRE scopeado al item)
+        try {
+          inicializarSelect2En(item);  // <— asegurate de que esta funcione en "item", no global
+        } catch (e) {
+          console.error('Fallo inicializarSelect2En en índice', i, e);
+        }
       });
 
-      // Si el template ya viene con algún producto vacío, inicializá Select2:
-      container.querySelectorAll('.producto-item').forEach(inicializarSelect2En);
+      // Si el template ya tenía algo renderizado de antes:
+      container.querySelectorAll('.producto-item').forEach(item => {
+        try { inicializarSelect2En(item) } catch (e) { console.error(e) }
+      });
 
       calcularMonto();
     });
+
 
     // Asegurar monto antes de enviar
     document.addEventListener('submit', () => {
